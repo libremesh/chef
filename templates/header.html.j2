@@ -1,0 +1,30 @@
+{% set navigation_bar = [
+('/', 'root_path', 'Overview')
+] -%}
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Reudnetz Nutzende</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="{{ request.root }}/static/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	</head>
+	<body>
+		<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="/">Reudnetz Nutzende</a>
+
+			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+				<ul class="navbar-nav mr-auto">
+					{% for href, id, caption in navigation_bar %}
+					<li{% if id == request.endpoint %} class="active"{% endif %}>
+						<a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
+			<p></p>

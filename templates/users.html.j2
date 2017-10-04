@@ -1,0 +1,23 @@
+{% include 'header.html.j2' %}
+<h2>Supported Devices</h2>
+<table class="table table-striped table-hover table-sm">
+	<tr>
+		<th>Brand</th>
+		<th>Model</th>
+		<th>Versions</th>
+		<th>Current Release</th>
+		<th>Target</th>
+		<th>Subtarget</th>
+	</tr>
+	{% for brand, model, versions, current, target, subtarget in devices %}
+	<tr>
+		<td>{{ brand }}</td>
+		<td>{{ model }}</td>
+		<td>{{ versions }}</td>
+		<td>{{ current }}</td>
+		<td>{{ target }}</td>
+		<td>{{ subtarget }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% include 'footer.html.j2' %}
