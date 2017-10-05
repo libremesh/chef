@@ -24,11 +24,17 @@ class Database():
         return self.c.execute(sql, (search_string, search_string, search_string)).fetchall()
 
 @app.route("/")
-@app.route("/image_request")
-def image_request():
+def root():
     distros = json.loads(urllib.request.urlopen(server_address + "/api/distros").read().decode('utf-8'))
     network_profiles = json.loads(urllib.request.urlopen(server_address + "/api/network_profiles").read().decode('utf-8'))
-    return render_template("image_request.html.j2", distros=distros, network_profiles=network_profiles)
+    return render_template("image_request.html", distros=distros, network_profiles=network_profiles)
+
+@app.route("/image_request", methods=["POST"])
+def image_request():
+    if request.method == "POST":
+        return request.form["release"]
+    return "kk"
+
 
 db = Database()
 app.run(host="0.0.0.0", port=5001, )
