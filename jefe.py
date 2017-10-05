@@ -4,6 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for
 import json
 import logging
 import sqlite3
+import urllib
+
+server_address = "https://betaupdate.libremesh.org"
 
 app = Flask(__name__)
 
@@ -21,17 +24,12 @@ class Database():
         return self.c.execute(sql, (search_string, search_string, search_string)).fetchall()
 
 @app.route("/")
-def root():
-    return render_template("index.html.j2")
-
-
-@app.route("/search")
-def search():
-    string = request.args.get('device', '')
-    devices = db.search_device(string)
-    return render_template("devices.j2", devices=devices)
-
+@app.route("/image_request")
+def image_request():
+    distros = json.loads(urllib.request.urlopen(server_address + "/api/distros").read().decode('utf-8'))
+    network_profiles = json.loads(urllib.request.urlopen(server_address + "/api/network_profiles").read().decode('utf-8'))
+    return render_template("image_request.html.j2", distros=distros, network_profiles=network_profiles)
 
 db = Database()
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", port=5001, )
 
