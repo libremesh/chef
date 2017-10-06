@@ -14,5 +14,6 @@ def root():
     network_profiles = json.loads(urllib.request.urlopen(server_address + "/api/network_profiles").read().decode('utf-8'))
     return render_template("image_request.html", distros=distros, network_profiles=network_profiles)
 
-app.run(host="0.0.0.0", port=5001, )
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5001, )
 
