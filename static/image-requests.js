@@ -37,7 +37,9 @@ function image_request() {
     request_dict.subtarget = profile_split[1]
     request_dict.board = profile_split[2]
     request_dict.network_profile = document.request_form.network_profile.value
-	request_dict.packages = packages
+	if (packages != "") {
+		request_dict.packages = packages
+	}
     server_request(request_dict, "image-request", image_request_handler)
 }
 
