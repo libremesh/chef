@@ -142,22 +142,27 @@ function load_packages_image() {
 
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			releases_results(xmlhttp);
+			packages_image_results(xmlhttp);
 		}
 	}
 	xmlhttp.send(null);
 
-	function releases_results(xmlhttp) {
-		packages = JSON.parse(xmlhttp.responseText).packages;
+	function packages_image_results(xmlhttp) {
+		packages_image = JSON.parse(xmlhttp.responseText).packages;
 		diff_packages();
 	}
 };
 
+function edit_packages() {
+	load_packages_image();
+	document.request_form.edit_packages.style.display = "block";
+}
+
 function diff_packages() {
+	packages = packages_image.slice()
 	for (var i in flavor_packages) {
 		if(flavor_packages[i].startsWith("-")) {
 			package_index = packages.indexOf(flavor_packages[i].substring(1))
-			console.log(package_index)
 			if(package_index != -1) {
 				packages.splice(package_index, 1);
 			}
@@ -177,6 +182,12 @@ function distro_changed() {
 			document.request_form.release[release_length] = new Option(releases[i].release)
 		}
 	}
+	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
+		document.getElementById("lime_config").style.display = "block";
+	}  else {
+		document.getElementById("lime_config").style.display = "none";
+		flavor_packages = ""
+	}
 	search();
 }
 
@@ -186,6 +197,7 @@ function create() {
 }
 
 function bootstrap() {
+	flavor_packages = ""
 	load_distros();
 	load_network_profiles();
 	load_flavors();

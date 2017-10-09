@@ -43,31 +43,29 @@
 					<option value="" selected>Start typing</option></select>
 				</select>
 				</p>
-				</p>
+				<div id="lime_config" style="display: none;">
 				<p>
 				Network Profile:
 				<select name="network_profile">
 					<option value="" selected>None</option></select>
 				</p>
-				<div id="flavor" name="flavor" onchange="set_flavor_packages();">
 				<p>
 				Flavor:
-				<select id="flavor" name="flavor"></select>
-				</p>
-				<p>
-				<a onclick="load_packages_image();">Edit Packages</a>
-				</p>
-				<p>
-				<textarea id="edit_packages" name="edit_packages" rows=20 style="width: 100%"></textarea>
-
+				<select id="flavor" name="flavor" onchange="set_flavor_packages();"></select>
 				</p>
 				</div>
+				<p>
+				<a href="#" onclick="edit_packages();">Edit Packages</a>
+				</p>
+				<p>
+				<textarea id="edit_packages" name="edit_packages" rows=20 style="display: none; width: 100%"></textarea>
+				</p>
 				<input type="button" value="Create image" onclick="create()">
 				</p>
 			</form>
 
 			<script>
-				window.addEventListener("load", bootstrap);
+				window.onload = bootstrap;
 			</script>
 		</div>
 		<script src="static/jquery-3.2.1.slim.min.js"></script>
