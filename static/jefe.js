@@ -1,4 +1,5 @@
 server_address = "https://betaupdate.libremesh.org/";
+edit_packages_bool = false;
 
 var delay_timer;
 function search_delayed() {
@@ -8,7 +9,7 @@ function search_delayed() {
 
 function search() {
 	var device = document.getElementById("search_device").value;
-	if(device === "") { return }
+	if(device.length < 3) { return }
 
 	var distro = document.getElementById("distro").value;
 	var release = document.getElementById("release").value;
@@ -36,6 +37,7 @@ function search() {
 				document.request_form.profile[i].value = devices[i].target + "/" + devices[i].subtarget + "/" + devices[i].profile
 			}
 		}
+		set_device_info();
 	}
 };
 
@@ -77,6 +79,13 @@ function set_flavor_packages() {
 		load_packages_image();
 	} else {
 		diff_packages();
+	}
+}
+
+function profile_changed() {
+	set_device_info();
+	if(edit_packages_bool == true) {
+		load_packages_image();
 	}
 }
 
@@ -126,15 +135,21 @@ function load_releases() {
 	}
 };
 
+function set_device_info() {
+	profile_split = document.request_form.profile.value.split("/");
+    target = profile_split[0]
+    subtarget = profile_split[1]
+    profile = profile_split[2]
+	document.getElementById("info_device").innerHTML = "<b>Target:</b> " + target + " - <b>Subtarget</b>: " + subtarget + " - <b>Profile</b>: " + profile
+	document.getElementById("info_device").style.display = "block";
+}
+
 function load_packages_image() {
 	var xmlhttp = new XMLHttpRequest();
 	var device = document.getElementById("search_device").value;
 	var distro = document.getElementById("distro").value;
 	var release = document.getElementById("release").value;
-	profile_split = document.request_form.profile.value.split("/");
-    target = profile_split[0]
-    subtarget = profile_split[1]
-    profile = profile_split[2]
+	set_device_info()
 
 	request_url = server_address + "api/packages_image?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
 
@@ -154,6 +169,7 @@ function load_packages_image() {
 };
 
 function edit_packages() {
+	edit_packages_bool = true;
 	load_packages_image();
 	document.request_form.edit_packages.style.display = "block";
 }

@@ -25,44 +25,45 @@
 			<div class="container">
 				<div style="display: none" id="info_box" class="alert alert-info"></div>
 				<div style="display: none" id="error_box" class="alert alert-danger"></div>
+				<form name="request_form" id="request_form" action="/image_request" method="get">
+					<p>
+					Distro:
+					<select id="distro" name="distro" onchange="distro_changed();"></select>
+					</p>
+					<p>
+					Release:
+					<select id="release" name="release"></select>
+					</p>
+					<p>
+					Router Modell: <input type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
+					</p>
+					<p>
+					<select id="profile" name="profile" onchange="profile_changed();">
+						<option value="" selected>Start typing</option></select>
+					</select>
+					</p>
+					<div id="lime_config" style="display: none;">
+					<p>
+					Network Profile:
+					<select name="network_profile">
+						<option value="" selected>None</option></select>
+					</p>
+					<p>
+					Flavor:
+					<select id="flavor" name="flavor" onchange="set_flavor_packages();"></select>
+					</p>
+					</div>
+					<p>
+					<a href="#" onclick="edit_packages();">Edit Packages</a>
+					</p>
+					<p>
+					<textarea id="edit_packages" name="edit_packages" rows=20 style="display: none; width: 100%"></textarea>
+					</p>
+					<input type="button" value="Create image" onclick="create()">
+					</p>
+				</form>
+				<div style="display: none;" id="info_device" class="alert alert-secondary"></div>
 			</div>
-			<form name="request_form" id="request_form" action="/image_request" method="get">
-				<p>
-				Distro:
-				<select id="distro" name="distro" onchange="distro_changed();"></select>
-				</p>
-				<p>
-				Release:
-				<select id="release" name="release"></select>
-				</p>
-				<p>
-				Router Modell: <input type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
-				</p>
-				<p>
-				<select id="profile" name="profile" onchange="load_packages_image();">
-					<option value="" selected>Start typing</option></select>
-				</select>
-				</p>
-				<div id="lime_config" style="display: none;">
-				<p>
-				Network Profile:
-				<select name="network_profile">
-					<option value="" selected>None</option></select>
-				</p>
-				<p>
-				Flavor:
-				<select id="flavor" name="flavor" onchange="set_flavor_packages();"></select>
-				</p>
-				</div>
-				<p>
-				<a href="#" onclick="edit_packages();">Edit Packages</a>
-				</p>
-				<p>
-				<textarea id="edit_packages" name="edit_packages" rows=20 style="display: none; width: 100%"></textarea>
-				</p>
-				<input type="button" value="Create image" onclick="create()">
-				</p>
-			</form>
 
 			<script>
 				window.onload = bootstrap;
