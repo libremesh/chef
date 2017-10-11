@@ -37,6 +37,9 @@ function search() {
 				document.request_form.profile[i].value = devices[i].target + "/" + devices[i].subtarget + "/" + devices[i].profile
 			}
 		}
+		if(edit_packages_bool == true) {
+			diff_packages();
+		}
 		set_device_info();
 	}
 };
