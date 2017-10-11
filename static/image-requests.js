@@ -72,7 +72,7 @@ function image_request_handler(response) {
     } else if (response.status === 200) {
         // ready to download
         response_content = JSON.parse(response.responseText)
-        info_box("image created <a href='" + response_content.url + "'>Download</a>")
+        info_box("image created. Download: <a href='" + response_content.url + "'>Firmware</a>, <a href='" + response_content.url + ".log'>log</a>, <a href='" + response_content.url + ".sig'>sig</a>")
     }
 }
 
