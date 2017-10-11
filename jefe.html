@@ -23,7 +23,7 @@
 		<div class="container">
 			<p></p>
 			<div class="container">
-				<div style="display: none" id="info_box" class="alert alert-info"></div>
+				<div style="display: none" id="info_box" class="alert alert-success"></div>
 				<div style="display: none" id="error_box" class="alert alert-danger"></div>
 				<form name="request_form" id="request_form" action="/image_request" method="get">
 					<p>
@@ -56,9 +56,14 @@
 					<p>
 					<a href="#" onclick="edit_packages();">Edit Packages</a>
 					</p>
-					<p>
-					<textarea id="edit_packages" name="edit_packages" rows=20 style="display: none; width: 100%"></textarea>
-					</p>
+					<div id="edit_packages_div" style="display: none;">
+						<div class="alert alert-info">
+							Only packges in the textare are installed
+						</div>
+						<p>
+						<textarea id="edit_packages" name="edit_packages" rows=20 style="width: 100%"></textarea>
+						</p>
+					</div>
 					<input type="button" value="Create image" onclick="create()">
 					</p>
 				</form>

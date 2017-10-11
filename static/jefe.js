@@ -171,11 +171,17 @@ function load_packages_image() {
 function edit_packages() {
 	edit_packages_bool = true;
 	load_packages_image();
-	document.request_form.edit_packages.style.display = "block";
+	document.getElementById("edit_packages_div").style.display = "block";
 }
 
 function diff_packages() {
 	packages = packages_image.slice()
+	for (var j = packages.length -1; j > 0; j--) {
+		if (packages[j].startsWith("-")) {
+			packages.splice(j, 1);
+		}
+	}
+
 	for (var i in flavor_packages) {
 		if(flavor_packages[i].startsWith("-")) {
 			package_index = packages.indexOf(flavor_packages[i].substring(1))
@@ -208,7 +214,14 @@ function distro_changed() {
 }
 
 function create() {
-	packages = document.request_form.edit_packages.value.split("\n")
+	packages = []
+	edit_packages_split = document.request_form.edit_packages.value.split("\n")
+	for(var i = 0; i < edit_packages_split.length; i++) {
+		package_trimmed = edit_packages_split[i].trim()
+		if (package_trimmed != "") {
+			packages.push(package_trimmed)
+		}
+	}
 	image_request()
 }
 
