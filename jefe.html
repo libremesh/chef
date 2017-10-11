@@ -50,16 +50,13 @@
 					</p>
 					<p>
 					Flavor:
-					<select id="flavor" name="flavor" onchange="set_flavor_packages();"></select>
+					<select id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
 					</p>
 					</div>
 					<p>
 					<a href="#" onclick="edit_packages();">Edit Packages</a>
 					</p>
 					<div id="edit_packages_div" style="display: none;">
-						<div class="alert alert-info">
-							Only packges in textarea will be installed
-						</div>
 						<p>
 						<textarea id="edit_packages" name="edit_packages" rows=20 style="width: 100%"></textarea>
 						</p>

@@ -1,5 +1,6 @@
 server_address = "https://betaupdate.libremesh.org/";
 edit_packages_bool = false;
+packages_flavor = [];
 
 var delay_timer;
 function search_delayed() {
@@ -38,7 +39,7 @@ function search() {
 			}
 		}
 		if(edit_packages_bool == true) {
-			diff_packages();
+			load_packages_image();
 		}
 		set_device_info();
 	}
@@ -76,12 +77,12 @@ function load_flavors() {
 	}
 }
 
-function set_flavor_packages() {
-	flavor_packages = flavors[document.request_form.flavor.value].split(" ");
+function set_packages_flavor() {
+	packages_flavor = flavors[document.request_form.flavor.value].split(" ");
 	if (typeof packages == 'undefined') {
 		load_packages_image();
 	} else {
-		diff_packages();
+		edit_packages_update();
 	}
 }
 
@@ -153,23 +154,37 @@ function load_packages_image() {
 	var distro = document.getElementById("distro").value;
 	var release = document.getElementById("release").value;
 	set_device_info()
+	if(typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
 
-	request_url = server_address + "api/packages_image?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
+		request_url = server_address + "api/packages_image?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
 
-	xmlhttp.open("GET", request_url, true);
+		xmlhttp.open("GET", request_url, true);
 
-	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			packages_image_results(xmlhttp);
+		xmlhttp.onreadystatechange = function () {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				packages_image_results(xmlhttp);
+			}
 		}
+		xmlhttp.send(null);
+	} else {
+		packages_image = [];
+		edit_packages_update();
 	}
-	xmlhttp.send(null);
 
 	function packages_image_results(xmlhttp) {
-		packages_image = JSON.parse(xmlhttp.responseText).packages;
-		diff_packages();
+		packages_image = diff_packages(JSON.parse(xmlhttp.responseText).packages);
+		edit_packages_update();
 	}
 };
+
+function edit_packages_update() {
+	if (packages_flavor != "") {
+		packages = diff_packages(packages_image.concat(packages_flavor))
+	} else {
+		packages = packages_image.slice()
+	}
+	document.request_form.edit_packages.value = packages.join("\n");
+}
 
 function edit_packages() {
 	edit_packages_bool = true;
@@ -177,7 +192,24 @@ function edit_packages() {
 	document.getElementById("edit_packages_div").style.display = "block";
 }
 
-function diff_packages() {
+function diff_packages(packages_diff) {
+	packages_remove = [];
+	packages_install = [];
+	for (var i = 0; i < packages_diff.length; i++) {
+		if (packages_diff[i].startsWith("-")) {
+			packages_remove.push(packages_diff[i]);
+		} else {
+			packages_install.push(packages_diff[i]);
+		}
+	}
+	for (var j = 0; j < packages_remove.length; j++) {
+		package_index = packages_install.indexOf(packages_remove[j].substring(1))
+		if(package_index != -1) {
+			packages_install.splice(package_index, 1);
+		}
+	}
+	return(packages_install)
+
 	packages = packages_image.slice()
 	for (var j = packages.length -1; j > 0; j--) {
 		if (packages[j].startsWith("-")) {
@@ -185,14 +217,14 @@ function diff_packages() {
 		}
 	}
 
-	for (var i in flavor_packages) {
-		if(flavor_packages[i].startsWith("-")) {
-			package_index = packages.indexOf(flavor_packages[i].substring(1))
+	for (var i in packages_flavor) {
+		if(packages_flavor[i].startsWith("-")) {
+			package_index = packages.indexOf(packages_flavor[i].substring(1))
 			if(package_index != -1) {
 				packages.splice(package_index, 1);
 			}
-		} else if(!packages.includes(flavor_packages[i])) {
-			packages.push(flavor_packages[i])
+		} else if(!packages.includes(packages_flavor[i])) {
+			packages.push(packages_flavor[i])
 		}
 	}
 	document.request_form.edit_packages.value = packages.join("\n");
@@ -211,13 +243,13 @@ function distro_changed() {
 		document.getElementById("lime_config").style.display = "block";
 	}  else {
 		document.getElementById("lime_config").style.display = "none";
-		flavor_packages = ""
+		packages_flavor = ""
 	}
 	search();
 }
 
 function create() {
-	packages = []
+	packages = [];
 	edit_packages_split = document.request_form.edit_packages.value.split("\n")
 	for(var i = 0; i < edit_packages_split.length; i++) {
 		package_trimmed = edit_packages_split[i].trim()
@@ -229,7 +261,7 @@ function create() {
 }
 
 function bootstrap() {
-	flavor_packages = ""
+	packages_flavor = ""
 	load_distros();
 	load_network_profiles();
 	load_flavors();
