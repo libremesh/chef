@@ -46,7 +46,7 @@ function image_request() {
 function image_request_handler(response) {
     if (response.status === 400) {
         response_content = JSON.parse(response.responseText)
-        error_box(response_content.error)
+        error_box(response_content.error + ' <a href="' + response_content.log + '">Build log</a>')
     } else if (response.status === 500) {
         error_box("internal server error. please try again later")
     } else if (response.status === 503) {
