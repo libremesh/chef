@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" href="static/bootstrap.min.css">
+		<link rel="stylesheet" href="static/jefe.css">
 	</head>
 	<body>
 		<script src="static/flavors.js"></script>
@@ -25,6 +26,7 @@
 			<div class="container">
 				<div style="display: none" id="info_box" class="alert alert-success"></div>
 				<div style="display: none" id="error_box" class="alert alert-danger"></div>
+				<div id="files_box" class="alert alert-info advanced_view">Extra files</div>
 				<form name="request_form" id="request_form" action="/image_request" method="get">
 					<p>
 					Distro:
@@ -54,7 +56,7 @@
 					</p>
 					</div>
 					<p>
-					<a href="#" onclick="edit_packages();">Edit Packages</a>
+					<a href="#" onclick="edit_packages();" class="advanced_view">Edit Packages</a>
 					</p>
 					<div id="edit_packages_div" style="display: none;">
 						<p>
@@ -63,8 +65,11 @@
 					</div>
 					<input type="button" value="Create image" onclick="create()">
 					</p>
+					<p>
+						<input onclick="toggle_advanced_view()" type="checkbox" name="advanced_view">Advanced view<br>
+					</p>
 				</form>
-				<div style="display: none;" id="info_device" class="alert alert-secondary"></div>
+				<div id="info_device" class="alert alert-secondary advanced_view">Extra device information</div>
 			</div>
 
 			<script>

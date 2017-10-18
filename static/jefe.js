@@ -145,7 +145,6 @@ function set_device_info() {
     subtarget = profile_split[1]
     profile = profile_split[2]
 	document.getElementById("info_device").innerHTML = "<b>Target:</b> " + target + " - <b>Subtarget</b>: " + subtarget + " - <b>Profile</b>: " + profile
-	document.getElementById("info_device").style.display = "block";
 }
 
 function load_packages_image() {
@@ -235,6 +234,9 @@ function distro_changed() {
 
 	for(var i = 0; i < releases.length; i++) {
 		if(releases[i].distro === document.request_form.distro[document.request_form.distro.selectedIndex].value) {
+			if (releases[i].release == "snapshot") {
+
+			}
 			release_length = document.request_form.release.length
 			document.request_form.release[release_length] = new Option(releases[i].release)
 		}
@@ -260,9 +262,23 @@ function create() {
 	image_request()
 }
 
+function toggle_advanced_view() {
+	if (document.request_form.advanced_view.checked) {
+		action = "block"
+	} else {
+		action = "none"
+	}
+	var advanced_elements = document.querySelectorAll(".advanced_view");
+	for(var i = 0; i < advanced_elements.length; i++) {
+		advanced_elements[i].style.display = action;
+	}
+
+}
+
 function bootstrap() {
 	packages_flavor = ""
 	load_distros();
 	load_network_profiles();
 	load_flavors();
+	toggle_advanced_view();
 }
