@@ -65,6 +65,8 @@ function load_distros() {
 		for(var i = 0; i < distros.length; i++) {
 			distros_length = document.request_form.distro.length;
 			document.request_form.distro[distros_length] = new Option(distros[i].name)
+			document.request_form.distro[distros_length].value = distros[i].name
+			document.request_form.distro[distros_length].innerHTML = distros[i].alias
 		}
 		load_releases();
 	}
