@@ -97,6 +97,8 @@ function load_files() {
 
 	function releases_results(xmlhttp) {
 		response_content = JSON.parse(xmlhttp.responseText);
+		files_box = document.getElementById("files_box")
+		files_box.innerHTML = ""
 		var list = document.createElement('ul');
 
 		for(var i = 0; i < response_content.length; i++) {
@@ -107,6 +109,6 @@ function load_files() {
 			item.appendChild(link)
 			list.appendChild(item);
 		}
-		document.getElementById("files_box").appendChild(list);
+		files_box.appendChild(list);
 	}
 };
