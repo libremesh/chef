@@ -44,28 +44,31 @@
 					</select>
 					</p>
 					<div id="lime_config" style="display: none;">
-					<p>
-					<a href="https://github.com/libremesh/network-profiles/">Network Profile:</a>
-					<select name="network_profile">
-						<option value="" selected>None</option></select>
-					</p>
-					<p>
-					LibreMesh Flavor:
-					<select id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
-					</p>
-					</div>
-					<p>
-					<a href="#" onclick="edit_packages();" class="advanced_view">Edit Packages</a>
-					</p>
-					<div id="edit_packages_div" style="display: none;">
 						<p>
-						<textarea id="edit_packages" name="edit_packages" rows=20 style="width: 100%"></textarea>
+						<a href="https://github.com/libremesh/network-profiles/">Network Profile:</a>
+						<select name="network_profile">
+							<option value="" selected>None</option></select>
 						</p>
+						<p>
+						LibreMesh Flavor:
+						<select id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
+						</p>
+					</div>
+					<div class="advanced_view">
+						<p>
+						<a href="#" onclick="edit_packages();this.style='display: none;';">Edit Packages</a>
+						</p>
+						<div id="edit_packages_div" style="display: none;">
+							<h5>Packages:</h5>
+							<p>
+							<textarea id="edit_packages" name="edit_packages" rows=20 style="width: 100%"></textarea>
+							</p>
+						</div>
 					</div>
 					<input type="button" value="Create image" onclick="create()">
 					</p>
 					<p>
-						<input onclick="toggle_advanced_view()" type="checkbox" name="advanced_view">Advanced view<br>
+					<input onclick="toggle_advanced_view()" type="checkbox" name="advanced_view">Advanced view<br>
 					</p>
 				</form>
 				<div id="info_device" class="alert alert-secondary advanced_view">Extra device information</div>
