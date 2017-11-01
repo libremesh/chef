@@ -37,6 +37,8 @@ function search() {
 			for(var i = 0; i < devices.length; i++) {
 				document.request_form.profile[i] = new Option(devices[i].model)
 				document.request_form.profile[i].value = devices[i].target + "/" + devices[i].subtarget + "/" + devices[i].profile
+				if (document.request_form.advanced_view.checked)
+					document.request_form.profile[i] = new Option(devices[i].model + " (" + devices[i].target + "/" +devices[i].subtarget + "/" + devices[i].profile + ")")
 			}
 		}
 		if(edit_packages_bool == true) {
