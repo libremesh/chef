@@ -1,3 +1,3 @@
 # chef 
 
-Try https://imagebuilder.libremesh.org
+[Try it online](https://imagebuilder.libremesh.org/imagebuilder)
