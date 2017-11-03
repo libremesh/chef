@@ -240,7 +240,7 @@ function create() {
 	document.getElementById("info_box").style.display = "none";
 	document.getElementById("error_box").style.display = "none";
 	packages = [];
-	edit_packages_split = document.request_form.edit_packages.value.split("\n")
+	edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
 	for(var i = 0; i < edit_packages_split.length; i++) {
 		package_trimmed = edit_packages_split[i].trim()
 		if (package_trimmed != "") {
