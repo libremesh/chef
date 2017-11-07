@@ -30,9 +30,11 @@ function search() {
 		document.request_form.profile.options.length = 0;
 		if(devices.length == 0) {
 			document.request_form.btn_create.disabled = true;
+			document.request_form.btn_edit_packages.disabled = true;
 			document.request_form.profile[0] = new Option("Not found")
 		} else {
 			document.request_form.btn_create.disabled = false;
+			document.request_form.btn_edit_packages.disabled = false;
 			for(var i = 0; i < devices.length; i++) {
 				if(document.request_form.advanced_view.checked || devices[i].model == "Generic") {
 					document.request_form.profile[i] = new Option(devices[i].model + " (" + devices[i].target + "/" +devices[i].subtarget + "/" + devices[i].profile + ")")
