@@ -1,5 +1,4 @@
 edit_packages_bool = false;
-packages_flavor = [];
 
 var delay_timer;
 function search_delayed() {
@@ -30,8 +29,10 @@ function search() {
 		devices = JSON.parse(xmlhttp.responseText)
 		document.request_form.profile.options.length = 0;
 		if(devices.length == 0) {
+			document.request_form.btn_create.disabled = true;
 			document.request_form.profile[0] = new Option("Not found")
 		} else {
+			document.request_form.btn_create.disabled = false;
 			for(var i = 0; i < devices.length; i++) {
 				if(document.request_form.advanced_view.checked || devices[i].model == "Generic") {
 					document.request_form.profile[i] = new Option(devices[i].model + " (" + devices[i].target + "/" +devices[i].subtarget + "/" + devices[i].profile + ")")
@@ -181,7 +182,7 @@ function load_packages_image() {
 };
 
 function edit_packages_update() {
-	if (packages_flavor != "") {
+	if (packages_flavor != []) {
 		packages = diff_packages(packages_image.concat(packages_flavor))
 	} else {
 		packages = packages_image.slice()
@@ -219,18 +220,19 @@ function distro_changed() {
 
 	for(var i = 0; i < releases.length; i++) {
 		if(releases[i].distro === document.request_form.distro[document.request_form.distro.selectedIndex].value) {
-			if (releases[i].release == "snapshot") {
-
-			}
 			release_length = document.request_form.release.length
 			document.request_form.release[release_length] = new Option(releases[i].release)
 		}
 	}
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
 		document.getElementById("lime_config").style.display = "block";
+		document.request_form.flavor.selectedIndex = 2; // lime_default
+		flavor = "lime_default";
 	}  else {
 		document.getElementById("lime_config").style.display = "none";
-		packages_flavor = ""
+		document.request_form.flavor.selectedIndex = 0; // None
+		packages_flavor = []
+		packages = []
 	}
 	search();
 }
@@ -383,3 +385,6 @@ function load_files() {
 		files_box.appendChild(list);
 	}
 }
+
+// so here it begins
+window.onload = bootstrap;
