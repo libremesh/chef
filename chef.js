@@ -240,6 +240,8 @@ function distro_changed() {
 }
 
 function create() {
+	document.getElementById("download_factory_div").style = "display:none"
+	document.getElementById("download_box").style = "display:none";
 	document.getElementById("files_box").innerHTML = "Advanced view";
 	document.getElementById("info_box").style.display = "none";
 	document.getElementById("error_box").style.display = "none";
@@ -354,7 +356,12 @@ function image_request_handler(response) {
 		response_content = JSON.parse(response.responseText)
 		files_url = response_content.files
 		load_files();
-		info_box("image created. Download: <a href='" + response_content.sysupgrade + "'>Firmware</a>, <a href='" + response_content.sysupgrade + ".log'>Build log</a>, <a href='" + response_content.sysupgrade + ".sig'>Signature</a>")
+		document.getElementById("info_box").style = "display:none";
+		document.getElementById("download_box").style = "display:block";
+
+		document.getElementById("download_sysupgrade").setAttribute('href', response_content.sysupgrade)
+		document.getElementById("download_signature").setAttribute('href', response_content.sysupgrade + ".sig")
+		document.getElementById("download_build_log").setAttribute('href', response_content.sysupgrade + ".log")
 	}
 }
 
@@ -376,14 +383,27 @@ function load_files() {
 		files_box.innerHTML = ""
 		var list = document.createElement('ul');
 
+		var factory_files = []
 		for(var i = 0; i < response_content.length; i++) {
 			var item = document.createElement('li');
 			var link = document.createElement('a');
+			if(response_content[i].name.includes("factory")) {
+				factory_files[factory_files.length] = response_content[i].name
+			}
 			link.href = files_url + response_content[i].name
 			link.innerHTML = response_content[i].name
 			item.appendChild(link)
 			list.appendChild(item);
 		}
+		if(factory_files.length == 1) {
+			data.factory = files_url + factory_files[0]
+			document.getElementById("download_factory").setAttribute('href', data.factory)
+			document.getElementById("download_factory_div").style = "display:block"
+		} else {
+			data.factory = ""
+			document.getElementById("download_factory_div").style = "display:none"
+		}
+
 		files_box.appendChild(list);
 	}
 }
