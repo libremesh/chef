@@ -68,12 +68,17 @@ function load_distros() {
 		distros = JSON.parse(xmlhttp.responseText);
 		document.request_form.distro.options.length = 0;
 
+		var default_distro_index = 0;
 		for(var i = 0; i < distros.length; i++) {
-			distros_length = document.request_form.distro.length;
+			var distros_length = document.request_form.distro.length;
 			document.request_form.distro[distros_length] = new Option(distros[i].name)
 			document.request_form.distro[distros_length].value = distros[i].name
 			document.request_form.distro[distros_length].innerHTML = distros[i].alias
+			if(distros[i].name === data.default_distro) {
+				default_distro_index = i;
+			}
 		}
+		document.request_form.distro.selectedIndex = default_distro_index;
 		load_releases();
 	}
 };
@@ -230,6 +235,7 @@ function distro_changed() {
 		document.getElementById("lime_config").style.display = "block";
 		document.request_form.flavor.selectedIndex = 2; // lime_default
 		flavor = "lime_default";
+		set_packages_flavor();
 	}  else {
 		document.getElementById("lime_config").style.display = "none";
 		document.request_form.flavor.selectedIndex = 0; // None
