@@ -336,7 +336,12 @@ function image_request_handler(response) {
 		error_box(error_box_content)
 
 	} else if (response.status === 500) {
-		error_box("internal server error. please try again later")
+		response_content = JSON.parse(response.responseText)
+		error_box_content = response_content.error
+		if('log' in response_content) {
+			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
+		}
+		error_box()
 	} else if (response.status === 503) {
 		error_box("please wait. server overloaded")
 		// handle overload
