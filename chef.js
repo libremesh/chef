@@ -1,5 +1,3 @@
-edit_packages_bool = false;
-
 var delay_timer;
 function search_delayed() {
 	clearTimeout(delay_timer);
@@ -44,9 +42,7 @@ function search() {
 				document.request_form.profile[i].value = devices[i].target + "/" + devices[i].subtarget + "/" + devices[i].profile
 			}
 		}
-		if(edit_packages_bool == true) {
-			load_packages_image();
-		}
+		load_packages_image();
 		set_device_info();
 	}
 };
@@ -103,9 +99,7 @@ function set_packages_flavor() {
 
 function profile_changed() {
 	set_device_info();
-	if(edit_packages_bool == true) {
-		load_packages_image();
-	}
+	load_packages_image();
 }
 
 function load_network_profiles() {
@@ -200,7 +194,6 @@ function edit_packages_update() {
 }
 
 function packages_input() {
-	edit_packages_bool = true;
 	load_packages_image();
 	document.getElementById("edit_packages_div").style.display = "block";
 }
