@@ -235,13 +235,14 @@ function distro_changed() {
 		document.getElementById("lime_config").style.display = "block";
 		document.request_form.flavor.selectedIndex = 2; // lime_default
 		flavor = "lime_default";
-		set_packages_flavor();
 	}  else {
 		document.getElementById("lime_config").style.display = "none";
 		document.request_form.flavor.selectedIndex = 0; // None
+		flavor = "";
 		packages_flavor = []
 		packages = []
 	}
+	set_packages_flavor();
 	search();
 }
 
