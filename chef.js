@@ -87,11 +87,13 @@ function load_flavors() {
 	for(flavor in flavors) {
 		flavors_length = document.request_form.flavor.length;
 		document.request_form.flavor[flavors_length] = new Option(flavor)
+		document.request_form.flavor[flavors_length].value = flavor
+		document.request_form.flavor[flavors_length].innerHTML = flavors[flavor][0]
 	}
 }
 
 function set_packages_flavor() {
-	packages_flavor = flavors[document.request_form.flavor.value].split(" ");
+	packages_flavor = flavors[document.request_form.flavor.value][1].split(" ");
 	if (typeof packages == 'undefined') {
 		load_packages_image();
 	} else {
