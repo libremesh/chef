@@ -319,10 +319,11 @@ function image_request() {
 	if (packages != "") {
 		request_dict.packages = packages
 	}
-	server_request(request_dict, "image-request", image_request_handler)
+	server_request(request_dict, "api/build-request", image_request_handler)
 }
 
 function image_request_handler(response) {
+	console.log(response)
 	if (response.status === 400) {
 		response_content = JSON.parse(response.responseText)
 		error_box_content = response_content.error
@@ -366,9 +367,14 @@ function image_request_handler(response) {
 		document.getElementById("info_box").style = "display:none";
 		document.getElementById("download_box").style = "display:block";
 
-		document.getElementById("download_sysupgrade").setAttribute('href', response_content.sysupgrade)
-		document.getElementById("download_signature").setAttribute('href', response_content.sysupgrade + ".sig")
-		document.getElementById("download_build_log").setAttribute('href', response_content.sysupgrade + ".log")
+		if("sysupgrade" in response_content) {
+			document.getElementById("download_sysupgrade").setAttribute('href', response_content.sysupgrade)
+			document.getElementById("download_signature").setAttribute('href', response_content.sysupgrade + ".sig")
+			document.getElementById("download_sysupgrade_div").style = "display:block"
+		} else {
+			document.getElementById("download_sysupgrade_div").style = "display:none"
+		}
+		document.getElementById("download_build_log").setAttribute('href', response_content.log)
 	}
 }
 
@@ -387,7 +393,7 @@ function load_files() {
 	function releases_results(xmlhttp) {
 		response_content = JSON.parse(xmlhttp.responseText);
 		files_box = document.getElementById("files_box")
-		files_box.innerHTML = ""
+		files_box.innerHTML = "</br><h5>Created files</h5>"
 		var list = document.createElement('ul');
 
 		var factory_files = []
@@ -406,9 +412,13 @@ function load_files() {
 			data.factory = files_url + factory_files[0]
 			document.getElementById("download_factory").setAttribute('href', data.factory)
 			document.getElementById("download_factory_div").style = "display:block"
+			if (!document.request_form.advanced_view.checked) {
+				document.getElementById("files_box").style = "display:none"
+			}
 		} else {
 			data.factory = ""
 			document.getElementById("download_factory_div").style = "display:none"
+			document.getElementById("files_box").style = "display:block"
 		}
 
 		files_box.appendChild(list);
