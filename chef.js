@@ -338,7 +338,7 @@ function image_request_handler(response) {
 		if('log' in response_content) {
 			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
 		}
-		error_box()
+		error_box(error_box_content)
 	} else if (response.status === 503) {
 		error_box("please wait. server overloaded")
 		// handle overload
