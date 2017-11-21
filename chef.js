@@ -150,9 +150,9 @@ function load_releases() {
 
 function set_device_info() {
 	profile_split = document.request_form.profile.value.split("/");
-    target = profile_split[0]
-    subtarget = profile_split[1]
-    profile = profile_split[2]
+	target = profile_split[0]
+	subtarget = profile_split[1]
+	profile = profile_split[2]
 }
 
 function load_packages_image() {
@@ -304,9 +304,14 @@ function server_request(request_dict, path, callback) {
 	xmlhttp.onerror = function(e) {
 		console.log("update server down")
 	}
-	xmlhttp.addEventListener('load', function(event) {
+	xmlhttp.onprogress = function () {
+		console.log('LOADING', xmlhttp.status);
 		callback(xmlhttp)
-	});
+	};
+	xmlhttp.onload = function () {
+		console.log('DONE', xmlhttp.status);
+		callback(xmlhttp)
+	};
 }
 
 function image_request() {
@@ -333,7 +338,15 @@ function image_request_handler(response) {
 			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
 		}
 		error_box(error_box_content)
-
+	} else if (response.status === 412) {
+		// this is a bit generic
+		error_box("Unsupported device, release, target, subtraget or board")
+	} else if (response.status === 413) {
+		error_box("No firmware created due to image size. Try again with less packages selected.")
+	} else if (response.status === 422) {
+		error_box("Unknown package in request")
+	} else if (response.status === 501) {
+		error_box("No sysupgrade file produced, may not supported by modell.")
 	} else if (response.status === 500) {
 		response_content = JSON.parse(response.responseText)
 		error_box_content = response_content.error
@@ -345,22 +358,24 @@ function image_request_handler(response) {
 		error_box("please wait. server overloaded")
 		// handle overload
 		setTimeout(image_request, 30000)
-	} else if (response.status === 201) {
-		response_content = JSON.parse(response.responseText)
-		if(response_content.queue != undefined) {
+	} else if (response.status === 202) {
+		var imagebuilder = response.getResponseHeader("X-Imagebuilder-Status");
+		if(imagebuilder === "queue") {
 			// in queue
-			info_box("please wait. you are in queue position " + response_content.queue)
-			console.log("queued")
+			var queue = response.getResponseHeader("X-Build-Queue-Position");
+			info_box("please wait. you are in queue position " + queue);
+			console.log("queued");
+		} else if(imagebuilder === "initialize") {
+			info_box("imagebuilder not ready, please wait");
+			console.log("setting up imagebuilder");
+		} else if(imagebuilder === "building") {
+			info_box("building image");
+			console.log("building");
 		} else {
-			info_box("imagebuilder not ready, please wait")
-			console.log("setting up imagebuilder")
+			console.log(imagebuilder)
 		}
-		setTimeout(image_request, 5000)
-	} else if (response.status === 206) {
-		// building
-		console.log("building")
-		info_box("building image")
-		setTimeout(image_request, 5000)
+		setTimeout(image_request, 5000);
+
 	} else if (response.status === 200) {
 		// ready to download
 		response_content = JSON.parse(response.responseText)
