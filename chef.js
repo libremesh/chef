@@ -296,17 +296,15 @@ function error_box(error_output) {
 
 // requests to the update server
 function server_request(request_dict, path, callback) {
-	url = data.update_server + "/" + path
+	var url = data.update_server + "/" + path
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("POST", url, true);
 	xmlhttp.setRequestHeader("Content-type", "application/json");
 	xmlhttp.onerror = function(e) {
-		console.log("Update server down")
+		error_box("Update server down")
 	};
 	xmlhttp.onload = function () {
-			console.log(xmlhttp)
-			console.log("headers" + xmlhttp.getAllResponseHeaders())
-			callback(xmlhttp)
+		callback(xmlhttp)
 	};
 	xmlhttp.send(JSON.stringify(request_dict));
 }
@@ -327,7 +325,6 @@ function image_request() {
 }
 
 function image_request_handler(response) {
-	console.log(response)
 	if (response.status === 400) {
 		response_content = JSON.parse(response.responseText)
 		error_box_content = response_content.error
@@ -376,6 +373,7 @@ function image_request_handler(response) {
 
 	} else if (response.status === 200) {
 		// ready to download
+		console.log(response.getAllResponseHeaders())
 		response_content = JSON.parse(response.responseText)
 		files_url = response_content.files
 		load_files();
