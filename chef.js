@@ -300,18 +300,15 @@ function server_request(request_dict, path, callback) {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("POST", url, true);
 	xmlhttp.setRequestHeader("Content-type", "application/json");
-	xmlhttp.send(JSON.stringify(request_dict));
 	xmlhttp.onerror = function(e) {
-		console.log("update server down")
-	}
-	xmlhttp.onprogress = function () {
-		console.log('LOADING', xmlhttp.status);
-		callback(xmlhttp)
+		console.log("Update server down")
 	};
 	xmlhttp.onload = function () {
-		console.log('DONE', xmlhttp.status);
-		callback(xmlhttp)
+			console.log(xmlhttp)
+			console.log("headers" + xmlhttp.getAllResponseHeaders())
+			callback(xmlhttp)
 	};
+	xmlhttp.send(JSON.stringify(request_dict));
 }
 
 function image_request() {
@@ -363,15 +360,16 @@ function image_request_handler(response) {
 		if(imagebuilder === "queue") {
 			// in queue
 			var queue = response.getResponseHeader("X-Build-Queue-Position");
-			info_box("please wait. you are in queue position " + queue);
+			info_box("You are in build queue position " + queue);
 			console.log("queued");
 		} else if(imagebuilder === "initialize") {
 			info_box("imagebuilder not ready, please wait");
-			console.log("setting up imagebuilder");
+			console.log("Setting up imagebuilder");
 		} else if(imagebuilder === "building") {
-			info_box("building image");
+			info_box("Building image");
 			console.log("building");
 		} else {
+			info_box("Processing request");
 			console.log(imagebuilder)
 		}
 		setTimeout(image_request, 5000);
