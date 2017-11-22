@@ -250,6 +250,7 @@ function create() {
 	document.getElementById("info_box").style.display = "none";
 	document.getElementById("error_box").style.display = "none";
 	packages = [];
+	delete hash
 	edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
 	for(var i = 0; i < edit_packages_split.length; i++) {
 		package_trimmed = edit_packages_split[i].trim()
@@ -275,7 +276,8 @@ function toggle_advanced_view() {
 
 function bootstrap() {
 	if(location.hash != "") {
-		image_request(location.hash.substring(1))
+		hash = location.hash.substring(1)
+		image_request()
 	}
 	packages_flavor = ""
 	load_distros();
@@ -317,9 +319,9 @@ function server_request(request_dict, path, callback) {
 	xmlhttp.send(JSON.stringify(request_dict));
 }
 
-function image_request(image_hash) {
-	if(typeof image_hash != 'undefined') {
-		server_request("", "api/build-request/" + image_hash, image_request_handler)
+function image_request() {
+	if(typeof hash != 'undefined') {
+		server_request("", "api/build-request/" + hash, image_request_handler)
 	} else {
 		var request_dict = {}
 		request_dict.distro = document.request_form.distro.value;
@@ -337,8 +339,9 @@ function image_request(image_hash) {
 }
 
 function image_request_handler(response) {
+	response_content = JSON.parse(response.responseText)
+	hash = response_content.request_hash
 	if (response.status === 400) {
-		response_content = JSON.parse(response.responseText)
 		error_box_content = response_content.error
 		if('log' in response_content) {
 			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
@@ -354,7 +357,6 @@ function image_request_handler(response) {
 	} else if (response.status === 501) {
 		error_box("No sysupgrade file produced, may not supported by modell.")
 	} else if (response.status === 500) {
-		response_content = JSON.parse(response.responseText)
 		error_box_content = response_content.error
 		if('log' in response_content) {
 			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
@@ -386,7 +388,6 @@ function image_request_handler(response) {
 	} else if (response.status === 200) {
 		// ready to download
 		console.log(response.getAllResponseHeaders())
-		response_content = JSON.parse(response.responseText)
 		files_url = response_content.files
 		load_files();
 		document.getElementById("info_box").style = "display:none";
