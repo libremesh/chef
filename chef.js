@@ -387,7 +387,6 @@ function image_request_handler(response) {
 
 	} else if (response.status === 200) {
 		// ready to download
-		console.log(response.getAllResponseHeaders())
 		files_url = response_content.files
 		load_files();
 		document.getElementById("info_box").style = "display:none";
