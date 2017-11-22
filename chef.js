@@ -382,7 +382,7 @@ function image_request_handler(response) {
 
 		if("sysupgrade" in response_content) {
 			document.getElementById("download_sysupgrade").setAttribute('href', response_content.sysupgrade)
-			document.getElementById("download_signature").setAttribute('href', response_content.sysupgrade + ".sig")
+			document.getElementById("download_checksum").innerHTML = "<b>MD5:</b>" + response_content.checksum
 			document.getElementById("download_sysupgrade_div").style = "display:block"
 		} else {
 			document.getElementById("download_sysupgrade_div").style = "display:none"
