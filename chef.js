@@ -274,6 +274,9 @@ function toggle_advanced_view() {
 }
 
 function bootstrap() {
+	if(location.hash != "") {
+		image_request(location.hash.substring(1))
+	}
 	packages_flavor = ""
 	load_distros();
 	load_network_profiles();
@@ -298,7 +301,12 @@ function error_box(error_output) {
 function server_request(request_dict, path, callback) {
 	var url = data.update_server + "/" + path
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("POST", url, true);
+	if(request_dict != "") {
+		method = "POST"
+	} else {
+		method = "GET"
+	}
+	xmlhttp.open(method, url, true);
 	xmlhttp.setRequestHeader("Content-type", "application/json");
 	xmlhttp.onerror = function(e) {
 		error_box("Update server down")
@@ -309,19 +317,23 @@ function server_request(request_dict, path, callback) {
 	xmlhttp.send(JSON.stringify(request_dict));
 }
 
-function image_request() {
-	request_dict = {}
-	request_dict.distro = document.request_form.distro.value;
-	request_dict.version = document.request_form.release.value;
-	profile_split = document.request_form.profile.value.split("/");
-	request_dict.target = profile_split[0]
-	request_dict.subtarget = profile_split[1]
-	request_dict.board = profile_split[2]
-	request_dict.network_profile = document.request_form.network_profile.value
-	if (packages != "") {
-		request_dict.packages = packages
+function image_request(image_hash) {
+	if(typeof image_hash != 'undefined') {
+		server_request("", "api/build-request/" + image_hash, image_request_handler)
+	} else {
+		var request_dict = {}
+		request_dict.distro = document.request_form.distro.value;
+		request_dict.version = document.request_form.release.value;
+		profile_split = document.request_form.profile.value.split("/");
+		request_dict.target = profile_split[0]
+		request_dict.subtarget = profile_split[1]
+		request_dict.board = profile_split[2]
+		request_dict.network_profile = document.request_form.network_profile.value
+		if (packages != "") {
+			request_dict.packages = packages
+		}
+		server_request(request_dict, "api/build-request", image_request_handler)
 	}
-	server_request(request_dict, "api/build-request", image_request_handler)
 }
 
 function image_request_handler(response) {
@@ -388,6 +400,7 @@ function image_request_handler(response) {
 			document.getElementById("download_sysupgrade_div").style = "display:none"
 		}
 		document.getElementById("download_build_log").setAttribute('href', response_content.log)
+		location.hash = response_content.image_hash
 	}
 }
 
