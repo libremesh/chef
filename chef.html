@@ -14,7 +14,7 @@ data.update_server = "https://ledeupdate.planetexpress.cc";
 data.default_distro = "lime";
 		</script>
 		<nav class="navbar navbar-expand-sm navbar-light bg-light">
-			<a class="navbar-brand" href="">Chef</a>
+			<a class="navbar-brand" href="" id="title">Chef</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -27,9 +27,16 @@ data.default_distro = "lime";
 			<div class="alert alert-warning">
 				<b>BETA 0.3</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
 			</div>
+			<div class="alert alert-warning" id="lang_changer_langid">
+				<b>LANGUAGE</b> - change the language of this interface (not the resulting firmware image): <select class="language">
+								<option value="de">German</option>
+								<option value="en">English</option>
+								<option value="es">Spanish</option>
+							</select>
+			</div>
 			<style> .advanced_view { display: none; } input[type=text], button, select, textarea { width: 100%; } </style>
 			<div style="display: none" id="download_box" class="alert alert-primary">
-				<h3>Image Created</h3>
+				<h3 id="image_created_langid">Image Created</h3>
 				<div class="row">
 					<div id="download_sysupgrade_div" style="display:none" class="col-md-6">
 						<a href="" id="download_sysupgrade">
@@ -59,35 +66,35 @@ data.default_distro = "lime";
 
 			<form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
 				<div class="form-group row">
-					<label for="distro" class="col-sm-3 col-form-label">Distribution:</label>
+					<label for="distro" class="col-sm-3 col-form-label" id="distro_langid">Distribution:</label>
 					<div class="col-sm-3">
 						<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
 					</div>
-					<label for="release" class="col-sm-2 col-form-label">Release:</label>
+					<label for="release" class="col-sm-2 col-form-label" id="release_langid">Release:</label>
 					<div class="form-group col-md-4">
 						<select class="custom-select" id="release" name="release"></select>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="release" class="col-sm-3 col-form-label">Router Model:</label>
+					<label for="release" class="col-sm-3 col-form-label" id="router_langid">Router Model:</label>
 					<div class="form-group col-md-3">
 						<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
 					</div>
 					<div class="form-group col-md-6">
 						<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
-							<option value="" selected>Start typing</option>
+							<option value="" selected id="start_typing_langid">Start typing</option>
 						</select>
 					</div>
 				</div>
 				<div id="lime_config" style="display: none">
 					<div class="form-group row">
-						<label for="network_profile" class="col-sm-2 col-form-label"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
+						<label for="network_profile" class="col-sm-2 col-form-label"><a href="https://github.com/libremesh/network-profiles/" target="_blank" id="profile_langid">Network Profile:</a></label>
 						<div class="form-group col-md-4">
 							<select class="custom-select" name="network_profile">
-								<option value="" selected>None</option>
+								<option value="" selected id="none_langid">None</option>
 							</select>
 						</div>
-						<label for="flavor" class="col-sm-2 col-form-label">LibreMesh Flavor:</a></label>
+						<label for="flavor" class="col-sm-2 col-form-label"id="flavor_langid">LibreMesh Flavor:</a></label>
 						<div class="form-group col-md-4">
 							<select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
 						</div>
@@ -98,12 +105,12 @@ data.default_distro = "lime";
 						<button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success" disabled>Create Image</button>
 					</div>
 					<div class="form-check col-md-3">
-						<label class="form-check-label">
+						<label class="form-check-label" id="advanced_langid">
 							<input onclick="toggle_advanced_view()" type="checkbox" name="advanced_view" class="form-check-input">Advanced
 						</label>
 					</div>
 					<div class="form-group col-md-6" >
-						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view" disabled>Edit packages</button>
+						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" id="btn_edit_packages" class="btn btn-primary advanced_view" disabled>Edit packages</button>
 						<div id="edit_packages_div" style="display:none">
 							<label for="edit_packages" class="col-md-3 col-form-label">Packages:</label>
 							<textarea id="edit_packages" name="edit_packages" rows=20></textarea>
@@ -116,5 +123,59 @@ data.default_distro = "lime";
 			<script src="jquery-3.2.1.slim.min.js"></script>
 			<script src="popper.min.js"></script>
 			<script src="bootstrap.min.js"></script>
+			<script type="text/javascript" src="l10n/json2.js"></script>
+			<script type="text/javascript" src="l10n/l10n.js"></script>
+			<script type="text/javascript" src="l10n/localizations.js"></script>
+
+			<script type="text/javascript">
+				if (location.hash) {
+					String.locale = location.hash.substr(1);
+				}
+
+				var localize = function (string, fallback) {
+					var localized = string.toLocaleString();
+					if (localized !== string) {
+						return localized;
+					} else {
+						return fallback;
+					}
+				};
+
+				var info = document.getElementById("info").firstChild,
+				beta_warning_langid = document.getElementById("beta_warning_langid").firstChild,
+				image_created_langid = document.getElementById("image_created_langid").firstChild,
+				lang_changer_langid = document.getElementById("lang_changer_langid").firstChild,
+				start_typing_langid = document.getElementById("start_typing_langid").firstChild,
+				distro_langid = document.getElementById("distro_langid").firstChild,
+				release_langid = document.getElementById("release_langid").firstChild,
+				router_langid = document.getElementById("router_langid").firstChild,
+				flavor_langid = document.getElementById("flavor_langid").firstChild,
+				btn_create = document.getElementById("btn_create").firstChild,
+				profile_langid = document.getElementById("profile_langid").firstChild,
+				btn_edit_packages = document.getElementById("btn_edit_packages").firstChild,
+				advanced_langid = document.getElementById("advanced_langid").firstChild,
+				none_langid = document.getElementById("none_langid").firstChild,
+				title = document.getElementById("title").firstChild;
+
+// I haven't finished this. I didn't make an entry above for all the translatable values, and I didn't copy them all into the list below. There must be a way to automate this, instead of copying and pasting the same ID so many times!!!!
+// Each ID name appears 6 times in this document. That's too much repetitive typing or copy/pasting.
+				beta_warning_langid.nodeValue = localize("%beta_warning_langid", beta_warning_langid.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				info.nodeValue = localize("%info", info.nodeValue);
+				document.title = title.nodeValue = localize("%title", title.nodeValue);
+				document.documentElement.dir = localize("%locale.dir", document.documentElement.dir);
+
+				document.documentElement.lang = String.locale || document.documentElement.lang;
+				</script>
 	</body>
 </html>
