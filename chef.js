@@ -3,6 +3,14 @@ function $(s) {
 	return document.getElementById(s.substring(1));
 }
 
+function show(s) {
+  $(s).style.display = 'block';
+}
+
+function hide(s) {
+  $(s).style.display = 'none';
+}
+
 var delay_timer;
 function search_delayed() {
 	clearTimeout(delay_timer);
@@ -200,7 +208,7 @@ function edit_packages_update() {
 
 function packages_input() {
 	load_packages_image();
-	$("#edit_packages_div").style.display = "block";
+	$("#edit_packages_div").show();
 }
 
 function diff_packages(packages_diff) {
@@ -234,11 +242,11 @@ function distro_changed() {
 		}
 	}
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
-		$("#lime_config").style.display = "block";
+		$("#lime_config").show();
 		document.request_form.flavor.selectedIndex = 2; // lime_default
 		flavor = "lime_default";
 	}  else {
-		$("#lime_config").style.display = "none";
+		$("#lime_config").hide();
 		document.request_form.flavor.selectedIndex = 0; // None
 		flavor = "";
 		packages_flavor = []
@@ -252,8 +260,8 @@ function create() {
 	$("#download_factory_div").style = "display:none"
 	$("#download_box").style = "display:none";
 	$("#files_box").innerHTML = "Advanced view";
-	$("#info_box").style.display = "none";
-	$("#error_box").style.display = "none";
+	$("#info_box").hide();
+	$("#error_box").hide();
 	packages = [];
 	delete hash
 	edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
@@ -294,14 +302,14 @@ function bootstrap() {
 
 // shows notification if update is available
 function info_box(info_output) {
-	$("#info_box").style.display = "block";
+	$("#info_box").show();
 	$("#info_box").innerHTML = info_output;
 }
 
 function error_box(error_output) {
-	$("#error_box").style.display = "block";
+	$("#error_box").show();
 	$("#error_box").innerHTML = error_output;
-	$("#info_box").style.display = "none";
+	$("#info_box").hide();
 }
 
 // requests to the update server
