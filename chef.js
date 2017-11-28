@@ -4,11 +4,34 @@ function $(s) {
 }
 
 function show(s) {
-  $(s).style.display = 'block';
+	$(s).style.display = 'block';
 }
 
 function hide(s) {
-  $(s).style.display = 'none';
+	$(s).style.display = 'none';
+}
+
+function tr(id) {
+	var mapping = translations[config.language];
+	if (id in mapping) {
+		return mapping[id];
+	} else {
+		console.log('Missing translation of token "' + id + '" (' + config.language + ')');
+		return id;
+	}
+}
+
+// Change the translation of the entire document
+function changeTranslation() {
+	var mapping = translations[config.language];
+	for (var id in mapping) {
+		var elements = document.getElementsByClassName(id);
+		for (var i in elements) {
+			if (elements.hasOwnProperty(i)) {
+				elements[i].innerHTML = mapping[id];
+			}
+		}
+	}
 }
 
 var delay_timer;
@@ -208,7 +231,7 @@ function edit_packages_update() {
 
 function packages_input() {
 	load_packages_image();
-	$("#edit_packages_div").show();
+	show("#edit_packages_div")
 }
 
 function diff_packages(packages_diff) {
@@ -242,11 +265,11 @@ function distro_changed() {
 		}
 	}
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
-		$("#lime_config").show();
+		show("#lime_config");
 		document.request_form.flavor.selectedIndex = 2; // lime_default
 		flavor = "lime_default";
 	}  else {
-		$("#lime_config").hide();
+		hide("#lime_config");
 		document.request_form.flavor.selectedIndex = 0; // None
 		flavor = "";
 		packages_flavor = []
@@ -257,11 +280,11 @@ function distro_changed() {
 }
 
 function create() {
-	$("#download_factory_div").style = "display:none"
-	$("#download_box").style = "display:none";
+	hide("#download_factory_div");
+	hide("#download_box");
 	$("#files_box").innerHTML = "Advanced view";
-	$("#info_box").hide();
-	$("#error_box").hide();
+	hide("#info_box");
+	hide("#error_box");
 	packages = [];
 	delete hash
 	edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
@@ -302,14 +325,14 @@ function bootstrap() {
 
 // shows notification if update is available
 function info_box(info_output) {
-	$("#info_box").show();
 	$("#info_box").innerHTML = info_output;
+	show("#info_box");
 }
 
 function error_box(error_output) {
-	$("#error_box").show();
+	hide("#info_box");
+	show("#error_box");
 	$("#error_box").innerHTML = error_output;
-	$("#info_box").hide();
 }
 
 // requests to the update server
@@ -402,15 +425,15 @@ function image_request_handler(response) {
 		// ready to download
 		files_url = response_content.files
 		load_files();
-		$("#info_box").style = "display:none";
-		$("#download_box").style = "display:block";
+		hide("#info_box");
+		show("#download_box");
 
 		if("sysupgrade" in response_content) {
 			$("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
 			$("#download_checksum").innerHTML = "<b>MD5:</b>" + response_content.checksum
-			$("#download_sysupgrade_div").style = "display:block"
+			show("#download_sysupgrade_div");
 		} else {
-			$("#download_sysupgrade_div").style = "display:none"
+			hide("#download_sysupgrade_div");
 		}
 		$("#download_build_log").setAttribute('href', response_content.log)
 		location.hash = response_content.image_hash
@@ -450,16 +473,15 @@ function load_files() {
 		if(factory_files.length == 1) {
 			data.factory = files_url + factory_files[0]
 			$("#download_factory").setAttribute('href', data.factory)
-			$("#download_factory_div").style = "display:block"
+			show("#download_factory_div");
 			if (!document.request_form.advanced_view.checked) {
-				$("#files_box").style = "display:none"
+				hide("#files_box");
 			}
 		} else {
 			data.factory = ""
-			$("#download_factory_div").style = "display:none"
-			$("#files_box").style = "display:block"
+			hide("#download_factory_div");
+			show("#files_box");
 		}
-
 		files_box.appendChild(list);
 	}
 }
