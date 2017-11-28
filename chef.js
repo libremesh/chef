@@ -1,3 +1,8 @@
+function $(s) {
+	return document.getElementById(s.substring(1));
+	return document.getElementById(s.substring(1));
+}
+
 var delay_timer;
 function search_delayed() {
 	clearTimeout(delay_timer);
@@ -5,11 +10,11 @@ function search_delayed() {
 }
 
 function search() {
-	var device = document.getElementById("search_device").value;
+	var device = $("#search_device").value;
 	if(device.length < 3) { return }
 
-	var distro = document.getElementById("distro").value;
-	var release = document.getElementById("release").value;
+	var distro = $("#distro").value;
+	var release = $("#release").value;
 
 	request_url = data.update_server + "/api/models?model_search=" + device + "&distro=" + distro + "&release=" + release
 
@@ -127,9 +132,9 @@ function load_network_profiles() {
 
 function load_releases() {
 	var xmlhttp = new XMLHttpRequest();
-	var device = document.getElementById("search_device").value;
-	var distro = document.getElementById("distro").value;
-	var release = document.getElementById("release").value;
+	var device = $("#search_device").value;
+	var distro = $("#distro").value;
+	var release = $("#release").value;
 
 	request_url = data.update_server + "/api/releases"
 
@@ -157,9 +162,9 @@ function set_device_info() {
 
 function load_packages_image() {
 	var xmlhttp = new XMLHttpRequest();
-	var device = document.getElementById("search_device").value;
-	var distro = document.getElementById("distro").value;
-	var release = document.getElementById("release").value;
+	var device = $("#search_device").value;
+	var distro = $("#distro").value;
+	var release = $("#release").value;
 	set_device_info()
 	if(typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
 
@@ -195,7 +200,7 @@ function edit_packages_update() {
 
 function packages_input() {
 	load_packages_image();
-	document.getElementById("edit_packages_div").style.display = "block";
+	$("#edit_packages_div").style.display = "block";
 }
 
 function diff_packages(packages_diff) {
@@ -229,11 +234,11 @@ function distro_changed() {
 		}
 	}
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
-		document.getElementById("lime_config").style.display = "block";
+		$("#lime_config").style.display = "block";
 		document.request_form.flavor.selectedIndex = 2; // lime_default
 		flavor = "lime_default";
 	}  else {
-		document.getElementById("lime_config").style.display = "none";
+		$("#lime_config").style.display = "none";
 		document.request_form.flavor.selectedIndex = 0; // None
 		flavor = "";
 		packages_flavor = []
@@ -244,11 +249,11 @@ function distro_changed() {
 }
 
 function create() {
-	document.getElementById("download_factory_div").style = "display:none"
-	document.getElementById("download_box").style = "display:none";
-	document.getElementById("files_box").innerHTML = "Advanced view";
-	document.getElementById("info_box").style.display = "none";
-	document.getElementById("error_box").style.display = "none";
+	$("#download_factory_div").style = "display:none"
+	$("#download_box").style = "display:none";
+	$("#files_box").innerHTML = "Advanced view";
+	$("#info_box").style.display = "none";
+	$("#error_box").style.display = "none";
 	packages = [];
 	delete hash
 	edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
@@ -289,14 +294,14 @@ function bootstrap() {
 
 // shows notification if update is available
 function info_box(info_output) {
-	document.getElementById("info_box").style.display = "block";
-	document.getElementById("info_box").innerHTML = info_output;
+	$("#info_box").style.display = "block";
+	$("#info_box").innerHTML = info_output;
 }
 
 function error_box(error_output) {
-	document.getElementById("error_box").style.display = "block";
-	document.getElementById("error_box").innerHTML = error_output;
-	document.getElementById("info_box").style.display = "none";
+	$("#error_box").style.display = "block";
+	$("#error_box").innerHTML = error_output;
+	$("#info_box").style.display = "none";
 }
 
 // requests to the update server
@@ -389,17 +394,17 @@ function image_request_handler(response) {
 		// ready to download
 		files_url = response_content.files
 		load_files();
-		document.getElementById("info_box").style = "display:none";
-		document.getElementById("download_box").style = "display:block";
+		$("#info_box").style = "display:none";
+		$("#download_box").style = "display:block";
 
 		if("sysupgrade" in response_content) {
-			document.getElementById("download_sysupgrade").setAttribute('href', response_content.sysupgrade)
-			document.getElementById("download_checksum").innerHTML = "<b>MD5:</b>" + response_content.checksum
-			document.getElementById("download_sysupgrade_div").style = "display:block"
+			$("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
+			$("#download_checksum").innerHTML = "<b>MD5:</b>" + response_content.checksum
+			$("#download_sysupgrade_div").style = "display:block"
 		} else {
-			document.getElementById("download_sysupgrade_div").style = "display:none"
+			$("#download_sysupgrade_div").style = "display:none"
 		}
-		document.getElementById("download_build_log").setAttribute('href', response_content.log)
+		$("#download_build_log").setAttribute('href', response_content.log)
 		location.hash = response_content.image_hash
 	}
 }
@@ -418,7 +423,7 @@ function load_files() {
 
 	function releases_results(xmlhttp) {
 		response_content = JSON.parse(xmlhttp.responseText);
-		files_box = document.getElementById("files_box")
+		files_box = $("#files_box")
 		files_box.innerHTML = "</br><h5>Created files</h5>"
 		var list = document.createElement('ul');
 
@@ -436,15 +441,15 @@ function load_files() {
 		}
 		if(factory_files.length == 1) {
 			data.factory = files_url + factory_files[0]
-			document.getElementById("download_factory").setAttribute('href', data.factory)
-			document.getElementById("download_factory_div").style = "display:block"
+			$("#download_factory").setAttribute('href', data.factory)
+			$("#download_factory_div").style = "display:block"
 			if (!document.request_form.advanced_view.checked) {
-				document.getElementById("files_box").style = "display:none"
+				$("#files_box").style = "display:none"
 			}
 		} else {
 			data.factory = ""
-			document.getElementById("download_factory_div").style = "display:none"
-			document.getElementById("files_box").style = "display:block"
+			$("#download_factory_div").style = "display:none"
+			$("#files_box").style = "display:block"
 		}
 
 		files_box.appendChild(list);
