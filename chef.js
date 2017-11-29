@@ -165,6 +165,7 @@ function load_network_profiles() {
 		for(var i = 0; i < network_profiles.length; i++) {
 			network_profiles_length = document.request_form.network_profile.length;
 			document.request_form.network_profile[network_profiles_length] = new Option(network_profiles[i])
+			document.request_form.network_profile[network_profiles_length].value = "np-" + network_profiles[i].replace(/\//g, "-")
 		}
 	}
 };
@@ -233,6 +234,9 @@ function edit_packages_update() {
 		packages = diff_packages(packages_image.concat(packages_flavor))
 	} else {
 		packages = packages_image.slice()
+	}
+	if (document.request_form.network_profile.value != "") {
+		packages[packages.length] = document.request_form.network_profile.value
 	}
 	document.request_form.edit_packages.value = packages.join("\n");
 }
@@ -374,7 +378,6 @@ function image_request() {
 		request_dict.target = profile_split[0]
 		request_dict.subtarget = profile_split[1]
 		request_dict.board = profile_split[2]
-		request_dict.network_profile = document.request_form.network_profile.value
 		if (packages != "") {
 			request_dict.packages = packages
 		}
@@ -383,7 +386,7 @@ function image_request() {
 }
 
 function image_request_handler(response) {
-	response_content = JSON.parse(response.responseText)
+	var response_content = JSON.parse(response.responseText)
 	hash = response_content.request_hash
 	if (response.status === 400) {
 		error_box_content = response_content.error
@@ -415,7 +418,7 @@ function image_request_handler(response) {
 		if(imagebuilder === "queue") {
 			// in queue
 			var queue = response.getResponseHeader("X-Build-Queue-Position");
-			info_box(tr("tr-build-position"))
+			info_box(tr("tr-queue-position"))
 			console.log("queued");
 		} else if(imagebuilder === "initialize") {
 			info_box(tr("tr-initialize-imagebuilder"));
@@ -461,7 +464,7 @@ function load_files() {
 	xmlhttp.send(null);
 
 	function releases_results(xmlhttp) {
-		response_content = JSON.parse(xmlhttp.responseText);
+		var response_content = JSON.parse(xmlhttp.responseText);
 		files_box = $("#files_box")
 		files_box.innerHTML = "</br><h5>Created files</h5>"
 		var list = document.createElement('ul');
