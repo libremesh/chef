@@ -1,6 +1,22 @@
 {
+	"tr-server-down": "Server down",
+	"tr-unsupported": "Unsupported device, release, target, subtraget or board.",
+	"tr-no-sysupgrade": "No sysupgrade file produced, may not supported by modell.",
+	"tr-filesize": "No firmware created due to image size. Try again with less packages selected.",
+	"tr-unknown-package": "Unknown package in request",
+	"tr-overload": "Please wait, server is overloaded",
+	"tr-buildlog": "Build log",
 	"tr-advanced": "Advanced",
 	"tr-building": "Building firmware.",
-	"tr-imagebuilder-not-ready": "Initializing ImageBuilder",
-	"tr-queue-position": "You are in build queue position "
+	"tr-initialize-imagebuilder": "Initializing ImageBuilder",
+	"tr-queue-position": "You are in build queue position ",
+	"tr-created": "Image created",
+	"tr-distro": "Distribution",
+	"tr-release": "Release",
+	"tr-model": "Router Model",
+	"tr-start-typing": "Start typing...",
+	"tr-network-profile": "Network Profile",
+	"tr-flavor": "Flavor",
+	"tr-edit-packages": "Edit packages",
+	"tr-packages": "Packages"
 }

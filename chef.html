@@ -40,7 +40,7 @@ data.default_distro = "lime";
 			</div>
 			<style> .advanced_view { display: none; } input[type=text], button, select, textarea { width: 100%; } </style>
 			<div style="display: none" id="download_box" class="alert alert-primary">
-				<h3>Image Created</h3>
+				<h3 class="tr-created">Image Created</h3>
 				<div class="row">
 					<div id="download_sysupgrade_div" style="display:none" class="col-md-6">
 						<a href="" id="download_sysupgrade">
@@ -70,35 +70,35 @@ data.default_distro = "lime";
 
 			<form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
 				<div class="form-group row">
-					<label for="distro" class="col-sm-3 col-form-label">Distribution:</label>
+					<label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
 					<div class="col-sm-3">
 						<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
 					</div>
-					<label for="release" class="col-sm-2 col-form-label">Release:</label>
+					<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
 					<div class="form-group col-md-4">
 						<select class="custom-select" id="release" name="release"></select>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="release" class="col-sm-3 col-form-label">Router Model:</label>
+					<label for="release" class="col-sm-3 col-form-label tr-model">Router Model:</label>
 					<div class="form-group col-md-3">
 						<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
 					</div>
 					<div class="form-group col-md-6">
 						<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
-							<option value="" id="start_typing_langid" selected>Start typing</option>
+							<option value="" class="tr-start-typing" selected>Start typing</option>
 						</select>
 					</div>
 				</div>
 				<div id="lime_config" style="display: none">
 					<div class="form-group row">
-						<label for="network_profile" class="col-sm-2 col-form-label"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
+						<label for="network_profile" class="col-sm-2 col-form-label tr-network-profile"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
 						<div class="form-group col-md-4">
 							<select class="custom-select" name="network_profile">
 								<option value="" selected>None</option>
 							</select>
 						</div>
-						<label for="flavor" class="col-sm-2 col-form-label">LibreMesh Flavor:</a></label>
+						<label for="flavor" class="col-sm-2 col-form-label tr-flavor">LibreMesh Flavor:</a></label>
 						<div class="form-group col-md-4">
 							<select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
 						</div>
@@ -113,9 +113,9 @@ data.default_distro = "lime";
 						<label class="form-check-label tr-advanced" for="advanced_view">Advanced</label>
 					</div>
 					<div class="form-group col-md-6" >
-						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view" disabled>Edit packages</button>
+						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view tr-edit-packages" disabled>Edit packages</button>
 						<div id="edit_packages_div" style="display:none">
-							<label for="edit_packages" class="col-md-3 col-form-label">Packages:</label>
+							<label for="edit_packages" class="col-md-3 col-form-label tr-packages">Packages:</label>
 							<textarea id="edit_packages" name="edit_packages" rows=20></textarea>
 						</div>
 					</div>

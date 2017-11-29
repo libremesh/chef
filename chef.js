@@ -355,7 +355,7 @@ function server_request(request_dict, path, callback) {
 	xmlhttp.open(method, url, true);
 	xmlhttp.setRequestHeader("Content-type", "application/json");
 	xmlhttp.onerror = function(e) {
-		error_box("Update server down")
+		error_box(tr("tr-server-down"))
 	};
 	xmlhttp.onload = function () {
 		callback(xmlhttp)
@@ -393,21 +393,21 @@ function image_request_handler(response) {
 		error_box(error_box_content)
 	} else if (response.status === 412) {
 		// this is a bit generic
-		error_box("Unsupported device, release, target, subtraget or board")
+		error_box(tr("tr-unsupported"))
 	} else if (response.status === 413) {
-		error_box("No firmware created due to image size. Try again with less packages selected.")
+		error_box(tr("tr-filesize"))
 	} else if (response.status === 422) {
-		error_box("Unknown package in request")
+		error_box(tr("tr-unknown-package"))
 	} else if (response.status === 501) {
-		error_box("No sysupgrade file produced, may not supported by modell.")
+		error_box(tr("tr-no-sysupgrade"))
 	} else if (response.status === 500) {
 		error_box_content = response_content.error
 		if('log' in response_content) {
-			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
+			error_box_content += ' <a href="' + response_content.log + '">' + tr("tr-buildlog") + '</a>'
 		}
 		error_box(error_box_content)
 	} else if (response.status === 503) {
-		error_box("please wait. server overloaded")
+		error_box(tr("tr-overload"))
 		// handle overload
 		setTimeout(image_request, 30000)
 	} else if (response.status === 202) {
@@ -415,16 +415,16 @@ function image_request_handler(response) {
 		if(imagebuilder === "queue") {
 			// in queue
 			var queue = response.getResponseHeader("X-Build-Queue-Position");
-			info_box(tr("#tr-build-position"))
+			info_box(tr("tr-build-position"))
 			console.log("queued");
 		} else if(imagebuilder === "initialize") {
-			info_box("imagebuilder not ready, please wait");
+			info_box(tr("tr-initialize-imagebuilder"));
 			console.log("Setting up imagebuilder");
 		} else if(imagebuilder === "building") {
 			info_box(tr("tr-building"));
 			console.log("building");
 		} else {
-			info_box("Processing request");
+			info_box("Processing request"); // should never be shown
 			console.log(imagebuilder)
 		}
 		setTimeout(image_request, 5000);
