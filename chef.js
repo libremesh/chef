@@ -1,6 +1,5 @@
 function $(s) {
 	return document.getElementById(s.substring(1));
-	return document.getElementById(s.substring(1));
 }
 
 function show(s) {
@@ -11,6 +10,28 @@ function hide(s) {
 	$(s).style.display = 'none';
 }
 
+function translate() {
+	config.language = $("#lang").value;
+	var xmlhttp = new XMLHttpRequest();
+	console.log("request lang " + config.language)
+	xmlhttp.open("GET", "i10n/" + config.language + ".json", true);
+	xmlhttp.setRequestHeader("Content-type", "application/json");
+
+	xmlhttp.onload = function() {
+		translations[config.language] = JSON.parse(xmlhttp.responseText);
+		var mapping = translations[config.language];
+		for (var id in mapping) {
+			var elements = document.getElementsByClassName(id);
+			for (var i in elements) {
+				if (elements.hasOwnProperty(i)) {
+					elements[i].innerHTML = mapping[id];
+				}
+			}
+		}
+	}
+	xmlhttp.send(null);
+};
+
 function tr(id) {
 	var mapping = translations[config.language];
 	if (id in mapping) {
@@ -18,19 +39,6 @@ function tr(id) {
 	} else {
 		console.log('Missing translation of token "' + id + '" (' + config.language + ')');
 		return id;
-	}
-}
-
-// Change the translation of the entire document
-function changeTranslation() {
-	var mapping = translations[config.language];
-	for (var id in mapping) {
-		var elements = document.getElementsByClassName(id);
-		for (var i in elements) {
-			if (elements.hasOwnProperty(i)) {
-				elements[i].innerHTML = mapping[id];
-			}
-		}
 	}
 }
 
@@ -407,13 +415,13 @@ function image_request_handler(response) {
 		if(imagebuilder === "queue") {
 			// in queue
 			var queue = response.getResponseHeader("X-Build-Queue-Position");
-			info_box("You are in build queue position " + queue);
+			info_box(tr("#tr-build-position"))
 			console.log("queued");
 		} else if(imagebuilder === "initialize") {
 			info_box("imagebuilder not ready, please wait");
 			console.log("Setting up imagebuilder");
 		} else if(imagebuilder === "building") {
-			info_box("Building image");
+			info_box(tr("tr-building"));
 			console.log("building");
 		} else {
 			info_box("Processing request");
@@ -485,6 +493,10 @@ function load_files() {
 		files_box.appendChild(list);
 	}
 }
+
+translations = {};
+config = {};
+translate();
 
 // so here it begins
 window.onload = bootstrap;

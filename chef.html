@@ -24,8 +24,19 @@ data.default_distro = "lime";
 			<div class="alert alert-danger" style="display:none">
 				Server maintenance
 			</div>
-			<div class="alert alert-warning">
-				<b>BETA 0.3</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
+			<div class="row">
+				<div id="download_sysupgrade_div" class="col-md-9">
+					<div class="alert alert-warning">
+						<b>BETA 0.3.1</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<select class="custom-select" id="lang" name="lang" onchange="translate();">
+						<option value="en">English</option>
+						<option value="es">Spanish</option>
+						<option value="de">German</option>
+					</select>
+				</div>
 			</div>
 			<style> .advanced_view { display: none; } input[type=text], button, select, textarea { width: 100%; } </style>
 			<div style="display: none" id="download_box" class="alert alert-primary">
@@ -75,7 +86,7 @@ data.default_distro = "lime";
 					</div>
 					<div class="form-group col-md-6">
 						<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
-							<option value="" selected>Start typing</option>
+							<option value="" id="start_typing_langid" selected>Start typing</option>
 						</select>
 					</div>
 				</div>
@@ -98,9 +109,8 @@ data.default_distro = "lime";
 						<button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success" disabled>Create Image</button>
 					</div>
 					<div class="form-check col-md-3">
-						<label class="form-check-label">
-							<input onclick="toggle_advanced_view()" type="checkbox" name="advanced_view" class="form-check-input">Advanced
-						</label>
+						<input onclick="toggle_advanced_view()" type="checkbox" id="advanced_view" name="advanced_view" class="form-check-input tr-advanced">
+						<label class="form-check-label tr-advanced" for="advanced_view">Advanced</label>
 					</div>
 					<div class="form-group col-md-6" >
 						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view" disabled>Edit packages</button>
