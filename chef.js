@@ -306,6 +306,24 @@ function create() {
 			packages.push(package_trimmed)
 		}
 	}
+	request_dict = {}
+	request_dict.distro = document.request_form.distro.value;
+	request_dict.version = document.request_form.release.value;
+	profile_split = document.request_form.profile.value.split("/");
+	request_dict.target = profile_split[0]
+	request_dict.subtarget = profile_split[1]
+	request_dict.board = profile_split[2]
+	if (packages != "") {
+		request_dict.packages = packages
+	}
+	var shaObj = new jsSHA("SHA-256", "TEXT");
+	pkg_hash_sort = packages.sort()
+	shaObj.update(pkg_hash_sort.join(" "))
+	pkg_hash = shaObj.getHash("HEX").substring(0, 12);
+	hash_string = [request_dict.distro, request_dict.version,request_dict.target, request_dict.subtarget, request_dict.board, pkg_hash, ""].join(" ")
+	var shaObj = new jsSHA("SHA-256", "TEXT");
+	shaObj.update(hash_string)
+	hash = shaObj.getHash("HEX").substring(0, 12);
 	image_request()
 }
 
@@ -371,16 +389,6 @@ function image_request() {
 	if(typeof hash != 'undefined') {
 		server_request("", "api/build-request/" + hash, image_request_handler)
 	} else {
-		var request_dict = {}
-		request_dict.distro = document.request_form.distro.value;
-		request_dict.version = document.request_form.release.value;
-		profile_split = document.request_form.profile.value.split("/");
-		request_dict.target = profile_split[0]
-		request_dict.subtarget = profile_split[1]
-		request_dict.board = profile_split[2]
-		if (packages != "") {
-			request_dict.packages = packages
-		}
 		server_request(request_dict, "api/build-request", image_request_handler)
 	}
 }
@@ -394,6 +402,9 @@ function image_request_handler(response) {
 			error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
 		}
 		error_box(error_box_content)
+	} else if (response.status === 404) {
+		delete hash;
+		image_request();
 	} else if (response.status === 412) {
 		// this is a bit generic
 		error_box(tr("tr-unsupported"))
