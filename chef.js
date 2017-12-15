@@ -158,7 +158,7 @@ function get_distro_releases(distro) {
 
 function load_network_profiles() {
 	var xmlhttp = new XMLHttpRequest();
-	request_url = "http://repo.libremesh.org/network-profiles/Packages";
+	request_url = "https://repo.libremesh.org/network-profiles/Packages";
 
 	xmlhttp.open("GET", request_url, true);
 
