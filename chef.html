@@ -28,7 +28,7 @@ data.default_distro = "lime";
 			<div class="row">
 				<div class="col-md-9">
 					<div class="alert alert-warning">
-						<b>BETA 0.6</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
+						<b>BETA 0.7</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -96,7 +96,7 @@ data.default_distro = "lime";
 					<div class="form-group row">
 						<label for="network_profile" class="col-sm-2 col-form-label tr-network-profile"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
 						<div class="form-group col-md-4">
-							<select class="custom-select" name="network_profile">
+							<select class="custom-select" name="network_profile" onchange="edit_packages_update()">
 								<option value="" selected>None</option>
 							</select>
 						</div>

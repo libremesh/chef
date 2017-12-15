@@ -158,7 +158,7 @@ function get_distro_releases(distro) {
 
 function load_network_profiles() {
 	var xmlhttp = new XMLHttpRequest();
-	request_url = data.update_server + "/api/network_profiles";
+	request_url = "http://repo.libremesh.org/network-profiles/Packages";
 
 	xmlhttp.open("GET", request_url, true);
 
@@ -170,12 +170,15 @@ function load_network_profiles() {
 	xmlhttp.send(null);
 
 	function network_profiles_results(xmlhttp) {
-		network_profiles = JSON.parse(xmlhttp.responseText);
+		var network_profiles = xmlhttp.responseText.split("\n");
 
 		for(var i = 0; i < network_profiles.length; i++) {
-			network_profiles_length = document.request_form.network_profile.length;
-			document.request_form.network_profile[network_profiles_length] = new Option(network_profiles[i])
-			document.request_form.network_profile[network_profiles_length].value = "np-" + network_profiles[i].replace(/\//g, "-")
+			if (network_profiles[i].startsWith("Package: ")) {
+				var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
+				var network_profiles_length = document.request_form.network_profile.length;
+				document.request_form.network_profile[network_profiles_length] = new Option(network_profile.substr(3)) // remove leading "np-"
+				document.request_form.network_profile[network_profiles_length].value = network_profile
+			}
 		}
 	}
 };
@@ -276,9 +279,6 @@ function diff_packages(packages_diff) {
 }
 
 function distro_changed() {
-
-	hide("#download_box")
-
 	var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
 	$("#release_div").innerHTML = ""
 	if (document.request_form.advanced_view.checked) {
