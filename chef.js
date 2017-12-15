@@ -146,6 +146,16 @@ function profile_changed() {
 	load_packages_image();
 }
 
+function get_distro_releases(distro) {
+	var distro_releases = []
+	for(var i = 0; i < releases.length; i++) {
+		if(releases[i].distro == distro) {
+			distro_releases[distro_releases.length] = releases[i].release
+		}
+	}
+	return distro_releases
+}
+
 function load_network_profiles() {
 	var xmlhttp = new XMLHttpRequest();
 	request_url = data.update_server + "/api/network_profiles";
@@ -174,7 +184,7 @@ function load_releases() {
 	var xmlhttp = new XMLHttpRequest();
 	var device = $("#search_device").value;
 	var distro = $("#distro").value;
-	var release = $("#release").value;
+	//var release = $("#release").value;
 
 	request_url = data.update_server + "/api/releases"
 
@@ -266,14 +276,29 @@ function diff_packages(packages_diff) {
 }
 
 function distro_changed() {
-	document.request_form.release.options.length = 0;
 
-	for(var i = 0; i < releases.length; i++) {
-		if(releases[i].distro === document.request_form.distro[document.request_form.distro.selectedIndex].value) {
-			release_length = document.request_form.release.length
-			document.request_form.release[release_length] = new Option(releases[i].release)
+	hide("#download_box")
+
+	var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
+	$("#release_div").innerHTML = ""
+	if (document.request_form.advanced_view.checked) {
+		var releases_select = document.createElement("select")
+		releases_select.id = "release"
+		releases_select.classList = "custom-select"
+		for(var i = 0; i < distro_releases.length; i++) {
+			releases_select[releases_select.length] = new Option(distro_releases[i])
 		}
+		$("#release_div").appendChild(releases_select)
+	} else {
+		releases_text = document.createElement("input")
+		releases_text.type = "text"
+		releases_text.readOnly = true
+		releases_text.classList = "form-control-plaintext"
+		releases_text.id = "release"
+		releases_text.value = distro_releases[0]
+		$("#release_div").appendChild(releases_text)
 	}
+
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
 		show("#lime_config");
 		document.request_form.flavor.selectedIndex = 2; // lime_default
@@ -336,6 +361,7 @@ function toggle_advanced_view() {
 	for(var i = 0; i < advanced_elements.length; i++) {
 		advanced_elements[i].style.display = action;
 	}
+	distro_changed()
 }
 
 function bootstrap() {

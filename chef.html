@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script type="text/javascript" src="sha256.js"></script>
 		<script>
-data = {};
+			data = {};
 data.update_server = "https://ledeupdate.planetexpress.cc";
 data.default_distro = "lime";
 		</script>
@@ -28,7 +28,7 @@ data.default_distro = "lime";
 			<div class="row">
 				<div class="col-md-9">
 					<div class="alert alert-warning">
-						<b>BETA 0.5</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
+						<b>BETA 0.6</b> - please report errors to <a href="https://lists.libremesh.org/mailman/listinfo/lime-users">lime-users</a>
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -76,10 +76,10 @@ data.default_distro = "lime";
 					<div class="col-sm-3">
 						<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
 					</div>
-					<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
-					<div class="form-group col-md-4">
-						<select class="custom-select" id="release" name="release"></select>
-					</div>
+						<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
+						<div class="form-group col-md-4" id="release_div">
+							<input type="text" readonly class="form-control-plaintext" value="Loading" id="release">
+						</div>
 				</div>
 				<div class="form-group row">
 					<label for="release" class="col-sm-3 col-form-label tr-model">Router Model:</label>
