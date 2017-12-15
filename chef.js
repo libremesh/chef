@@ -270,10 +270,8 @@ function distro_changed() {
 
 	for(var i = 0; i < releases.length; i++) {
 		if(releases[i].distro === document.request_form.distro[document.request_form.distro.selectedIndex].value) {
-			if(releases[i].release != "snapshot") {
-				release_length = document.request_form.release.length
-				document.request_form.release[release_length] = new Option(releases[i].release)
-			}
+			release_length = document.request_form.release.length
+			document.request_form.release[release_length] = new Option(releases[i].release)
 		}
 	}
 	if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
