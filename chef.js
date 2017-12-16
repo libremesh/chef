@@ -476,7 +476,6 @@ function image_request_handler(response) {
 
 		if("sysupgrade" in response_content) {
 			$("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
-			$("#download_checksum").innerHTML = "<b>MD5:</b>" + response_content.checksum
 			show("#download_sysupgrade_div");
 		} else {
 			hide("#download_sysupgrade_div");
