@@ -435,7 +435,8 @@ function image_request_handler(response) {
 	} else if (response.status === 413) {
 		error_box(tr("tr-filesize"))
 	} else if (response.status === 422) {
-		error_box(tr("tr-unknown-package"))
+		var package_missing = response.getResponseHeader("X-Unknown-Package");
+		error_box(tr("tr-unknown-package") + ": <b>" + package_missing + "</b>")
 	} else if (response.status === 501) {
 		error_box(tr("tr-no-sysupgrade"))
 	} else if (response.status === 500) {
