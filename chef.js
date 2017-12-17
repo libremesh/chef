@@ -10,6 +10,66 @@ function hide(s) {
 	$(s).style.display = 'none';
 }
 
+function toggle(s) {
+	if($(s).style.display == 'none') {
+		show(s)
+	} else {
+		hide(s)
+	}
+}
+
+function toggle_image_packages() {
+	toggle("#packages_box");
+}
+
+function load_image_info() {
+	var xmlhttp = new XMLHttpRequest();
+	request_url = data.update_server + "/api/image/" + location.hash.substring(1);
+	xmlhttp.open("GET", request_url, true);
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			image_info_results(xmlhttp);
+		}
+	}
+	xmlhttp.send();
+
+	function image_info_results(xmlhttp) {
+		data.image = JSON.parse(xmlhttp.responseText);
+		console.log(data.image)
+		for (var key in data.image) {
+			console.log(key)
+			if($("#image_" + key)) {
+				$("#image_" + key).innerHTML = data.image[key]
+			}
+		}
+		load_image_packages();
+	}
+}
+
+function load_image_packages() {
+	var xmlhttp = new XMLHttpRequest();
+	request_url = data.update_server + "/api/manifest/" + data.image.manifest_hash;
+	xmlhttp.open("GET", request_url, true);
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			image_info_results(xmlhttp);
+		}
+	}
+	xmlhttp.send();
+
+	function image_info_results(xmlhttp) {
+		data.image.packages = JSON.parse(xmlhttp.responseText);
+		console.log(data.image.packages)
+		var list = document.createElement('ul');
+		for (var name in data.image.packages) {
+			var item = document.createElement('li');
+			item.innerHTML = "<b>" + name + "</b> - " + data.image.packages[name] + "</br>"
+			list.appendChild(item)
+		}
+		$("#packages_box").appendChild(list);
+	}
+}
+
 function translate() {
 	config.language = $("#lang").value;
 	var xmlhttp = new XMLHttpRequest();
@@ -369,6 +429,7 @@ function bootstrap() {
 	if(location.hash != "") {
 		hash = location.hash.substring(1)
 		image_request()
+		load_image_info()
 	}
 	packages_flavor = ""
 	load_distros();
@@ -484,6 +545,7 @@ function image_request_handler(response) {
 		}
 		$("#download_build_log").setAttribute('href', response_content.log)
 		location.hash = response_content.image_hash
+		load_image_info()
 	}
 }
 

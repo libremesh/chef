@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script type="text/javascript" src="sha256.js"></script>
 		<script>
-			data = {};
+data = {};
 data.update_server = "https://ledeupdate.planetexpress.cc";
 data.default_distro = "lime";
 		</script>
@@ -29,15 +29,20 @@ data.default_distro = "lime";
 			<p></p>
 			<style> .advanced_view { display: none; } input[type=text], button, select, textarea { width: 100%; } </style>
 			<div style="display: none" id="download_box" class="alert alert-primary">
-				<h3 class="tr-created">Image Created</h3>
+				<h3 class="tr-firmware">Firmware</h3>
 				<div class="row">
+					<div class="col-md-6">
+						Distributions: <span id="image_alias"></span></br>
+						Release: <span id="image_release"></span></br>
+						Target: <span id="image_target"></span></br>
+						Subtarget: <span id="image_subtarget"></span></br>
+						<a href="javascript:toggle_image_packages()">Packages</a>
+					</div>
 					<div id="download_sysupgrade_div" style="display:none" class="col-md-6">
 						<a href="" id="download_sysupgrade">
 							<svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
 							Sysupgrade
 						</a>
-					</div>
-					<div class="col-md-6">
 						<div id="download_factory_div" style="display:none">
 							<a href="" id="download_factory">
 								<svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
@@ -49,6 +54,7 @@ data.default_distro = "lime";
 							Build Log
 						</a>
 					</div>
+					<div id="packages_box" style="display: none"></div>
 				</div>
 				<div id="files_box" class="advanced_view"></div>
 			</div>
