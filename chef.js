@@ -161,7 +161,7 @@ function load_network_profiles() {
 	request_url = "https://repo.libremesh.org/network-profiles/Packages";
 
 	xmlhttp.open("GET", request_url, true);
-	xmlhttp.setRequestHeader("Content-type", "text/plain");
+	xmlhttp.overrideMimeType("text/plain")
 
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
