@@ -161,6 +161,7 @@ function load_network_profiles() {
 	request_url = "https://repo.libremesh.org/network-profiles/Packages";
 
 	xmlhttp.open("GET", request_url, true);
+	xmlhttp.setRequestHeader("Content-type", "text/plain");
 
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -279,6 +280,7 @@ function diff_packages(packages_diff) {
 }
 
 function distro_changed() {
+	console.log("now")
 	var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
 	$("#release_div").innerHTML = ""
 	if (document.request_form.advanced_view.checked) {
@@ -361,7 +363,6 @@ function toggle_advanced_view() {
 	for(var i = 0; i < advanced_elements.length; i++) {
 		advanced_elements[i].style.display = action;
 	}
-	distro_changed()
 }
 
 function bootstrap() {
