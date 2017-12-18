@@ -25,7 +25,7 @@ function toggle_image_packages() {
 function load_image_info() {
 	data.image = {}
 	var xmlhttp = new XMLHttpRequest();
-	request_url = server + "/api/image/" + location.hash.substring(1);
+	var request_url = server + "/api/image/" + location.hash.substring(1);
 	xmlhttp.open("GET", request_url, true);
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -47,9 +47,8 @@ function load_image_info() {
 
 function load_installed_packages() {
 	$("#packages_box").innerHTML = ""
-	data.image = {}
 	var xmlhttp = new XMLHttpRequest();
-	request_url = server + "/api/manifest/" + data.image.manifest_hash;
+	var request_url = server + "/api/manifest/" + data.image.manifest_hash;
 	xmlhttp.open("GET", request_url, true);
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -432,7 +431,6 @@ function bootstrap() {
 	if(location.hash != "") {
 		hash = location.hash.substring(1)
 		image_request()
-		load_image_info()
 	}
 	packages_flavor = ""
 	load_distros();
