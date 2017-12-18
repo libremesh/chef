@@ -23,6 +23,7 @@ function toggle_image_packages() {
 }
 
 function load_image_info() {
+	data.image = {}
 	var xmlhttp = new XMLHttpRequest();
 	request_url = server + "/api/image/" + location.hash.substring(1);
 	xmlhttp.open("GET", request_url, true);
@@ -45,6 +46,8 @@ function load_image_info() {
 }
 
 function load_installed_packages() {
+	$("#packages_box").innerHTML = ""
+	data.image = {}
 	var xmlhttp = new XMLHttpRequest();
 	request_url = server + "/api/manifest/" + data.image.manifest_hash;
 	xmlhttp.open("GET", request_url, true);
@@ -57,6 +60,7 @@ function load_installed_packages() {
 
 	function image_info_results(xmlhttp) {
 		data.image.packages = JSON.parse(xmlhttp.responseText);
+		$("#installed_packages").innerHTML = "Installed packages (" + Object.keys(data.image.packages).length + ")"
 		var list = document.createElement('ul');
 		for (var name in data.image.packages) {
 			var item = document.createElement('li');
