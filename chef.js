@@ -24,7 +24,7 @@ function toggle_image_packages() {
 
 function load_image_info() {
 	var xmlhttp = new XMLHttpRequest();
-	request_url = data.update_server + "/api/image/" + location.hash.substring(1);
+	request_url = server + "/api/image/" + location.hash.substring(1);
 	xmlhttp.open("GET", request_url, true);
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -35,20 +35,18 @@ function load_image_info() {
 
 	function image_info_results(xmlhttp) {
 		data.image = JSON.parse(xmlhttp.responseText);
-		console.log(data.image)
 		for (var key in data.image) {
-			console.log(key)
 			if($("#image_" + key)) {
 				$("#image_" + key).innerHTML = data.image[key]
 			}
 		}
-		load_image_packages();
+		load_installed_packages();
 	}
 }
 
-function load_image_packages() {
+function load_installed_packages() {
 	var xmlhttp = new XMLHttpRequest();
-	request_url = data.update_server + "/api/manifest/" + data.image.manifest_hash;
+	request_url = server + "/api/manifest/" + data.image.manifest_hash;
 	xmlhttp.open("GET", request_url, true);
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -59,7 +57,6 @@ function load_image_packages() {
 
 	function image_info_results(xmlhttp) {
 		data.image.packages = JSON.parse(xmlhttp.responseText);
-		console.log(data.image.packages)
 		var list = document.createElement('ul');
 		for (var name in data.image.packages) {
 			var item = document.createElement('li');
@@ -115,7 +112,7 @@ function search() {
 	var distro = $("#distro").value;
 	var release = $("#release").value;
 
-	request_url = data.update_server + "/api/models?model_search=" + device + "&distro=" + distro + "&release=" + release
+	request_url = server + "/api/models?model_search=" + device + "&distro=" + distro + "&release=" + release
 
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET", request_url, true);
@@ -146,14 +143,14 @@ function search() {
 				document.request_form.profile[i].value = devices[i].target + "/" + devices[i].subtarget + "/" + devices[i].profile
 			}
 		}
-		load_packages_image();
+		load_default_packages();
 		set_device_info();
 	}
 };
 
 function load_distros() {
 	var xmlhttp = new XMLHttpRequest();
-	request_url = data.update_server + "/api/distros";
+	request_url = server + "/api/distros";
 
 	xmlhttp.open("GET", request_url, true);
 
@@ -174,7 +171,7 @@ function load_distros() {
 			document.request_form.distro[distros_length] = new Option(distros[i].name)
 			document.request_form.distro[distros_length].value = distros[i].name
 			document.request_form.distro[distros_length].innerHTML = distros[i].alias
-			if(distros[i].name === data.default_distro) {
+			if(distros[i].name === default_distro) {
 				default_distro_index = i;
 			}
 		}
@@ -195,7 +192,7 @@ function load_flavors() {
 function set_packages_flavor() {
 	packages_flavor = flavors[document.request_form.flavor.value][1].split(" ");
 	if (typeof packages == 'undefined') {
-		load_packages_image();
+		load_default_packages();
 	} else {
 		edit_packages_update();
 	}
@@ -203,7 +200,7 @@ function set_packages_flavor() {
 
 function profile_changed() {
 	set_device_info();
-	load_packages_image();
+	load_default_packages();
 }
 
 function get_distro_releases(distro) {
@@ -250,7 +247,7 @@ function load_releases() {
 	var distro = $("#distro").value;
 	//var release = $("#release").value;
 
-	request_url = data.update_server + "/api/releases"
+	request_url = server + "/api/releases"
 
 	xmlhttp.open("GET", request_url, true);
 
@@ -274,7 +271,7 @@ function set_device_info() {
 	profile = profile_split[2]
 }
 
-function load_packages_image() {
+function load_default_packages() {
 	var xmlhttp = new XMLHttpRequest();
 	var device = $("#search_device").value;
 	var distro = $("#distro").value;
@@ -282,7 +279,7 @@ function load_packages_image() {
 	set_device_info()
 	if(typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
 
-		request_url = data.update_server + "/api/packages_image?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
+		request_url = server + "/api/default_packages?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
 
 		xmlhttp.open("GET", request_url, true);
 
@@ -316,7 +313,7 @@ function edit_packages_update() {
 }
 
 function packages_input() {
-	load_packages_image();
+	load_default_packages();
 	show("#edit_packages_div")
 }
 
@@ -340,7 +337,6 @@ function diff_packages(packages_diff) {
 }
 
 function distro_changed() {
-	console.log("now")
 	var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
 	$("#release_div").innerHTML = ""
 	if (document.request_form.advanced_view.checked) {
@@ -377,6 +373,7 @@ function distro_changed() {
 }
 
 function create() {
+	data = {}
 	hide("#download_factory_div");
 	hide("#download_box");
 	$("#files_box").innerHTML = "Advanced view";
@@ -418,6 +415,7 @@ function toggle_advanced_view() {
 		action = "block"
 	} else {
 		action = "none"
+
 	}
 	var advanced_elements = document.querySelectorAll(".advanced_view");
 	for(var i = 0; i < advanced_elements.length; i++) {
@@ -426,6 +424,7 @@ function toggle_advanced_view() {
 }
 
 function bootstrap() {
+	data = {}
 	if(location.hash != "") {
 		hash = location.hash.substring(1)
 		image_request()
@@ -453,7 +452,7 @@ function error_box(error_output) {
 
 // requests to the update server
 function server_request(request_dict, path, callback) {
-	var url = data.update_server + "/" + path
+	var url = server + "/" + path
 	var xmlhttp = new XMLHttpRequest();
 	if(request_dict != "") {
 		method = "POST"

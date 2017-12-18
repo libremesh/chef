@@ -8,9 +8,8 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script type="text/javascript" src="sha256.js"></script>
 		<script>
-data = {};
-data.update_server = "https://ledeupdate.planetexpress.cc";
-data.default_distro = "lime";
+server = "https://ledeupdate.planetexpress.cc";
+default_distro = "lime";
 		</script>
 	</head>
 	<body>
@@ -28,92 +27,102 @@ data.default_distro = "lime";
 			</nav>
 			<p></p>
 			<style> .advanced_view { display: none; } input[type=text], button, select, textarea { width: 100%; } </style>
-			<div style="display: none" id="download_box" class="alert alert-primary">
-				<h3 class="tr-firmware">Firmware</h3>
-				<div class="row">
-					<div class="col-md-6">
-						Distributions: <span id="image_alias"></span></br>
-						Release: <span id="image_release"></span></br>
-						Target: <span id="image_target"></span></br>
-						Subtarget: <span id="image_subtarget"></span></br>
-						<a href="javascript:toggle_image_packages()">Packages</a>
-					</div>
-					<div id="download_sysupgrade_div" style="display:none" class="col-md-6">
-						<a href="" id="download_sysupgrade">
-							<svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
-							Sysupgrade
-						</a>
-						<div id="download_factory_div" style="display:none">
-							<a href="" id="download_factory">
+
+			<div class="card" id="download_box">
+				<h4 class="card-header">Firmware</h4>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-6">
+							Distributions: <span id="image_alias"></span></br>
+							Release: <span id="image_release"></span></br>
+							Model: <b><span id="image_model"></span></b></br>
+							Target: <span id="image_target"></span></br>
+							Subtarget: <span id="image_subtarget"></span></br>
+							<a href="javascript: toggle('#packages_box');">Packages</a>
+						</div>
+						<div id="download_sysupgrade_div" style="display:none" class="col-md-6">
+							<a href="" id="download_sysupgrade">
 								<svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
-								Factory
+								Sysupgrade
+							</a>
+							<div id="download_factory_div" style="display:none">
+								<a href="" id="download_factory">
+									<svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
+									Factory
+								</a>
+							</div>
+							<a href="" id="download_build_log" class="advanced_view">
+								<svg class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+								Build Log
 							</a>
 						</div>
-						<a href="" id="download_build_log" class="advanced_view">
-							<svg class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
-							Build Log
-						</a>
+						<div id="packages_box" style="display: none"></div>
 					</div>
-					<div id="packages_box" style="display: none"></div>
+					<div id="files_box" class="advanced_view"></div>
 				</div>
-				<div id="files_box" class="advanced_view"></div>
 			</div>
+			<p>
 			<div style="display: none" id="info_box" class="alert alert-success"></div>
 			<div style="display: none" id="error_box" class="alert alert-danger"></div>
+			</p>
+			<div class="card">
+				<h4 class="card-header">Create</h4>
+				<div class="card-body">
+					<form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
+						<div class="form-group row">
+							<label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
+							<div class="col-sm-3">
+								<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
+							</div>
+							<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
+							<div class="form-group col-md-4" id="release_div">
+								<input type="text" readonly class="form-control-plaintext" value="Loading" id="release">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="release" class="col-sm-3 col-form-label tr-model">Router Model:</label>
+							<div class="form-group col-md-3">
+								<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
+							</div>
+							<div class="form-group col-md-6">
+								<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
+									<option value="" class="tr-start-typing" selected>Start typing</option>
+								</select>
+							</div>
+						</div>
+						<div id="lime_config" style="display: none">
+							<div class="form-group row">
+								<label for="network_profile" class="col-sm-3 col-form-label tr-network-profile"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
+								<div class="form-group col-md-3">
+									<select class="custom-select" name="network_profile" onchange="edit_packages_update()">
+										<option value="" selected>None</option>
+									</select>
+								</div>
+								<label for="flavor" class="col-sm-2 col-form-label tr-flavor">LibreMesh Flavor:</a></label>
+								<div class="form-group col-md-4">
+									<select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="form-group col-md-3">
+								<button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success" disabled>Create Image</button>
+							</div>
+							<div class="form-check col-md-3">
+								<input onclick="toggle_advanced_view(); distro_changed();" type="checkbox" id="advanced_view" name="advanced_view" class="form-check-input tr-advanced">
+								<label class="form-check-label tr-advanced" for="advanced_view">Advanced</label>
+							</div>
+							<div class="form-group col-md-6" >
+								<button onclick="toggle('#edit_packages');" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view tr-edit-packages" disabled>Edit packages</button>
+								<div id="edit_packages_div" class="advanced_view">
+									<textarea id="edit_packages" name="edit_packages" rows=15 style="display: none"></textarea>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 
-			<form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
-				<div class="form-group row">
-					<label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
-					<div class="col-sm-3">
-						<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
-					</div>
-					<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
-					<div class="form-group col-md-4" id="release_div">
-						<input type="text" readonly class="form-control-plaintext" value="Loading" id="release">
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="release" class="col-sm-3 col-form-label tr-model">Router Model:</label>
-					<div class="form-group col-md-3">
-						<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
-					</div>
-					<div class="form-group col-md-6">
-						<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
-							<option value="" class="tr-start-typing" selected>Start typing</option>
-						</select>
-					</div>
-				</div>
-				<div id="lime_config" style="display: none">
-					<div class="form-group row">
-						<label for="network_profile" class="col-sm-2 col-form-label tr-network-profile"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
-						<div class="form-group col-md-4">
-							<select class="custom-select" name="network_profile" onchange="edit_packages_update()">
-								<option value="" selected>None</option>
-							</select>
-						</div>
-						<label for="flavor" class="col-sm-2 col-form-label tr-flavor">LibreMesh Flavor:</a></label>
-						<div class="form-group col-md-4">
-							<select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
-						</div>
-					</div>
-				</div>
-				<div class="form-group row">
-					<div class="form-group col-md-3">
-						<button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success" disabled>Create Image</button>
-					</div>
-					<div class="form-check col-md-3">
-						<input onclick="toggle_advanced_view(); distro_changed();" type="checkbox" id="advanced_view" name="advanced_view" class="form-check-input tr-advanced">
-						<label class="form-check-label tr-advanced" for="advanced_view">Advanced</label>
-					</div>
-					<div class="form-group col-md-6" >
-						<button onclick="packages_input(); this.style.display='none'" type="button" name="btn_edit_packages" class="btn btn-primary advanced_view tr-edit-packages" disabled>Edit packages</button>
-						<div id="edit_packages_div" style="display:none">
-							<label for="edit_packages" class="col-md-3 col-form-label tr-packages">Packages:</label>
-							<textarea id="edit_packages" name="edit_packages" rows=20></textarea>
-						</div>
-					</div>
-				</div>
-			</form>
 			<div class="row justify-content-md-center">
 				<div class="col-12 col-md-auto">
 					<a href="https://github.com/libremesh/chef" target="_blank">Source Code</a>
