@@ -1,7 +1,7 @@
 {
 	"tr-server-down": "Server down",
-	"tr-unsupported": "Unsupported device, release, target, subtraget or board.",
-	"tr-no-sysupgrade": "No sysupgrade file produced, may not supported by modell.",
+	"tr-unsupported": "Unsupported device, release, target, subtarget or board.",
+	"tr-no-sysupgrade": "No sysupgrade file produced, may not supported by model.",
 	"tr-filesize": "No firmware created due to image size. Try again with less packages selected.",
 	"tr-unknown-package": "Unknown package in request",
 	"tr-overload": "Please wait, server is overloaded",
