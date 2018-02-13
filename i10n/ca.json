@@ -1,0 +1,22 @@
+{
+	"tr-server-down": "El servidor està aturat",
+	"tr-unsupported": "Dispositiu, llançament, arquitectura, subarquitectura o placa no suportats.",
+	"tr-no-sysupgrade": "No s'ha produït cap fitxer sysupgrade, potser no està suportat per a aquest model.",
+	"tr-filesize": "No s'ha pogut crear el microprogramari degut a la mida de la imatge. Proveu de nou, seleccionant menys paquets.",
+	"tr-unknown-package": "La petició conté un paquet desconegut",
+	"tr-overload": "Si us plau, espereu: el servidor està sobrecarregat",
+	"tr-buildlog": "Registre del procés de log",
+	"tr-advanced": "Opcions avançades",
+	"tr-building": "S'està generant el microprogramari.",
+	"tr-initialize-imagebuilder": "Inicialitzant l'ImageBuilder",
+	"tr-queue-position": "Us trobeu en la posició de la cua de compilació ",
+	"tr-created": "S'ha creat la imatge",
+	"tr-distro": "Distribució",
+	"tr-release": "Llançament",
+	"tr-model": "Model de router",
+	"tr-start-typing": "Escriviu aquí...",
+	"tr-network-profile": "Perfil de xarxa",
+	"tr-flavor": "Versió",
+	"tr-edit-packages": "Edita els paquets",
+	"tr-packages": "Paquets"
+}
