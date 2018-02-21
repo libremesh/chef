@@ -74,7 +74,7 @@ function translate() {
     config.language = $("#lang").value;
     var xmlhttp = new XMLHttpRequest();
     console.log("request lang " + config.language)
-    xmlhttp.open("GET", "i10n/" + config.language + ".json", true);
+    xmlhttp.open("GET", "i18n/" + config.language + ".json", true);
     xmlhttp.setRequestHeader("Content-type", "application/json");
 
     xmlhttp.onload = function() {
