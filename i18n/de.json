@@ -1,5 +1,22 @@
 {
+	"tr-server-down": "Server down",
+	"tr-unsupported": "Nicht unterstütztes Gerät, release, target, subtarget oder board.",
+	"tr-no-sysupgrade": "Keine sysupgrade Datei erstellt, möglicherweise bei diesem Modell nicht unterstützt.",
+	"tr-filesize": "Aufgrund der image-Größe wurde keine Firmwaredatei erstellt. Starte einen neuen Versuch mit weniger ausgewählten Paketen.",
+	"tr-unknown-package": "unbekanntes Paket angefordert",
+	"tr-overload": "Bitte warten, der Server ist überlastet.",
+	"tr-buildlog": "Build log",
 	"tr-advanced": "Erweitert",
 	"tr-building": "Firmware wird erstellt",
 	"tr-imagebuilder-not-ready": "ImageBuilder wird initialisiert"
+	"tr-queue-position": "Dein Build ist in der Warteschlange ",
+	"tr-created": "Image erstellt",
+	"tr-distro": "Distribution",
+	"tr-release": "Release",
+	"tr-model": "Router Modell",
+	"tr-start-typing": "Tippe...",
+	"tr-network-profile": "Netzwerkprofil",
+	"tr-flavor": "Ausprägung",
+	"tr-edit-packages": "Pakete bearbeiten",
+	"tr-packages": "Pakete"
 }
