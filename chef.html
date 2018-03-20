@@ -94,7 +94,11 @@ default_distro = "lime";
 						</div>
 						<div id="lime_config" style="display: none">
 							<div class="form-group row">
-								<label for="network_profile" class="col-sm-3 col-form-label tr-network-profile"><a href="https://github.com/libremesh/network-profiles/" target="_blank">Network Profile:</a></label>
+								<label for="network_profile" class="col-sm-3 col-form-label">
+									<a href="https://github.com/libremesh/network-profiles/" target="_blank">
+										<span class="tr-network-profiles">Network Profile:</span>
+									</a>
+								</label>
 								<div class="form-group col-md-3">
 									<select class="custom-select" name="network_profile" onchange="edit_packages_update()">
 										<option value="" selected>None</option>
