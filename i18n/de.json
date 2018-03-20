@@ -8,7 +8,7 @@
 	"tr-buildlog": "Build log",
 	"tr-advanced": "Erweitert",
 	"tr-building": "Firmware wird erstellt",
-	"tr-imagebuilder-not-ready": "ImageBuilder wird initialisiert"
+	"tr-imagebuilder-not-ready": "ImageBuilder wird initialisiert",
 	"tr-queue-position": "Dein Build ist in der Warteschlange ",
 	"tr-created": "Image erstellt",
 	"tr-distro": "Distribution",
