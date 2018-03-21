@@ -147,7 +147,7 @@ function redraw_devices() {
       document.request_form.btn_create.disabled = false;
       document.request_form.btn_edit_packages.disabled = false;
       for(var i = 0; i < data.devices.length; i++) {
-        if(document.request_form.advanced_view.checked || data.devices[i].model == "Generic") {
+        if($("#advanced_view").checked || data.devices[i].model == "Generic") {
           document.request_form.profile[i] = new Option(data.devices[i].model + " (" + data.devices[i].target + "/" +data.devices[i].subtarget + "/" + data.devices[i].profile + ")")
         } else {
           document.request_form.profile[i] = new Option(data.devices[i].model)
@@ -351,7 +351,7 @@ function diff_packages(packages_diff) {
 function distro_changed() {
     var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
     $("#release_div").innerHTML = ""
-    if (document.request_form.advanced_view.checked) {
+	if ($("#advanced_view").checked) {
         var releases_select = document.createElement("select")
         releases_select.id = "release"
         releases_select.classList = "custom-select"
@@ -437,7 +437,7 @@ function create() {
 
 function toggle_advanced_view() {
     search(); // run search to redraw target/subtarget/profile combi or hide it
-    if (document.request_form.advanced_view.checked) {
+    if ($("#advanced_view").checked) {
         action = "block"
     } else {
         action = "none"
@@ -605,7 +605,7 @@ function load_files() {
             data.factory = files_url + factory_files[0]
             $("#download_factory").setAttribute('href', data.factory)
             show("#download_factory_div");
-            if (!document.request_form.advanced_view.checked) {
+			if (!$("#advanced_view").checked) {
                 hide("#files_box");
             }
         } else {
