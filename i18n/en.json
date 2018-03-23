@@ -18,5 +18,8 @@
 	"tr-network-profile": "Network Profile",
 	"tr-flavor": "Flavor",
 	"tr-edit-packages": "Edit packages",
-	"tr-packages": "Packages"
+	"tr-packages": "Packages",
+	"tr-problem": "Problem?",
+	"tr-source-code": "Source Code",
+	"tr-help": "Help"
 }
