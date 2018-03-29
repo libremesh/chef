@@ -418,21 +418,7 @@ function create() {
     var shaObj = new jsSHA("SHA-256", "TEXT");
     shaObj.update(hash_string)
     hash = shaObj.getHash("HEX").substring(0, 12);
-    if(request_dict.version == "snapshot") {
-        info_box("Check if snapshot ImageBuilder is outdated")
-        var xmlhttp = new XMLHttpRequest();
-        var url = server + "/api/flush?distro=" + request_dict.distro + "&target=" + request_dict.target + "&subtarget=" + request_dict.subtarget
-        xmlhttp.open("GET", url, true);
-        xmlhttp.onload = function () {
-            if(xmlhttp.status == 200) {
-                info_box("Removed outdated snapshot ImageBuilder")
-            }
-            image_request()
-        };
-        xmlhttp.send();
-    } else {
-        image_request()
-    }
+	image_request()
 }
 
 function toggle_advanced_view() {
