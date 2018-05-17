@@ -1,4 +1,5 @@
 {
+	"@metadata": [],
 	"tr-server-down": "Servidor caído",
 	"tr-unsupported": "Dispositivo, release, target, subtarget, o board. No soportado.",
 	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",

@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Jkimmel"
+		]
+	},
 	"tr-server-down": "Server down",
 	"tr-unsupported": "Nicht unterstütztes Gerät, release, target, subtarget oder board.",
 	"tr-no-sysupgrade": "Keine sysupgrade Datei erstellt, möglicherweise bei diesem Modell nicht unterstützt.",
@@ -8,8 +13,8 @@
 	"tr-buildlog": "Build log",
 	"tr-advanced": "Erweitert",
 	"tr-building": "Firmware wird erstellt",
-	"tr-imagebuilder-not-ready": "ImageBuilder wird initialisiert",
-	"tr-queue-position": "Dein Build ist in der Warteschlange ",
+	"tr-initialize-imagebuilder": "Initialisiere ImageBuilder",
+	"tr-queue-position": "Dein Build ist in der Warteschlange",
 	"tr-created": "Image erstellt",
 	"tr-distro": "Distribution",
 	"tr-release": "Release",
@@ -18,5 +23,7 @@
 	"tr-network-profile": "Netzwerkprofil",
 	"tr-flavor": "Ausprägung",
 	"tr-edit-packages": "Pakete bearbeiten",
-	"tr-packages": "Pakete"
+	"tr-packages": "Pakete",
+	"tr-problem": "Problem?",
+	"tr-help": "Hilfe"
 }
