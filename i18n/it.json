@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Ilario"
+		]
+	},
 	"tr-server-down": "Server irraggiungibile",
 	"tr-unsupported": "Modello del router o versione non supportati.",
 	"tr-no-sysupgrade": "Il file sysupgrade non è stato creato, potrebbe non esser incluso tra i file creati per questo router.",
@@ -9,7 +14,7 @@
 	"tr-advanced": "Modalità avanzata",
 	"tr-building": "Creando il firmware.",
 	"tr-initialize-imagebuilder": "Preparando l'ambiente di compilazione",
-	"tr-queue-position": "La tua posizione nella lista d'attesa è ",
+	"tr-queue-position": "La tua posizione nella lista d'attesa è",
 	"tr-created": "Firmware creato",
 	"tr-distro": "Distribuzione",
 	"tr-release": "Versione di rilascio",
@@ -18,5 +23,6 @@
 	"tr-network-profile": "Profilo di rete",
 	"tr-flavor": "Collezione di pacchetti",
 	"tr-edit-packages": "Modifica la lista dei pacchetti",
-	"tr-packages": "Pacchetti"
+	"tr-packages": "Pacchetti",
+	"tr-source-code": "Codice sorgente"
 }

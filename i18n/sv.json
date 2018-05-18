@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiPhoenix"
+		]
+	},
+	"tr-server-down": "Servern är nere",
+	"tr-unsupported": "Enheten, utgåvan, målet, undermålet eller forumet stöds inte.",
+	"tr-unknown-package": "Okänt paket i begäran",
+	"tr-overload": "Var god vänta, servern är överbelastad",
+	"tr-buildlog": "Bygglogg",
+	"tr-advanced": "Avancerad",
+	"tr-initialize-imagebuilder": "Initialiserar ImageBuilder",
+	"tr-created": "Bild skapades",
+	"tr-release": "Utgåva",
+	"tr-model": "Routermodell",
+	"tr-start-typing": "Börja skriva...",
+	"tr-network-profile": "Nätverksprofil",
+	"tr-edit-packages": "Redigera paket",
+	"tr-packages": "Paket",
+	"tr-problem": "Problem?",
+	"tr-source-code": "Källkod",
+	"tr-help": "Hjälp"
+}

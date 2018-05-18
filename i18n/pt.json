@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Athena in Wonderland"
+		]
+	},
+	"tr-buildlog": "Registo de compilações",
+	"tr-advanced": "Avançado",
+	"tr-building": "A compilar o firmware.",
+	"tr-created": "Imagem criada",
+	"tr-distro": "Distribuição",
+	"tr-release": "Versão",
+	"tr-model": "Modelo do roteador",
+	"tr-start-typing": "Comece a escrever...",
+	"tr-network-profile": "Perfil da rede",
+	"tr-flavor": "Tipo de licença",
+	"tr-packages": "Pacotes",
+	"tr-problem": "Problemas?",
+	"tr-source-code": "Código-fonte",
+	"tr-help": "Ajuda"
+}
