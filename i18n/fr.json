@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gomoko",
+			"Wladek92"
+		]
+	},
+	"tr-server-down": "Serveur arrêté",
+	"tr-unsupported": "Appareil, version, cible, sous-cible ou tableau non supporté.",
+	"tr-no-sysupgrade": "Aucun fichier de muse à jour système généré, peut-être pas supporté par le modèle.",
+	"tr-filesize": "Aucun micrologiciel créé du fait de la taille de l’image. Réessayer avec moins de paquets sélectionnés.",
+	"tr-unknown-package": "Paquet inconnu dans la requête",
+	"tr-overload": "Veuillez patienter, le serveur est surchargé",
+	"tr-buildlog": "Journal de construction",
+	"tr-advanced": "Avancé",
+	"tr-building": "Construction du micrologiciel.",
+	"tr-initialize-imagebuilder": "Initialisation de ImageBuilder",
+	"tr-queue-position": "Vous êtes en place dans la file de construction",
+	"tr-created": "Image créée",
+	"tr-distro": "Distribution",
+	"tr-release": "Version",
+	"tr-model": "Modèle de routeur",
+	"tr-start-typing": "Commencer à saisir…",
+	"tr-network-profile": "Profil réseau",
+	"tr-flavor": "Variété",
+	"tr-edit-packages": "Modifier les paquetages",
+	"tr-packages": "Paquetages",
+	"tr-problem": "Un problème ?",
+	"tr-source-code": "Code source",
+	"tr-help": "Aide"
+}

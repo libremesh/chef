@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jkimmel"
+			"Jkimmel",
+			"Metalhead64"
 		]
 	},
 	"tr-server-down": "Server down",
@@ -25,5 +26,6 @@
 	"tr-edit-packages": "Pakete bearbeiten",
 	"tr-packages": "Pakete",
 	"tr-problem": "Problem?",
+	"tr-source-code": "Quellcode",
 	"tr-help": "Hilfe"
 }
