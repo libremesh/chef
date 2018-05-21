@@ -4,7 +4,6 @@
 			"Eduardo Addad de Oliveira"
 		]
 	},
-	"@metadata": [],
 	"tr-server-down": "Servidor fora do ar",
 	"tr-unsupported": "Equipamento não suportado, versão, alvo, sub-alvo ou placa.",
 	"tr-no-sysupgrade": "Arquivo sysupgrade não produzido, talvez não seja compatível com o modelo",
