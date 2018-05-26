@@ -1,5 +1,9 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
 	"tr-server-down": "El servidor està aturat",
 	"tr-unsupported": "Dispositiu, llançament, arquitectura, subarquitectura o placa no suportats.",
 	"tr-no-sysupgrade": "No s'ha produït cap fitxer sysupgrade, potser no està suportat per a aquest model.",
@@ -19,5 +23,6 @@
 	"tr-network-profile": "Perfil de xarxa",
 	"tr-flavor": "Versió",
 	"tr-edit-packages": "Edita els paquets",
-	"tr-packages": "Paquets"
+	"tr-packages": "Paquets",
+	"tr-help": "Ajuda"
 }

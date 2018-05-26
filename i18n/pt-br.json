@@ -1,5 +1,9 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": [
+			"Eduardo Addad de Oliveira"
+		]
+	},
 	"tr-server-down": "Servidor fora do ar",
 	"tr-unsupported": "Equipamento não suportado, versão, alvo, sub-alvo ou placa.",
 	"tr-no-sysupgrade": "Arquivo sysupgrade não produzido, talvez não seja compatível com o modelo",
@@ -19,5 +23,8 @@
 	"tr-network-profile": "Perfil de rede",
 	"tr-flavor": "Sabor",
 	"tr-edit-packages": "Editar pacotes",
-	"tr-packages": "Pacotes"
+	"tr-packages": "Pacotes",
+	"tr-problem": "Problemas?",
+	"tr-source-code": "Código Fonte",
+	"tr-help": "Ajuda"
 }

@@ -1,12 +1,18 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": [
+			"Fitoschido",
+			"Giudicejesica",
+			"Modante"
+		]
+	},
 	"tr-server-down": "Servidor caído",
-	"tr-unsupported": "Dispositivo, release, target, subtarget, o board. No soportado.",
+	"tr-unsupported": "Dispositivo, release, target, subtarget, o board no soportado.",
 	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
-	"tr-filesize": "No se ha podido crear el firmaware debido al tamaño de imagen. Intente nuevamente seleccionando menos paquetes.",
-	"tr-unknown-package": "Paquete desconocido solicitado",
+	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
+	"tr-unknown-package": "Ha solicitado un paquete desconocido.",
 	"tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
-	"tr-buildlog": "Build log",
+	"tr-buildlog": "Registro de compilación",
 	"tr-advanced": "Avanzado",
 	"tr-building": "Compilando firmware.",
 	"tr-initialize-imagebuilder": "Inicializando ImageBuilder",
@@ -14,9 +20,9 @@
 	"tr-created": "Imagen creada",
 	"tr-distro": "Distribución",
 	"tr-release": "Versión",
-	"tr-model": "Modelo de Router",
-	"tr-start-typing": "Comience a Escribir...",
-	"tr-network-profile": "Perfil de Red",
+	"tr-model": "Modelo del enrutador",
+	"tr-start-typing": "Comience a escribir...",
+	"tr-network-profile": "Perfil de la red",
 	"tr-flavor": "Sabor",
 	"tr-edit-packages": "Editar paquetes",
 	"tr-packages": "Paquetes",
