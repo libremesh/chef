@@ -3,14 +3,15 @@
 		"authors": [
 			"Fitoschido",
 			"Giudicejesica",
-			"Modante"
+			"Modante",
+			"Leandro"
 		]
 	},
 	"tr-server-down": "Servidor caído",
-	"tr-unsupported": "Dispositivo, release, target, subtarget, o board no soportado.",
+	"tr-unsupported": "Incompatibilidad de dispositivo, versión, destino, subdestino o placa.",
 	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
 	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
-	"tr-unknown-package": "Ha solicitado un paquete desconocido.",
+	"tr-unknown-package": "La solicitud incluye un paquete desconocido",
 	"tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
 	"tr-buildlog": "Registro de compilación",
 	"tr-advanced": "Avanzado",
@@ -28,5 +29,7 @@
 	"tr-packages": "Paquetes",
 	"tr-problem": "¿Problemas?",
 	"tr-source-code": "Código fuente",
-	"tr-help": "Ayuda"
+	"tr-help": "Ayuda",
+	"tr-settings": "Configuración",
+	"tr-create-image": "Crear imagen"
 }

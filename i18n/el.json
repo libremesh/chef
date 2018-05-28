@@ -26,5 +26,7 @@
 	"tr-packages": "Πακέτα",
 	"tr-problem": "Πρόβλημα;",
 	"tr-source-code": "Πηγαίος Κώδικας",
-	"tr-help": "Βοήθεια"
+	"tr-help": "Βοήθεια",
+	"tr-settings": "Ρυθμίσεις",
+	"tr-create-image": "Δημιουργία εικόνας"
 }

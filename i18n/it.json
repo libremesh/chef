@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ilario"
+			"Ilario",
+			"Beta16"
 		]
 	},
 	"tr-server-down": "Server irraggiungibile",
@@ -24,5 +25,7 @@
 	"tr-flavor": "Collezione di pacchetti",
 	"tr-edit-packages": "Modifica la lista dei pacchetti",
 	"tr-packages": "Pacchetti",
-	"tr-source-code": "Codice sorgente"
+	"tr-source-code": "Codice sorgente",
+	"tr-settings": "Impostazioni",
+	"tr-create-image": "Crea immagine"
 }

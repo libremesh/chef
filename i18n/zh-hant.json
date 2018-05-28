@@ -26,5 +26,7 @@
 	"tr-packages": "套件",
 	"tr-problem": "有問題嗎？",
 	"tr-source-code": "原始碼",
-	"tr-help": "求助"
+	"tr-help": "求助",
+	"tr-settings": "設定",
+	"tr-create-image": "建立映像"
 }

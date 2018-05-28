@@ -23,7 +23,10 @@
 	"tr-network-profile": "Perfil da rede",
 	"tr-flavor": "Tipo de licença",
 	"tr-edit-packages": "Editar pacotes",
+	"tr-packages": "Pacotes",
 	"tr-problem": "Problemas?",
 	"tr-source-code": "Código-fonte",
-	"tr-help": "Ajuda"
+	"tr-help": "Ajuda",
+	"tr-settings": "Definições",
+	"tr-create-image": "Criar imagem"
 }

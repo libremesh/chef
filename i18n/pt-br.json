@@ -26,5 +26,7 @@
 	"tr-packages": "Pacotes",
 	"tr-problem": "Problemas?",
 	"tr-source-code": "Código Fonte",
-	"tr-help": "Ajuda"
+	"tr-help": "Ajuda",
+	"tr-settings": "Configurações",
+	"tr-create-image": "Criar Imagem"
 }
