@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
+	"tr-advanced": "Erweidert",
+	"tr-distro": "Verbreedung",
+	"tr-packages": "Päck",
+	"tr-problem": "Problem?",
+	"tr-source-code": "Quellcode",
+<<<<<<< HEAD
+	"tr-help": "Hëllef",
+	"tr-settings": "Astellungen"
+=======
+	"tr-help": "Hëllef"
+>>>>>>> Localisation updates from https://translatewiki.net.
+}

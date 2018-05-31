@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226"
+		]
+	},
+	"tr-server-down": "服务器当机",
+	"tr-unsupported": "不支持的设备、发行版本、目标、子目标或面板。",
+	"tr-no-sysupgrade": "没有产生系统更新文件，可能模型不支持。",
+	"tr-filesize": "由于图片大小，没有创建固件。请减少选择封包再重试。",
+	"tr-unknown-package": "请求中有未知的封包",
+	"tr-overload": "请等待，服务器已超负荷",
+	"tr-buildlog": "构建日志",
+	"tr-advanced": "高级",
+	"tr-building": "构建固件。",
+	"tr-initialize-imagebuilder": "初始化图片构建器",
+	"tr-queue-position": "您已在构建队列位置",
+	"tr-created": "图片已创建",
+	"tr-distro": "分布",
+	"tr-release": "发布",
+	"tr-model": "路由器模型",
+	"tr-start-typing": "开始输入...",
+	"tr-network-profile": "网络详情",
+	"tr-flavor": "Flavor",
+	"tr-edit-packages": "编辑封包",
+	"tr-packages": "封包",
+	"tr-problem": "有问题？",
+	"tr-source-code": "源代码",
+<<<<<<< HEAD
+	"tr-help": "帮助",
+	"tr-settings": "设置",
+	"tr-create-image": "创建图片"
+=======
+	"tr-help": "帮助"
+>>>>>>> Localisation updates from https://translatewiki.net.
+}

@@ -1,0 +1,46 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido",
+			"Giudicejesica",
+			"Modante",
+			"Leandro"
+		]
+	},
+	"tr-server-down": "Servidor caído",
+	"tr-unsupported": "Incompatibilidad de dispositivo, versión, destino, subdestino o placa.",
+<<<<<<< HEAD
+	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
+	"tr-unknown-package": "La solicitud incluye un paquete desconocido",
+   "tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
+	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
+=======
+	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
+	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
+	"tr-unknown-package": "La solicitud incluye un paquete desconocido",
+	"tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
+>>>>>>> Localisation updates from https://translatewiki.net.
+	"tr-buildlog": "Registro de compilación",
+	"tr-advanced": "Avanzado",
+	"tr-building": "Compilando firmware.",
+	"tr-initialize-imagebuilder": "Inicializando ImageBuilder",
+	"tr-queue-position": "Ya se encuentra en cola de compilación",
+	"tr-created": "Imagen creada",
+	"tr-distro": "Distribución",
+	"tr-release": "Versión",
+	"tr-model": "Modelo del enrutador",
+	"tr-start-typing": "Comience a escribir...",
+	"tr-network-profile": "Perfil de la red",
+	"tr-flavor": "Sabor",
+	"tr-edit-packages": "Editar paquetes",
+	"tr-packages": "Paquetes",
+	"tr-problem": "¿Problemas?",
+	"tr-source-code": "Código fuente",
+	"tr-help": "Ayuda",
+	"tr-settings": "Configuración",
+	"tr-create-image": "Crear imagen"
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> Localisation updates from https://translatewiki.net.
