@@ -2,11 +2,17 @@
 	"@metadata": {
 		"authors": [
 			"Okras",
-			"Redredsonia"
+			"Redredsonia",
+			"Movses"
 		]
 	},
+	"tr-server-down": "Сервер не работает",
+	"tr-overload": "Пожалуйста подождите, сервер перегружен",
+	"tr-buildlog": "Журнал сборки",
+	"tr-distro": "Распространение",
 	"tr-model": "Модель маршрутизатора",
 	"tr-start-typing": "Начните вводить текст...",
+	"tr-packages": "Пакеты",
 	"tr-problem": "Проблема?",
 	"tr-source-code": "Исходный код",
 	"tr-help": "Справка",
