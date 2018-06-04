@@ -26,5 +26,7 @@
 	"tr-packages": "封包",
 	"tr-problem": "有问题？",
 	"tr-source-code": "源代码",
-	"tr-help": "帮助"
+	"tr-help": "帮助",
+	"tr-settings": "设置",
+	"tr-create-image": "创建图片"
 }

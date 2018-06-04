@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Xuacu"
+		]
+	},
+	"tr-server-down": "Sirvidor cayíu",
+	"tr-unsupported": "Incompatibilidá de preséu, versión, destín, subdestín o placa.",
+	"tr-no-sysupgrade": "Nun se creó un ficheru sysupgrade, escurque'l modelu nun tien sofitu.",
+	"tr-created": "Imaxe creada",
+	"tr-distro": "Distribución",
+	"tr-release": "Versión",
+	"tr-model": "Modelu del router",
+	"tr-start-typing": "Principia a escribir...",
+	"tr-network-profile": "Perfil de la rede",
+	"tr-flavor": "Sabor",
+	"tr-edit-packages": "Editar paquetes",
+	"tr-packages": "Paquetes",
+	"tr-problem": "¿Problemes?",
+	"tr-source-code": "Códigu fonte",
+	"tr-help": "Ayuda",
+	"tr-settings": "Configuración",
+	"tr-create-image": "Crear la imaxe"
+}
