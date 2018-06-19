@@ -26,5 +26,7 @@
 	"tr-packages": "패키지",
 	"tr-problem": "문제가 있습니까?",
 	"tr-source-code": "소스 코드",
-	"tr-help": "도움말"
+	"tr-help": "도움말",
+	"tr-settings": "설정",
+	"tr-create-image": "이미지 만들기"
 }

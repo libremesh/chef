@@ -12,13 +12,17 @@
 	"tr-advanced": "Avancerad",
 	"tr-initialize-imagebuilder": "Initialiserar ImageBuilder",
 	"tr-created": "Bild skapades",
+	"tr-distro": "Utgivning",
 	"tr-release": "Utgåva",
 	"tr-model": "Routermodell",
 	"tr-start-typing": "Börja skriva...",
 	"tr-network-profile": "Nätverksprofil",
+	"tr-flavor": "Utseende",
 	"tr-edit-packages": "Redigera paket",
 	"tr-packages": "Paket",
 	"tr-problem": "Problem?",
 	"tr-source-code": "Källkod",
-	"tr-help": "Hjälp"
+	"tr-help": "Hjälp",
+	"tr-settings": "Inställningar",
+	"tr-create-image": "Skapa bild"
 }

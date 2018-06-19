@@ -1,0 +1,35 @@
+{
+	"@metadata": {
+		"authors": [
+			"Okras",
+			"Redredsonia",
+			"Movses",
+			"Viktoriya Yutkina"
+		]
+	},
+	"tr-server-down": "Сервер не работает",
+	"tr-unsupported": "Неподдерживаемое устройство, плата, версия или целевая архитектура",
+	"tr-no-sysupgrade": "Файл обновления системы не создан или не поддерживается этой моделью",
+	"tr-filesize": "Прошивка не была создана из-за неподходящего размера образа. Попробуйте снова, выбрав меньшее количество пакетов.",
+	"tr-unknown-package": "Запрошен неизвестный пакет",
+	"tr-overload": "Пожалуйста подождите, сервер перегружен",
+	"tr-buildlog": "Журнал сборки",
+	"tr-advanced": "Дополнительно",
+	"tr-building": "Сборка прошивки.",
+	"tr-initialize-imagebuilder": "Инициализация ImageBuilder",
+	"tr-queue-position": "Ваша позиция в очереди сборки",
+	"tr-created": "Образ создан",
+	"tr-distro": "Распространение",
+	"tr-release": "Версия",
+	"tr-model": "Модель маршрутизатора",
+	"tr-start-typing": "Начните вводить текст...",
+	"tr-network-profile": "Профиль сети",
+	"tr-flavor": "Особенность",
+	"tr-edit-packages": "Редактировать пакеты",
+	"tr-packages": "Пакеты",
+	"tr-problem": "Проблема?",
+	"tr-source-code": "Исходный код",
+	"tr-help": "Справка",
+	"tr-settings": "Настройки",
+	"tr-create-image": "Создать изображение"
+}
