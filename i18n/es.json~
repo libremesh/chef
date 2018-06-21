@@ -9,15 +9,13 @@
 	},
 	"tr-server-down": "Servidor caído",
 	"tr-unsupported": "Incompatibilidad de dispositivo, versión, destino, subdestino o placa.",
-<<<<<<< HEAD
+	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
 	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
 	"tr-unknown-package": "La solicitud incluye un paquete desconocido",
+<<<<<<< HEAD
    "tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
 	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
 =======
-	"tr-no-sysupgrade": "No se ha creado un archivo de sysupgrade, es probable que el Dispositivo no lo soporte.",
-	"tr-filesize": "No se ha podido crear el firmware debido al tamaño del archivo imagen. Intente nuevamente seleccionando menos paquetes.",
-	"tr-unknown-package": "La solicitud incluye un paquete desconocido",
 	"tr-overload": "Por favor espere, el servidor se encuentra sobrecargado",
 >>>>>>> Localisation updates from https://translatewiki.net.
 	"tr-buildlog": "Registro de compilación",
@@ -39,8 +37,4 @@
 	"tr-help": "Ayuda",
 	"tr-settings": "Configuración",
 	"tr-create-image": "Crear imagen"
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> Localisation updates from https://translatewiki.net.
