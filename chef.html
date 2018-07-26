@@ -8,8 +8,8 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script type="text/javascript" src="sha256.js"></script>
 		<script>
-server = "https://ledeupdate.planetexpress.cc";
-default_distro = "lime";
+server = "https://as-test.stephen304.com";
+default_distro = "";
 		</script>
 	</head>
 	<body>
@@ -56,7 +56,7 @@ default_distro = "lime";
 					<div class="row">
 						<div class="col-md-6">
 							Distributions: <span id="image_alias"></span></br>
-							Release: <span id="image_release"></span></br>
+							version: <span id="image_version"></span></br>
 							Model: <b><span id="image_model"></span></b></br>
 							Target: <span id="image_target"></span></br>
 							Subtarget: <span id="image_subtarget"></span></br>
@@ -96,13 +96,13 @@ default_distro = "lime";
 							<div class="col-sm-3">
 								<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
 							</div>
-							<label for="release" class="col-sm-2 col-form-label tr-release">Release:</label>
-							<div class="form-group col-md-4" id="release_div">
-								<input type="text" readonly class="form-control-plaintext" value="Loading" id="release">
+							<label for="version" class="col-sm-2 col-form-label tr-version">version:</label>
+							<div class="form-group col-md-4" id="version_div">
+								<input type="text" readonly class="form-control-plaintext" value="Loading" id="version">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="release" class="col-sm-3 col-form-label tr-model">Router Model:</label>
+							<label for="version" class="col-sm-3 col-form-label tr-model">Router Model:</label>
 							<div class="form-group col-md-3">
 								<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
 							</div>
