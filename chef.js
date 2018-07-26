@@ -113,9 +113,9 @@ function search() {
     if(device.length < 3) { return }
 
     var distro = $("#distro").value;
-    var release = $("#release").value;
+    var version = $("#version").value;
 
-    request_url = server + "/api/models?model_search=" + device + "&distro=" + distro + "&release=" + release
+    request_url = server + "/api/models?model_search=" + device + "&distro=" + distro + "&version=" + version
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", request_url, true);
@@ -188,7 +188,7 @@ function load_distros() {
             }
         }
         document.request_form.distro.selectedIndex = default_distro_index;
-        load_releases();
+        load_versions();
     }
 };
 
@@ -215,14 +215,14 @@ function profile_changed() {
     load_default_packages();
 }
 
-function get_distro_releases(distro) {
-    var distro_releases = []
-    for(var i = 0; i < releases.length; i++) {
-        if(releases[i].distro == distro) {
-            distro_releases[distro_releases.length] = releases[i].release
+function get_distro_versions(distro) {
+    var distro_versions = []
+    for(var i = 0; i < versions.length; i++) {
+        if(versions[i].distro == distro) {
+            distro_versions[distro_versions.length] = versions[i].version
         }
     }
-    return distro_releases
+    return distro_versions
 }
 
 function load_network_profiles() {
@@ -253,25 +253,25 @@ function load_network_profiles() {
     }
 };
 
-function load_releases() {
+function load_versions() {
     var xmlhttp = new XMLHttpRequest();
     var device = $("#search_device").value;
     var distro = $("#distro").value;
-    //var release = $("#release").value;
+    //var version = $("#version").value;
 
-    request_url = server + "/api/releases"
+    request_url = server + "/api/versions"
 
     xmlhttp.open("GET", request_url, true);
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            releases_results(xmlhttp);
+            versions_results(xmlhttp);
         }
     }
     xmlhttp.send(null);
 
-    function releases_results(xmlhttp) {
-        releases = JSON.parse(xmlhttp.responseText);
+    function versions_results(xmlhttp) {
+        versions = JSON.parse(xmlhttp.responseText);
         distro_changed();
     }
 };
@@ -287,11 +287,11 @@ function load_default_packages() {
     var xmlhttp = new XMLHttpRequest();
     var device = $("#search_device").value;
     var distro = $("#distro").value;
-    var release = $("#release").value;
+    var version = $("#version").value;
     set_device_info()
     if(typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
 
-        request_url = server + "/api/default_packages?distro=" + distro + "&release=" + release + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
+        request_url = server + "/api/default_packages?distro=" + distro + "&version=" + version + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
 
         xmlhttp.open("GET", request_url, true);
 
@@ -349,24 +349,24 @@ function diff_packages(packages_diff) {
 }
 
 function distro_changed() {
-    var distro_releases = get_distro_releases(document.request_form.distro[document.request_form.distro.selectedIndex].value)
-    $("#release_div").innerHTML = ""
+    var distro_versions = get_distro_versions(document.request_form.distro[document.request_form.distro.selectedIndex].value)
+    $("#version_div").innerHTML = ""
 	if ($("#advanced_view").checked) {
-        var releases_select = document.createElement("select")
-        releases_select.id = "release"
-        releases_select.classList = "custom-select"
-        for(var i = 0; i < distro_releases.length; i++) {
-            releases_select[releases_select.length] = new Option(distro_releases[i])
+        var versions_select = document.createElement("select")
+        versions_select.id = "version"
+        versions_select.classList = "custom-select"
+        for(var i = 0; i < distro_versions.length; i++) {
+            versions_select[versions_select.length] = new Option(distro_versions[i])
         }
-        $("#release_div").appendChild(releases_select)
+        $("#version_div").appendChild(versions_select)
     } else {
-        releases_text = document.createElement("input")
-        releases_text.type = "text"
-        releases_text.readOnly = true
-        releases_text.classList = "form-control-plaintext"
-        releases_text.id = "release"
-        releases_text.value = distro_releases[0]
-        $("#release_div").appendChild(releases_text)
+        versions_text = document.createElement("input")
+        versions_text.type = "text"
+        versions_text.readOnly = true
+        versions_text.classList = "form-control-plaintext"
+        versions_text.id = "version"
+        versions_text.value = distro_versions[0]
+        $("#version_div").appendChild(versions_text)
     }
 
     if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
@@ -402,7 +402,7 @@ function create() {
     }
     request_dict = {}
     request_dict.distro = document.request_form.distro.value;
-    request_dict.version = document.request_form.release.value;
+    request_dict.version = document.request_form.version.value;
     profile_split = document.request_form.profile.value.split("/");
     request_dict.target = profile_split[0]
     request_dict.subtarget = profile_split[1]
@@ -564,12 +564,12 @@ function load_files() {
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            releases_results(xmlhttp);
+            versions_results(xmlhttp);
         }
     }
     xmlhttp.send(null);
 
-    function releases_results(xmlhttp) {
+    function versions_results(xmlhttp) {
         var response_content = JSON.parse(xmlhttp.responseText);
         files_box = $("#files_box")
         files_box.innerHTML = "</br><h5>Created files</h5>"
@@ -582,13 +582,13 @@ function load_files() {
             if(response_content[i].name.includes("factory")) {
                 factory_files[factory_files.length] = response_content[i].name
             }
-            link.href = files_url + response_content[i].name
+            link.href = files_url + "/" + response_content[i].name
             link.innerHTML = response_content[i].name
             item.appendChild(link)
             list.appendChild(item);
         }
         if(factory_files.length == 1) {
-            data.factory = files_url + factory_files[0]
+            data.factory = files_url + "/" + factory_files[0]
             $("#download_factory").setAttribute('href', data.factory)
             show("#download_factory_div");
 			if (!$("#advanced_view").checked) {
