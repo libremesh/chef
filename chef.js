@@ -330,22 +330,7 @@ function packages_input() {
 }
 
 function diff_packages(packages_diff) {
-    packages_remove = [];
-    packages_install = [];
-    for (var i = 0; i < packages_diff.length; i++) {
-        if (packages_diff[i].startsWith("-")) {
-            packages_remove.push(packages_diff[i]);
-        } else {
-            packages_install.push(packages_diff[i]);
-        }
-    }
-    for (var j = 0; j < packages_remove.length; j++) {
-        package_index = packages_install.indexOf(packages_remove[j].substring(1))
-        if(package_index != -1) {
-            packages_install.splice(package_index, 1);
-        }
-    }
-    return(packages_install)
+    return(packages_diff)
 }
 
 function distro_changed() {
