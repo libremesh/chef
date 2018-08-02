@@ -336,23 +336,13 @@ function diff_packages(packages_diff) {
 function distro_changed() {
     var distro_versions = get_distro_versions(document.request_form.distro[document.request_form.distro.selectedIndex].value)
     $("#version_div").innerHTML = ""
-	if ($("#advanced_view").checked) {
-        var versions_select = document.createElement("select")
-        versions_select.id = "version"
-        versions_select.classList = "custom-select"
-        for(var i = 0; i < distro_versions.length; i++) {
-            versions_select[versions_select.length] = new Option(distro_versions[i])
-        }
-        $("#version_div").appendChild(versions_select)
-    } else {
-        versions_text = document.createElement("input")
-        versions_text.type = "text"
-        versions_text.readOnly = true
-        versions_text.classList = "form-control-plaintext"
-        versions_text.id = "version"
-        versions_text.value = distro_versions[0]
-        $("#version_div").appendChild(versions_text)
+    var versions_select = document.createElement("select")
+    versions_select.id = "version"
+    versions_select.classList = "custom-select"
+    for(var i = 0; i < distro_versions.length; i++) {
+        versions_select[versions_select.length] = new Option(distro_versions[i])
     }
+    $("#version_div").appendChild(versions_select)
 
     if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
         show("#lime_config");
