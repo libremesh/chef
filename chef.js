@@ -59,7 +59,7 @@ function load_installed_packages() {
 
     function image_info_results(xmlhttp) {
         data.image.packages = JSON.parse(xmlhttp.responseText);
-        $("#installed_packages").innerHTML = "Installed packages (" + Object.keys(data.image.packages).length + ")"
+        $("#packages_count").innerHTML = "(" + Object.keys(data.image.packages).length + ")"
         var list = document.createElement('ul');
         for (var name in data.image.packages) {
             var item = document.createElement('li');
@@ -141,24 +141,19 @@ function redraw_devices() {
     document.request_form.profile.options.length = 0;
     if(data.devices.length == 0) {
       document.request_form.btn_create.disabled = true;
-      document.request_form.btn_edit_packages.disabled = true;
+      $("#btn_edit_packages").disabled = true;
       document.request_form.profile[0] = new Option("Not found")
     } else {
       document.request_form.btn_create.disabled = false;
-      document.request_form.btn_edit_packages.disabled = false;
+      $("#btn_edit_packages").disabled = false;
       for(var i = 0; i < data.devices.length; i++) {
-        if($("#advanced_view").checked || data.devices[i].model == "Generic") {
-          document.request_form.profile[i] = new Option(data.devices[i].model + " (" + data.devices[i].target + "/" +data.devices[i].subtarget + "/" + data.devices[i].profile + ")")
-        } else {
-          document.request_form.profile[i] = new Option(data.devices[i].model)
-        }
+        document.request_form.profile[i] = new Option(data.devices[i].model)
         document.request_form.profile[i].value = data.devices[i].target + "/" + data.devices[i].subtarget + "/" + data.devices[i].profile
       }
       $("#profile").selectedIndex = selected_device;
     }
   }
 }
-
 
 function load_distros() {
     var xmlhttp = new XMLHttpRequest();
@@ -363,7 +358,6 @@ function create() {
     data = {}
     hide("#download_factory_div");
     hide("#download_box");
-    $("#files_box").innerHTML = "Advanced view";
     hide("#info_box");
     hide("#error_box");
     packages = [];
@@ -382,6 +376,7 @@ function create() {
     request_dict.target = profile_split[0]
     request_dict.subtarget = profile_split[1]
     request_dict.board = profile_split[2]
+    request_dict.defaults = $("#edit_defaults").value
     if (packages != "") {
         request_dict.packages = packages
     }
@@ -389,26 +384,11 @@ function create() {
     pkg_hash_sort = packages.sort()
     shaObj.update(pkg_hash_sort.join(" "))
     pkg_hash = shaObj.getHash("HEX").substring(0, 12);
-    hash_string = [request_dict.distro, request_dict.version,request_dict.target, request_dict.subtarget, request_dict.board, pkg_hash, ""].join(" ")
+    hash_string = [request_dict.distro, request_dict.version,request_dict.target, request_dict.subtarget, request_dict.board, pkg_hash, request_dict.defaults, ""].join(" ")
     var shaObj = new jsSHA("SHA-256", "TEXT");
     shaObj.update(hash_string)
     hash = shaObj.getHash("HEX").substring(0, 12);
 	image_request()
-}
-
-function toggle_advanced_view() {
-    search(); // run search to redraw target/subtarget/profile combi or hide it
-    if ($("#advanced_view").checked) {
-        action = "block"
-    } else {
-        action = "none"
-
-    }
-    var advanced_elements = document.querySelectorAll(".advanced_view");
-    for(var i = 0; i < advanced_elements.length; i++) {
-        advanced_elements[i].style.display = action;
-    }
-  redraw_devices();
 }
 
 function bootstrap() {
@@ -421,7 +401,6 @@ function bootstrap() {
     load_distros();
     load_network_profiles();
     load_flavors();
-    toggle_advanced_view();
 }
 
 
@@ -515,16 +494,16 @@ function image_request_handler(response) {
 
     } else if (response.status === 200) {
         // ready to download
-        files_url = response_content.files
+        files_url = response_content.files + '/'
         load_files();
         hide("#info_box");
         show("#download_box");
 
         if("sysupgrade" in response_content) {
             $("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
-            show("#download_sysupgrade_div");
+            show("#download_div");
         } else {
-            hide("#download_sysupgrade_div");
+            hide("#download_div");
         }
         $("#download_build_log").setAttribute('href', response_content.log)
         location.hash = response_content.image_hash
@@ -546,8 +525,9 @@ function load_files() {
 
     function versions_results(xmlhttp) {
         var response_content = JSON.parse(xmlhttp.responseText);
+        $("#files_count").innerHTML = " (" + response_content.length + ")"
         files_box = $("#files_box")
-        files_box.innerHTML = "</br><h5>Created files</h5>"
+        files_box.innerHTML = ""
         var list = document.createElement('ul');
 
         var factory_files = []
@@ -566,13 +546,9 @@ function load_files() {
             data.factory = files_url + "/" + factory_files[0]
             $("#download_factory").setAttribute('href', data.factory)
             show("#download_factory_div");
-			if (!$("#advanced_view").checked) {
-                hide("#files_box");
-            }
         } else {
             data.factory = ""
             hide("#download_factory_div");
-            show("#files_box");
         }
         files_box.appendChild(list);
     }
