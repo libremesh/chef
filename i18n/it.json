@@ -25,7 +25,9 @@
 	"tr-flavor": "Collezione di pacchetti",
 	"tr-edit-packages": "Modifica la lista dei pacchetti",
 	"tr-packages": "Pacchetti",
+	"tr-problem": "Problemi?",
 	"tr-source-code": "Codice sorgente",
+	"tr-help": "Aiuto",
 	"tr-settings": "Impostazioni",
 	"tr-create-image": "Crea immagine"
 }
