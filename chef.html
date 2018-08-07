@@ -8,8 +8,8 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script type="text/javascript" src="sha256.js"></script>
 		<script>
-server = "https://as-test.stephen304.com";
-default_distro = "";
+            server = "https://as-test.stephen304.com";
+            default_distro = "openwrt";
 		</script>
 	</head>
 	<body>
@@ -17,30 +17,28 @@ default_distro = "";
 			<p>
 			<nav class="navbar rounded navbar-dark bg-primary justify-content-between">
 				<a class="navbar-brand" href="">Chef Imagebuilder <b>BETA</b> dev</a>
-				<div class="form-inline">
-					<div class="row align-items-center">
-                        <select class="custom-select" id="lang" name="lang" onchange="translate();">
-                            <option value="en">English</option>
-                            <option value="ast">Asturianu (Asturian)</option>
-                            <option value="ca">Català (Catalan)</option>
-                            <option value="de">Deutsch (German)</option>
-                            <option value="el">Ελληνικά (Greek)</option>
-                            <option value="es">Español (Spanish)</option>
-                            <option value="fr">Français (French)</option>
-                            <option value="it">Italiano (Italian)</option>
-                            <option value="ko">한국어 (Korean)</option>
-                            <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
-                            <option value="mk">македонски (Macedonian)</option>
-                            <option value="pt-br">Português/Brasileiro (Brasilian Portuguese)</option>
-                            <option value="pt">Português (Portuguese)</option>
-                            <option value="ru">русский (Russian)</option>
-                            <option value="sv">Svenska (Swedish)</option>
-                            <option value="tr">Türkçe (Turkish)</option>
-                            <option value="zh-hans">中文（简体） (Mandarin Simplified)</option>
-                            <option value="zh-hant">中文（繁體）‎ (Mandarin Traditional)</option>
-                        </select>
-                    </div>
-				</div>
+                <form class="form-inline">
+                    <select class="custom-select" id="lang" name="lang" onchange="translate();">
+                        <option value="en">English</option>
+                        <option value="ast">Asturianu (Asturian)</option>
+                        <option value="ca">Català (Catalan)</option>
+                        <option value="de">Deutsch (German)</option>
+                        <option value="el">Ελληνικά (Greek)</option>
+                        <option value="es">Español (Spanish)</option>
+                        <option value="fr">Français (French)</option>
+                        <option value="it">Italiano (Italian)</option>
+                        <option value="ko">한국어 (Korean)</option>
+                        <option value="lb">Lëtzebuergesch (Luxembourgish)</option>
+                        <option value="mk">македонски (Macedonian)</option>
+                        <option value="pt-br">Português/Brasileiro (Brasilian Portuguese)</option>
+                        <option value="pt">Português (Portuguese)</option>
+                        <option value="ru">русский (Russian)</option>
+                        <option value="sv">Svenska (Swedish)</option>
+                        <option value="tr">Türkçe (Turkish)</option>
+                        <option value="zh-hans">中文（简体） (Mandarin Simplified)</option>
+                        <option value="zh-hant">中文（繁體）‎ (Mandarin Traditional)</option>
+                    </select>
+                </form>
 			</nav>
 			</p>
 			<style>input[type=text], button, textarea, select { width: 100%; } </style>
