@@ -303,30 +303,26 @@ function load_default_packages() {
     }
 
     function packages_image_results(xmlhttp) {
-        packages_image = diff_packages(JSON.parse(xmlhttp.responseText).packages);
+        packages_image = JSON.parse(xmlhttp.responseText).packages;
         edit_packages_update();
     }
 };
 
 function edit_packages_update() {
-    if (packages_flavor != []) {
-        packages = diff_packages(packages_image.concat(packages_flavor))
+    if (packages_flavor != [] && $("#distro").value == "lime") {
+        packages = packages_image.concat(packages_flavor)
     } else {
         packages = packages_image.slice()
     }
-    if (document.request_form.network_profile.value != "") {
-        packages[packages.length] = document.request_form.network_profile.value
+    if ($("#network_profile").value != "" && $("#distro").value == "lime") {
+        packages[packages.length] = $("#network_profile").value
     }
-    document.request_form.edit_packages.value = packages.join("\n");
+    $("#edit_packages").value = packages.join("\n");
 }
 
 function packages_input() {
     load_default_packages();
     show("#edit_packages_div")
-}
-
-function diff_packages(packages_diff) {
-    return(packages_diff)
 }
 
 function distro_changed() {
