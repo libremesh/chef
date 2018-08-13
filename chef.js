@@ -241,10 +241,11 @@ function load_network_profiles() {
             if (network_profiles[i].startsWith("Package: ")) {
                 var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
                 var network_profiles_length = document.request_form.network_profile.length;
-                document.request_form.network_profile[network_profiles_length] = new Option(network_profile)
-                document.request_form.network_profile[network_profiles_length].value = network_profile
+                $("#network_profile")[network_profiles_length] = new Option(network_profile);
+                $("#network_profile")[network_profiles_length].value = network_profile;
             }
         }
+        $("#network_profile").value = default_profile;
     }
 };
 
