@@ -138,17 +138,17 @@ function search() {
 function redraw_devices() {
   if(data.devices) {
     var selected_device = $("#profile").selectedIndex
-    document.request_form.profile.options.length = 0;
+    $("#profile").options.length = 0;
     if(data.devices.length == 0) {
-      document.request_form.btn_create.disabled = true;
+      $("#btn_create").disabled = true;
       $("#btn_edit_packages").disabled = true;
-      document.request_form.profile[0] = new Option("Not found")
+      $("#profile")[0] = new Option("Not found")
     } else {
-      document.request_form.btn_create.disabled = false;
+      $("#btn_create").disabled = false;
       $("#btn_edit_packages").disabled = false;
       for(var i = 0; i < data.devices.length; i++) {
-        document.request_form.profile[i] = new Option(data.devices[i].model)
-        document.request_form.profile[i].value = data.devices[i].target + "/" + data.devices[i].subtarget + "/" + data.devices[i].profile
+        $("#profile")[i] = new Option(data.devices[i].model)
+        $("#profile")[i].value = data.devices[i].target + "/" + data.devices[i].subtarget + "/" + data.devices[i].profile
       }
       $("#profile").selectedIndex = selected_device;
     }
@@ -170,34 +170,34 @@ function load_distros() {
 
     function distros_results(xmlhttp) {
         distros = JSON.parse(xmlhttp.responseText);
-        document.request_form.distro.options.length = 0;
+        $("#distro").options.length = 0;
 
         var default_distro_index = 0;
         for(var i = 0; i < distros.length; i++) {
-            var distros_length = document.request_form.distro.length;
-            document.request_form.distro[distros_length] = new Option(distros[i].name)
-            document.request_form.distro[distros_length].value = distros[i].name
-            document.request_form.distro[distros_length].innerHTML = distros[i].alias
+            var distros_length = $("#distro").length;
+            $("#distro")[distros_length] = new Option(distros[i].name)
+            $("#distro")[distros_length].value = distros[i].name
+            $("#distro")[distros_length].innerHTML = distros[i].alias
             if(distros[i].name === default_distro) {
                 default_distro_index = i;
             }
         }
-        document.request_form.distro.selectedIndex = default_distro_index;
+        $("#distro").selectedIndex = default_distro_index;
         load_versions();
     }
 };
 
 function load_flavors() {
     for(flavor in flavors) {
-        flavors_length = document.request_form.flavor.length;
-        document.request_form.flavor[flavors_length] = new Option(flavor)
-        document.request_form.flavor[flavors_length].value = flavor
-        document.request_form.flavor[flavors_length].innerHTML = flavors[flavor][0]
+        flavors_length = $("#flavor").length;
+        $("#flavor")[flavors_length] = new Option(flavor)
+        $("#flavor")[flavors_length].value = flavor
+        $("#flavor")[flavors_length].innerHTML = flavors[flavor][0]
     }
 }
 
 function set_packages_flavor() {
-    packages_flavor = flavors[document.request_form.flavor.value][1].split(" ");
+    packages_flavor = flavors[$("#flavor").value][1].split(" ");
     if (typeof packages == 'undefined') {
         load_default_packages();
     } else {
@@ -240,7 +240,7 @@ function load_network_profiles() {
         for(var i = 0; i < network_profiles.length; i++) {
             if (network_profiles[i].startsWith("Package: ")) {
                 var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
-                var network_profiles_length = document.request_form.network_profile.length;
+                var network_profiles_length = $("#network_profile").length;
                 $("#network_profile")[network_profiles_length] = new Option(network_profile);
                 $("#network_profile")[network_profiles_length].value = network_profile;
             }
@@ -273,7 +273,7 @@ function load_versions() {
 };
 
 function set_device_info() {
-    profile_split = document.request_form.profile.value.split("/");
+    profile_split = $("#profile").value.split("/");
     target = profile_split[0]
     subtarget = profile_split[1]
     profile = profile_split[2]
@@ -326,7 +326,7 @@ function packages_input() {
 }
 
 function distro_changed() {
-    var distro_versions = get_distro_versions(document.request_form.distro[document.request_form.distro.selectedIndex].value)
+    var distro_versions = get_distro_versions($("#distro")[$("#distro").selectedIndex].value)
     $("#version_div").innerHTML = ""
     var versions_select = document.createElement("select")
     versions_select.id = "version"
@@ -336,13 +336,13 @@ function distro_changed() {
     }
     $("#version_div").appendChild(versions_select)
 
-    if(document.request_form.distro[document.request_form.distro.selectedIndex].value === "lime") {
+    if($("#distro")[$("#distro").selectedIndex].value === "lime") {
         show("#lime_config");
-        document.request_form.flavor.selectedIndex = 2; // lime_default
+        $("#flavor").selectedIndex = 2; // lime_default
         flavor = "lime_default";
     }  else {
         hide("#lime_config");
-        document.request_form.flavor.selectedIndex = 0; // None
+        $("#flavor").selectedIndex = 0; // None
         flavor = "";
         packages_flavor = []
         packages = []
@@ -360,7 +360,7 @@ function create() {
     packages = [];
     delete hash
     location.hash = ""
-    edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
+    edit_packages_split = $("#edit_packages").value.replace(/ /g, "\n").split("\n")
     for(var i = 0; i < edit_packages_split.length; i++) {
         package_trimmed = edit_packages_split[i].trim()
         if (package_trimmed != "") {
@@ -368,9 +368,9 @@ function create() {
         }
     }
     request_dict = {}
-    request_dict.distro = document.request_form.distro.value;
-    request_dict.version = document.request_form.version.value;
-    profile_split = document.request_form.profile.value.split("/");
+    request_dict.distro = $("#distro").value;
+    request_dict.version = $("#version").value;
+    profile_split = $("#profile").value.split("/");
     request_dict.target = profile_split[0]
     request_dict.subtarget = profile_split[1]
     request_dict.board = profile_split[2]
