@@ -172,27 +172,26 @@ function load_distros() {
         distros = JSON.parse(xmlhttp.responseText);
         $("#distro").options.length = 0;
 
-        var default_distro_index = 0;
         for(var i = 0; i < distros.length; i++) {
             var distros_length = $("#distro").length;
-            $("#distro")[distros_length] = new Option(distros[i].name)
-            $("#distro")[distros_length].value = distros[i].name
-            $("#distro")[distros_length].innerHTML = distros[i].alias
-            if(distros[i].name === default_distro) {
-                default_distro_index = i;
-            }
+                var opt = document.createElement("option");
+                opt.value= distros[i].name;
+                opt.innerHTML = distros[i].alias
+                opt.desc = distros[i].description
+                $("#distro").appendChild(opt);
         }
-        $("#distro").selectedIndex = default_distro_index;
+        $("#distro").value = default_distro;
         load_versions();
     }
 };
 
 function load_flavors() {
+    $("#flavor").options.length = 0;
     for(flavor in flavors) {
-        flavors_length = $("#flavor").length;
-        $("#flavor")[flavors_length] = new Option(flavor)
-        $("#flavor")[flavors_length].value = flavor
-        $("#flavor")[flavors_length].innerHTML = flavors[flavor][0]
+        var opt = document.createElement("option");
+        opt.value= flavor
+        opt.innerHTML = flavors[flavor][0]
+        $("#flavor").appendChild(opt);
     }
 }
 
@@ -326,26 +325,25 @@ function packages_input() {
 }
 
 function distro_changed() {
-    var distro_versions = get_distro_versions($("#distro")[$("#distro").selectedIndex].value)
-    $("#version_div").innerHTML = ""
-    var versions_select = document.createElement("select")
-    versions_select.id = "version"
-    versions_select.classList = "custom-select"
-    for(var i = 0; i < distro_versions.length; i++) {
-        versions_select[versions_select.length] = new Option(distro_versions[i])
-    }
-    $("#version_div").appendChild(versions_select)
+    var distro_versions = get_distro_versions($("#distro").value)
+    $("#version").options.length = 0;
 
-    if($("#distro")[$("#distro").selectedIndex].value === "lime") {
+    for(var i = 0; i < distro_versions.length; i++) {
+        $("#version")[$("#version").length] = new Option(distro_versions[i])
+    }
+
+    if ($("#distro").desc != "") {
+        $("#distro_desc").innerHTML = $("#distro")[$("#distro").selectedIndex].desc
+    } else {
+        $("#distro_desc").innerHTML = ""
+    }
+
+    if($("#distro").value === "lime") {
         show("#lime_config");
-        $("#flavor").selectedIndex = 2; // lime_default
-        flavor = "lime_default";
+        $("#flavor").value = "lime_default"
     }  else {
         hide("#lime_config");
-        $("#flavor").selectedIndex = 0; // None
-        flavor = "";
-        packages_flavor = []
-        packages = []
+        $("#flavor").value = ""
     }
     set_packages_flavor();
     search();
@@ -392,7 +390,6 @@ function bootstrap() {
     load_network_profiles();
     load_flavors();
 }
-
 
 // shows notification if update is available
 function info_box(info_output) {

@@ -48,7 +48,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							Distributions: <span id="image_alias"></span></br>
-							version: <span id="image_version"></span></br>
+							Version: <span id="image_version"></span></br>
 							Model: <b><span id="image_model"></span></b></br>
 							Target: <span id="image_target"></span></br>
 							Subtarget: <span id="image_subtarget"></span></br>
@@ -97,11 +97,13 @@
 						<div class="form-group row">
 							<label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
 							<div class="col-sm-3">
-								<select class="custom-select" id="distro" name="distro" onchange="distro_changed();"></select>
+								<select class="custom-select" id="distro" onchange="distro_changed();" aria-describedby="distro_desc"></select>
+                                <small id="distro_desc" class="form-text text-muted"></small>
 							</div>
-							<label for="version" class="col-sm-2 col-form-label tr-version">version:</label>
-							<div class="form-group col-md-4" id="version_div">
-								<input type="text" readonly class="form-control-plaintext" value="Loading" id="version">
+							<label for="version" class="col-sm-2 col-form-label tr-version">Version:</label>
+							<div class="form-group col-md-4" >
+								<select class="custom-select" id="version" aria-describedby="version_desc"></select>
+                                <small id="version_desc" class="form-text text-muted"></small>
 							</div>
 						</div>
 						<div class="form-group row">
