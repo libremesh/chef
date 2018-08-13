@@ -10,6 +10,7 @@
 		<script>
             server = "https://as-test.stephen304.com";
             default_distro = "openwrt";
+            default_profile = "libremesh-default";
 		</script>
 	</head>
 	<body>
@@ -123,8 +124,7 @@
 									</a>
 								</label>
 								<div class="form-group col-md-3">
-									<select class="custom-select" name="network_profile" onchange="edit_packages_update()">
-										<option value="" selected>None</option>
+									<select class="custom-select" id="network_profile" onchange="edit_packages_update()">
 									</select>
 								</div>
 								<label for="flavor" class="col-sm-2 col-form-label tr-flavor">LibreMesh Flavor:</a></label>

@@ -222,7 +222,7 @@ function get_distro_versions(distro) {
 
 function load_network_profiles() {
     var xmlhttp = new XMLHttpRequest();
-    request_url = "https://repo.libremesh.org/network-profiles/Packages";
+    request_url = server + "/network-profiles/Packages";
 
     xmlhttp.open("GET", request_url, true);
     xmlhttp.overrideMimeType("text/plain")
@@ -241,7 +241,7 @@ function load_network_profiles() {
             if (network_profiles[i].startsWith("Package: ")) {
                 var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
                 var network_profiles_length = document.request_form.network_profile.length;
-                document.request_form.network_profile[network_profiles_length] = new Option(network_profile.substr(3)) // remove leading "np-"
+                document.request_form.network_profile[network_profiles_length] = new Option(network_profile)
                 document.request_form.network_profile[network_profiles_length].value = network_profile
             }
         }
@@ -362,6 +362,7 @@ function create() {
     hide("#error_box");
     packages = [];
     delete hash
+    location.hash = ""
     edit_packages_split = document.request_form.edit_packages.value.replace(/ /g, "\n").split("\n")
     for(var i = 0; i < edit_packages_split.length; i++) {
         package_trimmed = edit_packages_split[i].trim()
@@ -380,14 +381,6 @@ function create() {
     if (packages != "") {
         request_dict.packages = packages
     }
-    var shaObj = new jsSHA("SHA-256", "TEXT");
-    pkg_hash_sort = packages.sort()
-    shaObj.update(pkg_hash_sort.join(" "))
-    pkg_hash = shaObj.getHash("HEX").substring(0, 12);
-    hash_string = [request_dict.distro, request_dict.version,request_dict.target, request_dict.subtarget, request_dict.board, pkg_hash, request_dict.defaults, ""].join(" ")
-    var shaObj = new jsSHA("SHA-256", "TEXT");
-    shaObj.update(hash_string)
-    hash = shaObj.getHash("HEX").substring(0, 12);
 	image_request()
 }
 
