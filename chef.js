@@ -196,6 +196,7 @@ function load_flavors() {
 }
 
 function set_packages_flavor() {
+    return
     packages_flavor = flavors[$("#flavor").value][1].split(" ");
     if (typeof packages == 'undefined') {
         load_default_packages();
@@ -468,7 +469,7 @@ function image_request_handler(response) {
         if(imagebuilder === "queue") {
             // in queue
             var queue = response.getResponseHeader("X-Build-Queue-Position");
-            info_box(tr("tr-queue-position"))
+            info_box(tr("tr-queue-position") + " " + queue)
         } else if(imagebuilder === "initialize") {
             info_box(tr("tr-initialize-imagebuilder"));
         } else if(imagebuilder === "building") {
