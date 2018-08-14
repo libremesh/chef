@@ -467,9 +467,12 @@ function image_request_handler(response) {
     } else if (response.status === 202) {
         var imagebuilder = response.getResponseHeader("X-Imagebuilder-Status");
         if(imagebuilder === "queue") {
-            // in queue
-            var queue = response.getResponseHeader("X-Build-Queue-Position");
-            info_box(tr("tr-queue-position") + " " + queue)
+            var positio n= response.getResponseHeader("X-Build-Queue-Position");
+            if (position === null) {
+                info_box(tr("tr-queue"))
+            } else {
+                info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
+            }
         } else if(imagebuilder === "initialize") {
             info_box(tr("tr-initialize-imagebuilder"));
         } else if(imagebuilder === "building") {
