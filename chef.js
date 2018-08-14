@@ -467,7 +467,7 @@ function image_request_handler(response) {
     } else if (response.status === 202) {
         var imagebuilder = response.getResponseHeader("X-Imagebuilder-Status");
         if(imagebuilder === "queue") {
-            var positio n= response.getResponseHeader("X-Build-Queue-Position");
+            var position = response.getResponseHeader("X-Build-Queue-Position");
             if (position === null) {
                 info_box(tr("tr-queue"))
             } else {
