@@ -178,6 +178,7 @@ function load_distros() {
                 opt.value= distros[i].name;
                 opt.innerHTML = distros[i].alias
                 opt.desc = distros[i].description
+                opt.latest = distros[i].latest
                 $("#distro").appendChild(opt);
         }
         $("#distro").value = default_distro;
@@ -331,6 +332,10 @@ function distro_changed() {
 
     for(var i = 0; i < distro_versions.length; i++) {
         $("#version")[$("#version").length] = new Option(distro_versions[i])
+    }
+
+    if ($("#distro").latest != "") {
+        $("#version").value = $("#distro")[$("#distro").selectedIndex].latest
     }
 
     if ($("#distro").desc != "") {
