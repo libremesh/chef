@@ -184,21 +184,26 @@ function load_distros() {
         $("#distro").value = default_distro;
         load_versions();
     }
+
 };
 
 function load_flavors() {
     $("#flavor").options.length = 0;
-    for(flavor in flavors) {
-        var opt = document.createElement("option");
-        opt.value= flavor
-        opt.innerHTML = flavors[flavor][0]
-        $("#flavor").appendChild(opt);
+    if (flavors[$("#distro").value]) {
+        show("#flavor_div")
+        for(flavor in flavors[$("#distro").value]) {
+            var opt = document.createElement("option");
+            opt.value= flavor
+            opt.innerHTML = flavors[$("#distro").value][flavor][0]
+            $("#flavor").appendChild(opt);
+        }
+    } else {
+        hide("#flavor_div")
     }
 }
 
 function set_packages_flavor() {
-    return
-    packages_flavor = flavors[$("#flavor").value][1].split(" ");
+    packages_flavor = flavors[$("#distro").value][$("#flavor").value][1].split(" ");
     if (typeof packages == 'undefined') {
         load_default_packages();
     } else {
@@ -310,11 +315,7 @@ function load_default_packages() {
 };
 
 function edit_packages_update() {
-    if (packages_flavor != [] && $("#distro").value == "lime") {
-        packages = packages_image.concat(packages_flavor)
-    } else {
-        packages = packages_image.slice()
-    }
+    packages = packages_image.concat(packages_flavor)
     if ($("#network_profile").value != "" && $("#distro").value == "lime") {
         packages[packages.length] = $("#network_profile").value
     }
@@ -351,6 +352,7 @@ function distro_changed() {
         hide("#lime_config");
         $("#flavor").value = ""
     }
+    load_flavors();
     set_packages_flavor();
     search();
 }
@@ -394,7 +396,6 @@ function bootstrap() {
     packages_flavor = ""
     load_distros();
     load_network_profiles();
-    load_flavors();
 }
 
 // shows notification if update is available

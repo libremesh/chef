@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="octicons.min.css">
 		<script>
             server = "https://as-test.stephen304.com";
+            //server = "http://192.168.121.43:5000";
             default_distro = "openwrt";
             default_profile = "libremesh-default";
 		</script>
@@ -41,7 +42,7 @@
                 </form>
 			</nav>
 			</p>
-			<style>input[type=text], button, textarea, select { width: 100%; } </style>
+            <style>input[type=text], button, textarea, select { width: 100%; }, .hidden { display: none; } </style>
 			<div class="card" id="download_box" style="display:none">
 				<h4 class="card-header">Firmware</h4>
 				<div class="card-body">
@@ -117,23 +118,20 @@
 								</select>
 							</div>
 						</div>
-						<div id="lime_config" style="display: none">
-							<div class="form-group row">
-								<label for="network_profile" class="col-sm-3 col-form-label">
-									<a href="https://github.com/libremesh/network-profiles/" target="_blank">
-										<span class="tr-network-profile">Network Profile</span>:
-									</a>
-								</label>
-								<div class="form-group col-md-3">
-									<select class="custom-select" id="network_profile" onchange="edit_packages_update()">
-									</select>
-								</div>
-								<label for="flavor" class="col-sm-2 col-form-label tr-flavor">LibreMesh Flavor:</a></label>
-								<div class="form-group col-md-4">
-									<select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
-								</div>
-							</div>
-						</div>
+                        <div class="form-group row">
+                            <div id="flavor_div" class="form-group col-md-6">
+                                <label for="flavor" class="col-form-label tr-flavor">Flavor:</a></label>
+                                <select class="custom-select" id="flavor" name="flavor" onchange="set_packages_flavor();"></select>
+                            </div>
+                            <div id="lime_config" class="col">
+                                <label for="network_profile" class="col-form-label">
+                                    <a href="https://github.com/libremesh/network-profiles/" target="_blank">
+                                        <span class="tr-network-profile">Network Profile</span>:
+                                    </a>
+                                </label>
+                                <select class="custom-select" id="network_profile" onchange="edit_packages_update()"></select>
+                            </div>
+                        </div>
 						<div class="form-group row">
 							<div class="form-group col-md-6" >
 								<button onclick="toggle('#edit_packages');" type="button" id="btn_edit_packages" class="btn btn-primary tr-edit-packages" disabled>Edit packages</button>
