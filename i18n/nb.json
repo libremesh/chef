@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kingu"
+		]
+	},
+	"tr-server-down": "Tjener nede",
+	"tr-unsupported": "Ustøttet enhet, utgave, mål, undermål eller kort.",
+	"tr-no-sysupgrade": "Ingen sysupgrade-fil ble laget, kanskje modellen ikke er støttet?",
+	"tr-filesize": "Inget fastvare opprettet som følge av avtrykksstørrelse. Prøv igjen med færre pakker valgt.",
+	"tr-unknown-package": "Ukjent pakke i forespørsel",
+	"tr-overload": "Vent, tjeneren er overbelastet",
+	"tr-buildlog": "Byggingslogg",
+	"tr-advanced": "Avansert",
+	"tr-building": "Bygger fastvare.",
+	"tr-initialize-imagebuilder": "Igangsetter ImageBuilder",
+	"tr-queue-position": "Du er i byggingskøposisjon",
+	"tr-created": "Avtrykk opprettet",
+	"tr-distro": "Distribusjon",
+	"tr-release": "Utgave",
+	"tr-model": "Rutermodell",
+	"tr-start-typing": "Begynn å skrive…",
+	"tr-network-profile": "Nettverksprofil",
+	"tr-flavor": "Variant",
+	"tr-edit-packages": "Rediger pakker",
+	"tr-packages": "Pakker",
+	"tr-problem": "Problem?",
+	"tr-source-code": "Kildekode",
+	"tr-help": "Hjelp",
+	"tr-settings": "Innstillinger",
+	"tr-create-image": "Opprett avtrykk"
+}
