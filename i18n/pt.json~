@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Athena in Wonderland"
+		]
+	},
+	"tr-server-down": "Servidor fora do ar",
+	"tr-unsupported": "Dispositivo, versão, destinatário, subdestinatário ou espaço não suportado.",
+	"tr-no-sysupgrade": "Não foi possível produzir um ficheiro da imagem de atualização do sistema, talvez não seja compatível com o modelo.",
+	"tr-filesize": "Não foi possível criar o firmware devido ao tamanho da imagem. Tente novamente com menos pacotes selecionados.",
+	"tr-unknown-package": "Pacote solicitado desconhecido",
+	"tr-overload": "Por favor, aguarde, o servidor está sobrecarregado",
+	"tr-buildlog": "Registo de compilações",
+	"tr-advanced": "Avançado",
+	"tr-building": "A compilar o firmware.",
+	"tr-initialize-imagebuilder": "A iniciar o ImageBuilder",
+	"tr-queue-position": "Na fila de compilação, encontra-se na posição",
+	"tr-created": "Imagem criada",
+	"tr-distro": "Distribuição",
+	"tr-release": "Versão",
+	"tr-model": "Modelo do roteador",
+	"tr-start-typing": "Comece a escrever...",
+	"tr-network-profile": "Perfil da rede",
+	"tr-flavor": "Tipo de licença",
+	"tr-edit-packages": "Editar pacotes",
+	"tr-packages": "Pacotes",
+	"tr-problem": "Problemas?",
+	"tr-source-code": "Código-fonte",
+	"tr-help": "Ajuda",
+	"tr-settings": "Definições",
+	"tr-create-image": "Criar imagem"
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> Localisation updates from https://translatewiki.net.
