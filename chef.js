@@ -477,17 +477,20 @@ function image_request_handler(response) {
         if(imagebuilder === "queue") {
             var position = response.getResponseHeader("X-Build-Queue-Position");
             if (position === null) {
+                info_box(tr("tr-queue"))
+            } else {
                 if (position === last_position) {
                     queue_counter += 1;
+                } else {
+                    last_position = position;
+                    queue_counter = 0;
                 }
                 if (queue_counter < 30) {
-                    info_box(tr("tr-queue"))
+                    info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
                 } else {
                     error_box(tr("tr-queue-error"))
                     return;
                 }
-            } else {
-                info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
             }
         } else if(imagebuilder === "building") {
             info_box(tr("tr-building"));
