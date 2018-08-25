@@ -484,7 +484,7 @@ function image_request_handler(response) {
                     info_box(tr("tr-queue"))
                 } else {
                     error_box(tr("tr-queue-error"))
-                    break;
+                    return;
                 }
             } else {
                 info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
