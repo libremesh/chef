@@ -24,5 +24,6 @@
 	"tr-source-code": "Source Code",
 	"tr-help": "Help",
 	"tr-settings":"Settings",
-	"tr-create-image":"Create Image"
+	"tr-create-image":"Create Image",
+	"tr-queue-error": "You're not moving forward in queue for a long time, please report this"
 }

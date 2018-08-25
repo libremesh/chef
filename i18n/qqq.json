@@ -28,5 +28,6 @@
 	"tr-settings": "{{Identical|Settings}}",
     "tr-installed-packages": "",
     "tr-files-created": "",
-    "tr-request-firmware": ""
+    "tr-request-firmware": "",
+    "tr-queue-error": ""
 }

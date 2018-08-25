@@ -358,6 +358,8 @@ function distro_changed() {
 }
 
 function create() {
+    last_position = null;
+    queue_counter = 0;
     data = {}
     hide("#download_factory_div");
     hide("#download_box");
@@ -475,12 +477,18 @@ function image_request_handler(response) {
         if(imagebuilder === "queue") {
             var position = response.getResponseHeader("X-Build-Queue-Position");
             if (position === null) {
-                info_box(tr("tr-queue"))
+                if (position === last_position) {
+                    queue_counter += 1;
+                }
+                if (queue_counter < 30) {
+                    info_box(tr("tr-queue"))
+                } else {
+                    error_box(tr("tr-queue-error"))
+                    break;
+                }
             } else {
                 info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
             }
-        } else if(imagebuilder === "initialize") {
-            info_box(tr("tr-initialize-imagebuilder"));
         } else if(imagebuilder === "building") {
             info_box(tr("tr-building"));
         } else {
