@@ -38,7 +38,13 @@ function load_image_info() {
         data.image = JSON.parse(xmlhttp.responseText);
         for (var key in data.image) {
             if($("#image_" + key)) {
-                $("#image_" + key).innerHTML = data.image[key]
+                if (key == 'build_date') {
+                    $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
+                } else if (key == 'target') {
+                    $("#image_target").innerHTML = data.image['target'] + "/" + data.image['subtarget']
+                } else {
+                    $("#image_" + key).innerHTML = data.image[key]
+                }
             }
         }
         load_installed_packages();
