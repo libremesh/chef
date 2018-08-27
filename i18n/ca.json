@@ -6,9 +6,9 @@
 		]
 	},
 	"tr-server-down": "El servidor està aturat",
+	"tr-unsupported": "Dispositiu, llançament, arquitectura, subarquitectura o placa no suportats.",
 	"tr-no-sysupgrade": "No s'ha produït cap fitxer sysupgrade, potser no està suportat per a aquest model.",
 	"tr-filesize": "No s'ha pogut crear el microprogramari degut a la mida de la imatge. Proveu de nou, seleccionant menys paquets.",
-	"tr-unsupported": "Dispositiu, llançament, arquitectura, subarquitectura o placa no suportats.",
 	"tr-unknown-package": "La petició conté un paquet desconegut",
 	"tr-overload": "Si us plau, espereu: el servidor està sobrecarregat",
 	"tr-buildlog": "Registre del procés de log",
