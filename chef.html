@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Chef Imagebuilder</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="stylesheet" href="bootstrap.min.css">
-		<link rel="stylesheet" href="octicons.min.css">
-		<script>
+    <head>
+        <title>Chef Imagebuilder</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="octicons.min.css">
+        <script>
             server = "https://as-test.stephen304.com";
             //server = "http://192.168.121.43:5000";
             default_distro = "openwrt";
             default_profile = "libremesh-default";
-		</script>
-	</head>
-	<body>
-		<div class="container">
-			<p>
-			<nav class="navbar rounded navbar-dark bg-primary justify-content-between">
-				<a class="navbar-brand" href="">Chef Imagebuilder <b>BETA</b> dev</a>
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <p>
+            <nav class="navbar rounded navbar-dark bg-primary justify-content-between">
+                <a class="navbar-brand" href="">Chef Imagebuilder <b>BETA</b> dev</a>
                 <form class="form-inline">
                     <select class="custom-select" id="lang" name="lang" onchange="translate();">
                         <option value="en">English</option>
@@ -40,21 +40,27 @@
                         <option value="zh-hant">中文（繁體）‎ (Mandarin Traditional)</option>
                     </select>
                 </form>
-			</nav>
-			</p>
+            </nav>
+            </p>
             <style>input[type=text], button, textarea, select { width: 100%; }</style>
-			<div class="card" id="download_box" style="display:none">
-				<h4 class="card-header">Firmware</h4>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-6">
-							Distributions: <span id="image_alias"></span></br>
-							Version: <span id="image_version"></span></br>
-							Model: <b><span id="image_model"></span></b></br>
-							Target: <span id="image_target"></span></br>
-							Build Date: <span id="image_build_date"></span></br>
-						</div>
-						<div class="col-md-6">
+            <div class="alert alert-warning">
+                <b>Warning:</b>
+                This is the development version of Chef. Please report odd
+                behaviour and created images may disappear for no apparent
+                reason.
+            </div>
+            <div class="card" id="download_box" style="display:none">
+                <h4 class="card-header">Firmware</h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            Distributions: <span id="image_alias"></span></br>
+                            Version: <span id="image_version"></span></br>
+                            Model: <b><span id="image_model"></span></b></br>
+                            Target: <span id="image_target"></span></br>
+                            Build Date: <span id="image_build_date"></span></br>
+                        </div>
+                        <div class="col-md-6">
                             <div id="download_div" style="display:none">
                                 <a href="" id="download_sysupgrade">
                                     <svg class="octicon octicon-desktop-download" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 6h3V0h2v6h3l-4 4-4-4zm11-4h-4v1h4v8H1V3h4V2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"></path></svg>
@@ -73,8 +79,8 @@
                                 </a>
                                 </div>
                             </div>
-						</div>
-						<div class="col-md-12">
+                        </div>
+                        <div class="col-md-12">
                             <a href="javascript: toggle('#packages_box');">
                                 <span id="tr-installed-packages">Installed packages</span>
                                 <span id="packages_count"></span>
@@ -86,40 +92,40 @@
                             </a>
                             <div id="files_box" style="display: none"></div>
                         </div>
-					</div>
-				</div>
-			</div>
-			<p>
+                    </div>
+                </div>
+            </div>
+            <p>
                 <div style="display: none" id="info_box" class="alert alert-success"></div>
                 <div style="display: none" id="error_box" class="alert alert-danger"></div>
-			</p>
-			<div class="card">
-				<h4 class="card-header tr-request-firmware">Request Firmware</h4>
-				<div class="card-body">
-					<form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
-						<div class="form-group row">
-							<label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
-							<div class="col-sm-3">
-								<select class="custom-select" id="distro" onchange="distro_changed();" aria-describedby="distro_desc"></select>
+            </p>
+            <div class="card">
+                <h4 class="card-header tr-request-firmware">Request Firmware</h4>
+                <div class="card-body">
+                    <form name="request_form" id="request_form" action="#" method="get" class="col-md-12">
+                        <div class="form-group row">
+                            <label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
+                            <div class="col-sm-3">
+                                <select class="custom-select" id="distro" onchange="distro_changed();" aria-describedby="distro_desc"></select>
                                 <small id="distro_desc" class="form-text text-muted"></small>
-							</div>
-							<label for="version" class="col-sm-2 col-form-label tr-version">Version:</label>
-							<div class="form-group col-md-4" >
-								<select class="custom-select" id="version" aria-describedby="version_desc"></select>
+                            </div>
+                            <label for="version" class="col-sm-2 col-form-label tr-version">Version:</label>
+                            <div class="form-group col-md-4" >
+                                <select class="custom-select" id="version" aria-describedby="version_desc"></select>
                                 <small id="version_desc" class="form-text text-muted"></small>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="version" class="col-sm-3 col-form-label tr-model">Router Model:</label>
-							<div class="form-group col-md-3">
-								<input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
-							</div>
-							<div class="form-group col-md-6">
-								<select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
-									<option value="" class="tr-start-typing" selected>Start typing</option>
-								</select>
-							</div>
-						</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="version" class="col-sm-3 col-form-label tr-model">Router Model:</label>
+                            <div class="form-group col-md-3">
+                                <input class="form-control" type="text" id="search_device" onkeyup="search_delayed()" placeholder="Search for device...">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="custom-select" id="profile" name="profile" onchange="profile_changed();">
+                                    <option value="" class="tr-start-typing" selected>Start typing</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div id="flavor_div" class="form-group col-md-6">
                                 <label for="flavor" class="col-form-label tr-flavor">Flavor:</a></label>
@@ -134,41 +140,41 @@
                                 <select class="custom-select" id="network_profile" onchange="edit_packages_update()"></select>
                             </div>
                         </div>
-						<div class="form-group row">
-							<div class="form-group col-md-6" >
-								<button onclick="toggle('#edit_packages');" type="button" id="btn_edit_packages" class="btn btn-primary tr-edit-packages" disabled>Edit packages</button>
-								<div id="edit_packages_div">
-									<textarea id="edit_packages" name="edit_packages" rows=15 style="display: none"></textarea>
-								</div>
-							</div>
-							<div class="form-group col-md-6" >
-								<button onclick="toggle('#edit_defaults');" type="button" name="btn_edit_packages" class="btn btn-primary tr-edit-defaults">Edit UCI defaults (alpha)</button>
-								<div id="edit_defaults_div">
-									<textarea id="edit_defaults" name="edit_defaults" rows=15 style="display: none"></textarea>
-								</div>
-							</div>
-						</div>
-						<div class="form-group row">
-							<div class="form-group col-md-3">
-								<button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success tr-create-image" disabled>Create Image</button>
-							</div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-6" >
+                                <button onclick="toggle('#edit_packages');" type="button" id="btn_edit_packages" class="btn btn-primary tr-edit-packages" disabled>Edit packages</button>
+                                <div id="edit_packages_div">
+                                    <textarea id="edit_packages" name="edit_packages" rows=15 style="display: none"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6" >
+                                <button onclick="toggle('#edit_defaults');" type="button" name="btn_edit_packages" class="btn btn-primary tr-edit-defaults">Edit UCI defaults (alpha)</button>
+                                <div id="edit_defaults_div">
+                                    <textarea id="edit_defaults" name="edit_defaults" rows=15 style="display: none"></textarea>
+                                </div>
+                            </div>
                         </div>
-					</form>
-				</div>
-			</div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-3">
+                                <button onclick="create()" type="button" name="btn_create" id="btn_create" class="btn btn-success tr-create-image" disabled>Create Image</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-			<div class="row justify-content-md-center">
-				<div class="col-12 col-md-auto">
-					<a href="https://github.com/aparcar/attendedsysupgrade-server/issues" target="_blank" class="tr-problem"><b>Problem?</b></a>
-					|
-					<a href="https://github.com/libremesh/chef" target="_blank" class="tr-source-code">Source Code</a>
-					|
-					<a href="https://lists.libremesh.org/mailman/listinfo/lime-users" target="_blank" class="tr-help">Help</a>
-				</div>
-			</div>
-			<script src="flavors.js"></script>
-			<script src="chef.js"></script>
-			<div class="col-md-4"></div>
-		</div>
-	</body>
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-auto">
+                    <a href="https://github.com/aparcar/attendedsysupgrade-server/issues" target="_blank" class="tr-problem"><b>Problem?</b></a>
+                    |
+                    <a href="https://github.com/libremesh/chef" target="_blank" class="tr-source-code">Source Code</a>
+                    |
+                    <a href="https://lists.libremesh.org/mailman/listinfo/lime-users" target="_blank" class="tr-help">Help</a>
+                </div>
+            </div>
+            <script src="flavors.js"></script>
+            <script src="chef.js"></script>
+            <div class="col-md-4"></div>
+        </div>
+    </body>
 </html>
