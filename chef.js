@@ -407,8 +407,13 @@ function bootstrap() {
 }
 
 // shows notification if update is available
-function info_box(info_output) {
-    $("#info_box").innerHTML = info_output;
+function info_box(info_output, loading) {
+    $("#info_box_content").innerHTML = info_output;
+    if (loading) {
+        $("#info_box_loading").style.display = 'inline';
+    } else {
+        hide("#info_box_loading")
+    }
     show("#info_box");
 }
 
@@ -483,7 +488,7 @@ function image_request_handler(response) {
         if(imagebuilder === "queue") {
             var position = response.getResponseHeader("X-Build-Queue-Position");
             if (position === null) {
-                info_box(tr("tr-queue"))
+                info_box(tr("tr-queue"), true)
             } else {
                 if (position === last_position) {
                     queue_counter += 1;
@@ -492,16 +497,16 @@ function image_request_handler(response) {
                     queue_counter = 0;
                 }
                 if (queue_counter < 30) {
-                    info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position)
+                    info_box(tr("tr-queue") + ". " + tr("tr-position") + ": " + position, true)
                 } else {
                     error_box(tr("tr-queue-error"))
                     return;
                 }
             }
         } else if(imagebuilder === "building") {
-            info_box(tr("tr-building"));
+            info_box(tr("tr-building"), true);
         } else {
-            info_box("Processing request"); // should never be shown
+            info_box("Processing request", true); // should never be shown
             console.log(imagebuilder)
         }
         setTimeout(image_request, 5000);
