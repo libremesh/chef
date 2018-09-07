@@ -6,6 +6,10 @@ function show(s) {
     $(s).style.display = 'block';
 }
 
+function inline(s) {
+    $(s).style.display = 'inline';
+}
+
 function hide(s) {
     $(s).style.display = 'none';
 }
@@ -36,6 +40,9 @@ function load_image_info() {
 
     function image_info_results(xmlhttp) {
         data.image = JSON.parse(xmlhttp.responseText);
+        if (data.image.snapshots) {
+            inline("#unstable_warning")
+        }
         for (var key in data.image) {
             if($("#image_" + key)) {
                 if (key == 'build_date') {
@@ -371,6 +378,7 @@ function create() {
     hide("#download_box");
     hide("#info_box");
     hide("#error_box");
+    hide("#unstable_warning");
     packages = [];
     delete hash
     location.hash = ""
@@ -410,7 +418,7 @@ function bootstrap() {
 function info_box(info_output, loading) {
     $("#info_box_content").innerHTML = info_output;
     if (loading) {
-        $("#info_box_loading").style.display = 'inline';
+        inline("#info_box_loading")
     } else {
         hide("#info_box_loading")
     }
