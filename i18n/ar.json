@@ -1,0 +1,32 @@
+{
+	"@metadata": {
+		"authors": [
+			"Meno25"
+		]
+	},
+	"tr-server-down": "الخادم لا يعمل",
+	"tr-unsupported": "جهاز، إصدار، هدف، هدف فرعي، أو لوحة غير مدعومة.",
+	"tr-no-sysupgrade": "لا ملف sysupgrade تم إنتاجه، ربما يكون غير مدعوم من الموديل.",
+	"tr-filesize": "لا firmware تم إنشاؤه نتيجة لحجم الصورة. حاول مرة ثانية مع اختيار عدد أقل من الباقات.",
+	"tr-unknown-package": "باقة غير مدعومة في الطلب",
+	"tr-overload": "من فضلك انتظر، الخادم محمل أكثر من طاقته",
+	"tr-buildlog": "سجل البناء",
+	"tr-advanced": "متقدم",
+	"tr-building": "بناء الfirmware.",
+	"tr-initialize-imagebuilder": "بدء ImageBuilder",
+	"tr-queue-position": "أنت في منصب طابور البناء",
+	"tr-created": "الصورة تم إنشاؤها",
+	"tr-distro": "التوزيع",
+	"tr-release": "الإصدار",
+	"tr-model": "موديل الراوتر",
+	"tr-start-typing": "ابدأ الكتابة...",
+	"tr-network-profile": "ملف الشبكة",
+	"tr-flavor": "النكهة",
+	"tr-edit-packages": "عدل الباقات",
+	"tr-packages": "الباقات",
+	"tr-problem": "مشكلة؟",
+	"tr-source-code": "الكود المصدري",
+	"tr-help": "مساعدة",
+	"tr-settings": "الإعدادات",
+	"tr-create-image": "إنشاء صورة"
+}

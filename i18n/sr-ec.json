@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"BadDog"
+		]
+	},
+	"tr-overload": "Сачекајте, сервер је преоптерећен",
+	"tr-advanced": "Напредно",
+	"tr-created": "Направљено слика",
+	"tr-distro": "Дистрибуција",
+	"tr-start-typing": "Почните да куцате…",
+	"tr-network-profile": "Мрежни профил",
+	"tr-edit-packages": "Измени пакете",
+	"tr-packages": "Пакети",
+	"tr-problem": "Проблем?",
+	"tr-source-code": "Изворни кôд",
+	"tr-help": "Помоћ",
+	"tr-settings": "Подешавања",
+	"tr-create-image": "Направи слику"
+}
