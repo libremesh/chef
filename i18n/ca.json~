@@ -1,12 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-<<<<<<< HEAD
 			"Fitoschido",
 			"Leandro"
-=======
-			"Fitoschido"
->>>>>>> Localisation updates from https://translatewiki.net.
 		]
 	},
 	"tr-server-down": "El servidor està aturat",
@@ -29,14 +25,9 @@
 	"tr-flavor": "Versió",
 	"tr-edit-packages": "Edita els paquets",
 	"tr-packages": "Paquets",
-<<<<<<< HEAD
 	"tr-problem": "Problema?",
 	"tr-source-code": "Codi font",
 	"tr-help": "Ajuda",
 	"tr-settings": "Paràmetres",
 	"tr-create-image": "Crear Imatge"
 }
-=======
-	"tr-help": "Ajuda"
-}
->>>>>>> Localisation updates from https://translatewiki.net.
