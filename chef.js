@@ -160,8 +160,16 @@ function redraw_devices() {
       $("#btn_create").disabled = false;
       $("#btn_edit_packages").disabled = false;
       for(var i = 0; i < data.devices.length; i++) {
+    if (data.devices[i].model != "Generic") {
         $("#profile")[i] = new Option(data.devices[i].model)
-        $("#profile")[i].value = data.devices[i].target + "/" + data.devices[i].subtarget + "/" + data.devices[i].profile
+    } else {
+        $("#profile")[i] = new Option(
+            data.devices[i].model + " (" + data.devices[i].target + "/" +
+            data.devices[i].subtarget + ")")
+    }
+
+        $("#profile")[i].value = data.devices[i].target + "/" +
+              data.devices[i].subtarget + "/" + data.devices[i].profile
       }
       $("#profile").selectedIndex = selected_device;
     }
@@ -400,7 +408,7 @@ function create() {
     if (packages != "") {
         request_dict.packages = packages
     }
-	image_request()
+    image_request()
 }
 
 function bootstrap() {
