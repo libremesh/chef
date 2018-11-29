@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nike",
+			"Pyscowicz"
+		]
+	},
+	"tr-server-down": "Palvelin alhaalla",
+	"tr-edit-packages": "Muokkaa paketteja",
+	"tr-packages": "Paketit",
+	"tr-problem": "Ongelma?",
+	"tr-source-code": "Lähdekoodi",
+	"tr-help": "Ohje",
+	"tr-settings": "Asetukset"
+}
