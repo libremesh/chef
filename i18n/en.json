@@ -9,11 +9,12 @@
 	"tr-advanced": "Advanced",
 	"tr-building": "Building firmware.",
 	"tr-initialize-imagebuilder": "Initializing ImageBuilder",
-	"tr-queue-position": "You are in build queue position ",
+	"tr-queue": "You are in the build queue",
+	"tr-position": "Position",
 	"tr-created": "Image created",
 	"tr-distro": "Distribution",
 	"tr-release": "Release",
-	"tr-model": "Router Model",
+	"tr-model": "Device Model",
 	"tr-start-typing": "Start typing...",
 	"tr-network-profile": "Network Profile",
 	"tr-flavor": "Flavor",
@@ -23,5 +24,6 @@
 	"tr-source-code": "Source Code",
 	"tr-help": "Help",
 	"tr-settings":"Settings",
-	"tr-create-image":"Create Image"
+	"tr-create-image":"Create Image",
+	"tr-queue-error": "You're not moving forward in queue for a long time, please report this"
 }
