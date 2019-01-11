@@ -2,6 +2,10 @@ function $(s) {
     return document.getElementById(s.substring(1));
 }
 
+function $$(s) {
+    return document.getElementById(s.substring(1)).value;
+}
+
 function show(s) {
     $(s).style.display = 'block';
 }
@@ -15,7 +19,7 @@ function hide(s) {
 }
 
 function toggle(s) {
-    if($(s).style.display == 'none') {
+    if ($(s).style.display == 'none') {
         show(s)
     } else {
         hide(s)
@@ -31,7 +35,7 @@ function load_image_info() {
     var xmlhttp = new XMLHttpRequest();
     var request_url = server + "/api/image/" + location.hash.substring(1);
     xmlhttp.open("GET", request_url, true);
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             image_info_results(xmlhttp);
         }
@@ -44,7 +48,7 @@ function load_image_info() {
             inline("#unstable_warning")
         }
         for (var key in data.image) {
-            if($("#image_" + key)) {
+            if ($("#image_" + key)) {
                 if (key == 'build_date') {
                     $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
                 } else if (key == 'target') {
@@ -63,7 +67,7 @@ function load_installed_packages() {
     var xmlhttp = new XMLHttpRequest();
     var request_url = server + "/api/manifest/" + data.image.manifest_hash;
     xmlhttp.open("GET", request_url, true);
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             image_info_results(xmlhttp);
         }
@@ -116,6 +120,7 @@ function tr(id) {
 }
 
 var delay_timer;
+
 function search_delayed() {
     clearTimeout(delay_timer);
     delay_timer = setTimeout(search, 500);
@@ -123,98 +128,77 @@ function search_delayed() {
 
 function search() {
     var device = $("#search_device").value;
-    if(device.length < 3) { return }
-
-    var distro = $("#distro").value;
-    var version = $("#version").value;
-
-    request_url = server + "/api/models?model_search=" + device + "&distro=" + distro + "&version=" + version
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", request_url, true);
-
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            device_results(xmlhttp);
-        }
+    if (device.length < 3) {
+        return
     }
-    xmlhttp.send(null);
 
-    function device_results(xmlhttp) {
-        data.devices = JSON.parse(xmlhttp.responseText)
-        redraw_devices();
-        load_default_packages();
-        set_device_info();
-    }
+    request_url = server + "/api/models?model_search=" + device + 
+        "&distro=" + $$("#distro") + "&version=" + $$("#version")
+
+    fetch(request_url)
+        .then(function(response) {
+            return response.json();
+        }).then(function(response) {
+            data.devices = response;
+            redraw_devices();
+            load_default_packages();
+            set_device_info();
+        });
 };
 
 function redraw_devices() {
-  if(data.devices) {
-    var selected_device = $("#profile").selectedIndex
-    $("#profile").options.length = 0;
-    if(data.devices.length == 0) {
-      $("#btn_create").disabled = true;
-      $("#btn_edit_packages").disabled = true;
-      $("#profile")[0] = new Option("Not found")
-    } else {
-      $("#btn_create").disabled = false;
-      $("#btn_edit_packages").disabled = false;
-      for(var i = 0; i < data.devices.length; i++) {
-    if (data.devices[i].model != "Generic") {
-        $("#profile")[i] = new Option(data.devices[i].model)
-    } else {
-        $("#profile")[i] = new Option(
-            data.devices[i].model + " (" + data.devices[i].target + "/" +
-            data.devices[i].subtarget + ")")
-    }
+    if (data.devices) {
+        var selected_device = $("#profile").selectedIndex
+        $("#profile").options.length = 0;
+        if (data.devices.length == 0) {
+            $("#btn_create").disabled = true;
+            $("#btn_edit_packages").disabled = true;
+            $("#profile")[0] = new Option("Not found")
+        } else {
+            $("#btn_create").disabled = false;
+            $("#btn_edit_packages").disabled = false;
+            for (var i = 0; i < data.devices.length; i++) {
+                if (data.devices[i].model != "Generic") {
+                    $("#profile")[i] = new Option(data.devices[i].model)
+                } else {
+                    $("#profile")[i] = new Option(
+                        data.devices[i].model + " (" + data.devices[i].target + "/" +
+                        data.devices[i].subtarget + ")")
+                }
 
-        $("#profile")[i].value = data.devices[i].target + "/" +
-              data.devices[i].subtarget + "/" + data.devices[i].profile
-      }
-      $("#profile").selectedIndex = selected_device;
+                $("#profile")[i].value = data.devices[i].target + "/" +
+                    data.devices[i].subtarget + "/" + data.devices[i].profile
+            }
+            $("#profile").selectedIndex = selected_device;
+        }
     }
-  }
 }
 
-function load_distros() {
-    var xmlhttp = new XMLHttpRequest();
-    request_url = server + "/api/distros";
-
-    xmlhttp.open("GET", request_url, true);
-
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            distros_results(xmlhttp);
-        }
-    }
-    xmlhttp.send(null);
-
-    function distros_results(xmlhttp) {
-        distros = JSON.parse(xmlhttp.responseText);
-        $("#distro").options.length = 0;
-
-        for(var i = 0; i < distros.length; i++) {
-            var distros_length = $("#distro").length;
+function load_dists() {
+    fetch(server + "/api/distributions")
+        .then(function(response) {
+            return response.json();
+        }).then(function(response) {
+            dists = response;
+            for (dist in dists) {
+                var dists_length = $("#distro").length;
                 var opt = document.createElement("option");
-                opt.value= distros[i].name;
-                opt.innerHTML = distros[i].alias
-                opt.desc = distros[i].description
-                opt.latest = distros[i].latest
+                opt.value = dist;
+                opt.innerHTML = dists[dist].distro_alias
                 $("#distro").appendChild(opt);
-        }
-        $("#distro").value = default_distro;
-        load_versions();
-    }
-
-};
+            }
+            $("#distro").value = default_distro;
+            dist_changed();
+        });
+}
 
 function load_flavors() {
     $("#flavor").options.length = 0;
     if (flavors[$("#distro").value]) {
         show("#flavor_div")
-        for(flavor in flavors[$("#distro").value]) {
+        for (flavor in flavors[$("#distro").value]) {
             var opt = document.createElement("option");
-            opt.value= flavor
+            opt.value = flavor
             opt.innerHTML = flavors[$("#distro").value][flavor][0]
             $("#flavor").appendChild(opt);
         }
@@ -237,16 +221,6 @@ function profile_changed() {
     load_default_packages();
 }
 
-function get_distro_versions(distro) {
-    var distro_versions = []
-    for(var i = 0; i < versions.length; i++) {
-        if(versions[i].distro == distro) {
-            distro_versions[distro_versions.length] = versions[i].version
-        }
-    }
-    return distro_versions
-}
-
 function load_network_profiles() {
     var xmlhttp = new XMLHttpRequest();
     request_url = server + "/network-profiles/Packages";
@@ -254,7 +228,7 @@ function load_network_profiles() {
     xmlhttp.open("GET", request_url, true);
     xmlhttp.overrideMimeType("text/plain")
 
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             network_profiles_results(xmlhttp);
         }
@@ -264,7 +238,7 @@ function load_network_profiles() {
     function network_profiles_results(xmlhttp) {
         var network_profiles = xmlhttp.responseText.split("\n");
 
-        for(var i = 0; i < network_profiles.length; i++) {
+        for (var i = 0; i < network_profiles.length; i++) {
             if (network_profiles[i].startsWith("Package: ")) {
                 var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
                 var network_profiles_length = $("#network_profile").length;
@@ -273,29 +247,6 @@ function load_network_profiles() {
             }
         }
         $("#network_profile").value = default_profile;
-    }
-};
-
-function load_versions() {
-    var xmlhttp = new XMLHttpRequest();
-    var device = $("#search_device").value;
-    var distro = $("#distro").value;
-    //var version = $("#version").value;
-
-    request_url = server + "/api/versions"
-
-    xmlhttp.open("GET", request_url, true);
-
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            versions_results(xmlhttp);
-        }
-    }
-    xmlhttp.send(null);
-
-    function versions_results(xmlhttp) {
-        versions = JSON.parse(xmlhttp.responseText);
-        distro_changed();
     }
 };
 
@@ -312,13 +263,13 @@ function load_default_packages() {
     var distro = $("#distro").value;
     var version = $("#version").value;
     set_device_info()
-    if(typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
+    if (typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
 
-        request_url = server + "/api/default_packages?distro=" + distro + "&version=" + version + "&target=" + target + "&subtarget=" + subtarget+ "&profile=" + profile
+        request_url = server + "/api/default_packages?distro=" + distro + "&version=" + version + "&target=" + target + "&subtarget=" + subtarget + "&profile=" + profile
 
         xmlhttp.open("GET", request_url, true);
 
-        xmlhttp.onreadystatechange = function () {
+        xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 packages_image_results(xmlhttp);
             }
@@ -348,34 +299,35 @@ function packages_input() {
     show("#edit_packages_div")
 }
 
-function distro_changed() {
-    var distro_versions = get_distro_versions($("#distro").value)
+function version_changed() {
+    $("#version_desc").innerHTML = dists[$$("#distro")]["versions"][$$("#version")].version_description || ""
+    search();
+}
+
+function dist_changed() {
     $("#version").options.length = 0;
 
-    for(var i = 0; i < distro_versions.length; i++) {
-        $("#version")[$("#version").length] = new Option(distro_versions[i])
+    for (var version in dists[$$("#distro")].versions) {
+        var title = version
+        $("#version")[$("#version").length] = new Option(title)
     }
 
-    if ($("#distro").latest != "") {
-        $("#version").value = $("#distro")[$("#distro").selectedIndex].latest
+    if (dists[$$("#distro")].latest != "") {
+        $("#version").value = dists[$$("#distro")].latest
     }
 
-    if ($("#distro").desc != "") {
-        $("#distro_desc").innerHTML = $("#distro")[$("#distro").selectedIndex].desc
-    } else {
-        $("#distro_desc").innerHTML = ""
-    }
+    $("#distro_desc").innerHTML = dists[$$("#distro")].distro_description || ""
 
-    if($("#distro").value === "lime") {
+    if ($("#distro").value === "lime") {
         show("#lime_config");
         $("#flavor").value = "lime_default"
-    }  else {
+    } else {
         hide("#lime_config");
         $("#flavor").value = ""
     }
     load_flavors();
     set_packages_flavor();
-    search();
+    version_changed();
 }
 
 function create() {
@@ -391,7 +343,7 @@ function create() {
     delete hash
     location.hash = ""
     edit_packages_split = $("#edit_packages").value.replace(/ /g, "\n").split("\n")
-    for(var i = 0; i < edit_packages_split.length; i++) {
+    for (var i = 0; i < edit_packages_split.length; i++) {
         package_trimmed = edit_packages_split[i].trim()
         if (package_trimmed != "") {
             packages.push(package_trimmed)
@@ -413,12 +365,12 @@ function create() {
 
 function bootstrap() {
     data = {}
-    if(location.hash != "") {
+    if (location.hash != "") {
         hash = location.hash.substring(1)
         image_request()
     }
     packages_flavor = ""
-    load_distros();
+    load_dists();
     load_network_profiles();
 }
 
@@ -443,7 +395,7 @@ function error_box(error_output) {
 function server_request(request_dict, path, callback) {
     var url = server + "/" + path
     var xmlhttp = new XMLHttpRequest();
-    if(request_dict != "") {
+    if (request_dict != "") {
         method = "POST"
     } else {
         method = "GET"
@@ -453,14 +405,14 @@ function server_request(request_dict, path, callback) {
     xmlhttp.onerror = function(e) {
         error_box(tr("tr-server-down"))
     };
-    xmlhttp.onload = function () {
+    xmlhttp.onload = function() {
         callback(xmlhttp)
     };
     xmlhttp.send(JSON.stringify(request_dict));
 }
 
 function image_request() {
-    if(typeof hash != 'undefined') {
+    if (typeof hash != 'undefined') {
         server_request("", "api/build-request/" + hash, image_request_handler)
     } else {
         server_request(request_dict, "api/build-request", image_request_handler)
@@ -472,7 +424,7 @@ function image_request_handler(response) {
     hash = response_content.request_hash
     if (response.status === 400) {
         error_box_content = response_content.error
-        if('log' in response_content) {
+        if ('log' in response_content) {
             error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
         }
         error_box(error_box_content)
@@ -491,7 +443,7 @@ function image_request_handler(response) {
         error_box(tr("tr-no-sysupgrade"))
     } else if (response.status === 500) {
         error_box_content = response_content.error
-        if('log' in response_content) {
+        if ('log' in response_content) {
             error_box_content += ' <a href="' + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
@@ -501,7 +453,7 @@ function image_request_handler(response) {
         setTimeout(image_request, 30000)
     } else if (response.status === 202) {
         var imagebuilder = response.getResponseHeader("X-Imagebuilder-Status");
-        if(imagebuilder === "queue") {
+        if (imagebuilder === "queue") {
             var position = response.getResponseHeader("X-Build-Queue-Position");
             if (position === null) {
                 info_box(tr("tr-queue"), true)
@@ -519,7 +471,7 @@ function image_request_handler(response) {
                     return;
                 }
             }
-        } else if(imagebuilder === "building") {
+        } else if (imagebuilder === "building") {
             info_box(tr("tr-building"), true);
         } else {
             info_box("Processing request", true); // should never be shown
@@ -534,7 +486,7 @@ function image_request_handler(response) {
         hide("#info_box");
         show("#download_box");
 
-        if("sysupgrade" in response_content) {
+        if ("sysupgrade" in response_content) {
             $("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
             show("#download_div");
         } else {
@@ -551,7 +503,7 @@ function load_files() {
 
     xmlhttp.open("GET", files_url, true);
 
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             versions_results(xmlhttp);
         }
@@ -566,10 +518,10 @@ function load_files() {
         var list = document.createElement('ul');
 
         var factory_files = []
-        for(var i = 0; i < response_content.length; i++) {
+        for (var i = 0; i < response_content.length; i++) {
             var item = document.createElement('li');
             var link = document.createElement('a');
-            if(response_content[i].name.includes("factory")) {
+            if (response_content[i].name.includes("factory")) {
                 factory_files[factory_files.length] = response_content[i].name
             }
             link.href = files_url + "/" + response_content[i].name
@@ -577,7 +529,7 @@ function load_files() {
             item.appendChild(link)
             list.appendChild(item);
         }
-        if(factory_files.length == 1) {
+        if (factory_files.length == 1) {
             data.factory = files_url + "/" + factory_files[0]
             $("#download_factory").setAttribute('href', data.factory)
             show("#download_factory_div");

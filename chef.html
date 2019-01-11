@@ -116,12 +116,12 @@
                     <div class="form-group row">
                         <label for="distro" class="col-sm-3 col-form-label tr-distro">Distribution:</label>
                         <div class="col-sm-3">
-                            <select class="custom-select" id="distro" onchange="distro_changed();" aria-describedby="distro_desc"></select>
+                            <select class="custom-select" id="distro" onchange="dist_changed();" aria-describedby="distro_desc"></select>
                             <small id="distro_desc" class="form-text text-muted"></small>
                         </div>
                         <label for="version" class="col-sm-2 col-form-label tr-version">Version:</label>
                         <div class="form-group col-md-4">
-                            <select class="custom-select" id="version" aria-describedby="version_desc"></select>
+                            <select class="custom-select" id="version" onchange="version_changed();" aria-describedby="version_desc"></select>
                             <small id="version_desc" class="form-text text-muted"></small>
                         </div>
                     </div>
