@@ -25,5 +25,6 @@
 	"tr-help": "Help",
 	"tr-settings":"Settings",
 	"tr-create-image":"Create Image",
+    "tr-images-created": "images created",
 	"tr-queue-error": "You're not moving forward in queue for a long time, please report this"
 }

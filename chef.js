@@ -372,6 +372,18 @@ function bootstrap() {
     packages_flavor = ""
     load_dists();
     load_network_profiles();
+    load_image_stats();
+}
+
+function load_image_stats() {
+    var request_url = server + "/api/v1/stats/image_stats"
+    fetch(request_url)
+        .then(function(response) {
+            return response.json();
+        }).then(function(response) {
+            $("#images_total").innerHTML = response.total 
+        });
+
 }
 
 // shows notification if update is available

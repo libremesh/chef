@@ -29,5 +29,6 @@
     "tr-installed-packages": "",
     "tr-files-created": "",
     "tr-request-firmware": "",
-    "tr-queue-error": ""
+    "tr-queue-error": "",
+    "tr-images-created": ""
 }
