@@ -149,7 +149,11 @@ function search() {
 function load_banner() {
     fetch(server + "/banner.html")
         .then(function(response) {
-            return response.text();
+            if (response.ok) {
+                return response.text();
+            } else {
+                return "";
+            }
         }).then(function(response) {
             $("#banner").innerHTML = response
         });
