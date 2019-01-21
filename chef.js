@@ -143,8 +143,17 @@ function search() {
             redraw_devices();
             load_default_packages();
             set_device_info();
-        });
+        }).catch(error => console.log("No banner.htl set"));
 };
+
+function load_banner() {
+    fetch(server + "/banner.html")
+        .then(function(response) {
+            return response.text();
+        }).then(function(response) {
+            $("#banner").innerHTML = response
+        });
+}
 
 function redraw_devices() {
     if (data.devices) {
@@ -373,6 +382,7 @@ function bootstrap() {
     load_dists();
     load_network_profiles();
     load_image_stats();
+    load_banner();
 }
 
 function load_image_stats() {
