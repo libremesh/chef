@@ -16,3 +16,9 @@ Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsys
 
 * [chef.libremesh.org](https://chef.libremesh.org)
 * [chef.aparcar.org](https://chef.aparcar.org)
+
+## Installation
+
+* Clone the repository at tell your web server to load `chef.html` as index.
+* Edit the `setttings.js.example` file and rename it to `settings.js`
+* Edit or remove the `banner.html`
