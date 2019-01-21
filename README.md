@@ -10,6 +10,7 @@ Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsys
 * Modify preinstalled packages
 * Add custom startup script run on first boot
 * Test various distributions, versions
+* Available in [various](https://github.com/libremesh/chef/tree/master/i18n) languages
 
 ## Running instances
 
