@@ -78,11 +78,12 @@ function load_installed_packages() {
         data.image.packages = JSON.parse(xmlhttp.responseText);
         $("#packages_count").innerHTML = "(" + Object.keys(data.image.packages).length + ")"
         var list = document.createElement('ul');
-        for (var name in data.image.packages) {
+        console.log(data.image.packages)
+        Object.keys(data.image.packages).sort().map( function(name) {
             var item = document.createElement('li');
             item.innerHTML = "<b>" + name + "</b> - " + data.image.packages[name] + "</br>"
             list.appendChild(item)
-        }
+        })
         $("#packages_box").appendChild(list);
     }
 }
