@@ -144,7 +144,7 @@ function search() {
             redraw_devices();
             load_default_packages();
             set_device_info();
-        }).catch(error => console.log("No banner.htl set"));
+        });
 };
 
 function load_banner() {
