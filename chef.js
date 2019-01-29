@@ -172,12 +172,12 @@ function redraw_devices() {
             $("#btn_create").disabled = false;
             $("#btn_edit_packages").disabled = false;
             for (var i = 0; i < data.devices.length; i++) {
-                if (data.devices[i].model != "Generic") {
-                    $("#profile")[i] = new Option(data.devices[i].model)
-                } else {
+                if (data.devices[i].model.startsWith("Generic")) {
                     $("#profile")[i] = new Option(
                         data.devices[i].model + " (" + data.devices[i].target + "/" +
                         data.devices[i].subtarget + ")")
+                } else {
+                    $("#profile")[i] = new Option(data.devices[i].model)
                 }
 
                 $("#profile")[i].value = data.devices[i].target + "/" +
