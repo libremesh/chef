@@ -452,7 +452,7 @@ function image_request_handler(response) {
     if (response.status === 400) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + response_content.log + '">Build log</a>'
+            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 404) {
@@ -471,7 +471,7 @@ function image_request_handler(response) {
     } else if (response.status === 500) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 503) {
@@ -514,12 +514,12 @@ function image_request_handler(response) {
         show("#download_box");
 
         if ("sysupgrade" in response_content) {
-            $("#download_sysupgrade").setAttribute('href', response_content.sysupgrade)
+            $("#download_sysupgrade").setAttribute('href',  server + response_content.sysupgrade)
             show("#download_div");
         } else {
             hide("#download_div");
         }
-        $("#download_build_log").setAttribute('href', response_content.log)
+        $("#download_build_log").setAttribute('href', server + response_content.log)
         location.hash = response_content.image_hash
         load_image_info()
     }
@@ -558,7 +558,7 @@ function load_files() {
         }
         if (factory_files.length == 1) {
             data.factory = files_url + "/" + factory_files[0]
-            $("#download_factory").setAttribute('href', data.factory)
+            $("#download_factory").setAttribute('href', server + data.factory)
             show("#download_factory_div");
         } else {
             data.factory = ""
