@@ -450,7 +450,7 @@ function image_request_handler(response) {
     if (response.status === 400) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+            error_box_content += ' <a target="_blank" href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 404) {
@@ -469,7 +469,7 @@ function image_request_handler(response) {
     } else if (response.status === 500) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+            error_box_content += ' <a target="_blank" href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 503) {
