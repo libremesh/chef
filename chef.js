@@ -33,7 +33,7 @@ function toggle_image_packages() {
 function load_image_info() {
     data.image = {}
     var xmlhttp = new XMLHttpRequest();
-    var request_url = server + "/api/image/" + location.hash.substring(1);
+    var request_url = server + "/api/image/" + data.image_hash;
     xmlhttp.open("GET", request_url, true);
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -47,12 +47,13 @@ function load_image_info() {
         if (data.image.snapshots) {
             inline("#unstable_warning")
         }
+        if (data.image.defaults_hash) {
+            inline("#custom_info")
+        }
         for (var key in data.image) {
             if ($("#image_" + key)) {
                 if (key == 'build_date') {
                     $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
-                } else if (key == 'target') {
-                    $("#image_target").innerHTML = data.image['target'] + "/" + data.image['subtarget']
                 } else {
                     $("#image_" + key).innerHTML = data.image[key]
                 }
@@ -174,14 +175,12 @@ function redraw_devices() {
             for (var i = 0; i < data.devices.length; i++) {
                 if (data.devices[i].model.startsWith("Generic")) {
                     $("#profile")[i] = new Option(
-                        data.devices[i].model + " (" + data.devices[i].target + "/" +
-                        data.devices[i].subtarget + ")")
+                        data.devices[i].model + " (" + data.devices[i].target + ")")
                 } else {
                     $("#profile")[i] = new Option(data.devices[i].model)
                 }
 
-                $("#profile")[i].value = data.devices[i].target + "/" +
-                    data.devices[i].subtarget + "/" + data.devices[i].profile
+                $("#profile")[i].value = data.devices[i].target + "/" + data.devices[i].profile
             }
             $("#profile").selectedIndex = selected_device;
         }
@@ -266,8 +265,7 @@ function load_network_profiles() {
 
 function set_device_info() {
     profile_split = $("#profile").value.split("/");
-    target = profile_split[0]
-    subtarget = profile_split[1]
+    target = profile_split[0] + "/" + profile_split[1]
     profile = profile_split[2]
 }
 
@@ -277,9 +275,9 @@ function load_default_packages() {
     var distro = $("#distro").value;
     var version = $("#version").value;
     set_device_info()
-    if (typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
+    if (typeof target != 'undefined' && typeof profile != 'undefined') {
 
-        request_url = server + "/api/default_packages?distro=" + distro + "&version=" + version + "&target=" + target + "&subtarget=" + subtarget + "&profile=" + profile
+        request_url = server + "/api/packages_image?distro=" + distro + "&version=" + version + "&target=" + encodeURI(target) + "&profile=" + profile
 
         xmlhttp.open("GET", request_url, true);
 
@@ -295,7 +293,7 @@ function load_default_packages() {
     }
 
     function packages_image_results(xmlhttp) {
-        packages_image = JSON.parse(xmlhttp.responseText).packages;
+        packages_image = JSON.parse(xmlhttp.responseText);
         edit_packages_update();
     }
 };
@@ -353,6 +351,7 @@ function create() {
     hide("#info_box");
     hide("#error_box");
     hide("#unstable_warning");
+    hide("#custom_info");
     packages = [];
     delete hash
     location.hash = ""
@@ -367,8 +366,7 @@ function create() {
     request_dict.distro = $("#distro").value;
     request_dict.version = $("#version").value;
     profile_split = $("#profile").value.split("/");
-    request_dict.target = profile_split[0]
-    request_dict.subtarget = profile_split[1]
+    request_dict.target = profile_split[0] + "/" + profile_split[1]
     request_dict.board = profile_split[2]
     request_dict.defaults = $("#edit_defaults").value
     if (packages != "") {
@@ -396,7 +394,7 @@ function load_image_stats() {
         .then(function(response) {
             return response.json();
         }).then(function(response) {
-            $("#images_total").innerHTML = response.total 
+            $("#images_total").innerHTML = response.total
         });
 
 }
@@ -514,14 +512,15 @@ function image_request_handler(response) {
         show("#download_box");
 
         if ("sysupgrade" in response_content) {
-            $("#download_sysupgrade").setAttribute('href',  server + response_content.sysupgrade)
+            $("#download_sysupgrade").setAttribute('href', server + response_content.files + response_content.sysupgrade)
             show("#download_div");
         } else {
             hide("#download_div");
         }
         $("#download_build_log").setAttribute('href', server + response_content.log)
-        location.hash = response_content.image_hash
-        load_image_info()
+        location.hash = response_content.request_hash
+        data.image_hash = response_content.image_hash
+        load_image_info();
     }
 }
 

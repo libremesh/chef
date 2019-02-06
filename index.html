@@ -46,12 +46,15 @@
             reason.
         </div>
         <div class="card" id="download_box" style="display:none">
-            <h4 class="card-header">Firmware <span id="unstable_warning" class="badge badge-danger" style="display:none">unstable</span></h4>
+            <h4 class="card-header">Firmware 
+                <span id="unstable_warning" class="badge badge-danger" style="display:none">unstable</span>
+                <span id="custom_info" class="badge badge-info" style="display:none">custom UCI defaults</span>
+            </h4>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        Distribution: <span id="image_alias"></span></br>
-                        Version: <span id="image_version"></span></br>
+                        Distribution: <span id="image_distro_alias"></span></br>
+                        Version: <span id="image_version_alias"></span></br>
                         Model: <b><span id="image_model"></span></b></br>
                         Target: <span id="image_target"></span></br>
                         Build Date: <span id="image_build_date"></span></br>
