@@ -39,8 +39,15 @@
             </nav>
         </p>
         <style>input[type=text], button, textarea, select { width: 100%; }</style>
+        <div id="maintenance_box" class="alert alert-danger" style="display: none">
+            <b>Maintenance:</b>
+            <span id="maintenance_message"></span>
+        </div>
         <div class="card" id="download_box" style="display:none">
-            <h4 class="card-header">Firmware <span id="unstable_warning" class="badge badge-danger" style="display:none">unstable</span></h4>
+            <h4 class="card-header">Firmware
+                <span id="unstable_warning" class="badge badge-danger" style="display:none">unstable</span>
+                <span id="custom_info" class="badge badge-info" style="display:none">custom UCI defaults</span>
+            </h4>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
