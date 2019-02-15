@@ -32,83 +32,62 @@ function toggle_image_packages() {
 
 function load_image_info() {
     data.image = {}
-    var xmlhttp = new XMLHttpRequest();
-    var request_url = server + "/api/image/" + location.hash.substring(1);
-    xmlhttp.open("GET", request_url, true);
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            image_info_results(xmlhttp);
-        }
-    }
-    xmlhttp.send();
-
-    function image_info_results(xmlhttp) {
-        data.image = JSON.parse(xmlhttp.responseText);
-        if (data.image.snapshots) {
-            inline("#unstable_warning")
-        }
-        for (var key in data.image) {
-            if ($("#image_" + key)) {
-                if (key == 'build_date') {
-                    $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
-                } else if (key == 'target') {
-                    $("#image_target").innerHTML = data.image['target'] + "/" + data.image['subtarget']
-                } else {
-                    $("#image_" + key).innerHTML = data.image[key]
+    fetch(server + "/api/image/" + data.image_hash)
+        .then(response => response.json())
+        .then(function(image_info) {
+            data.image = image_info
+            if (data.image.snapshots) {
+                inline("#unstable_warning")
+            }
+            if (data.image.defaults_hash) {
+                inline("#custom_info")
+            }
+            for (var key in data.image) {
+                if ($("#image_" + key)) {
+                    if (key == 'build_date') {
+                        $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
+                    } else {
+                        $("#image_" + key).innerHTML = data.image[key]
+                    }
                 }
             }
-        }
-        load_installed_packages();
-    }
+            load_installed_packages();
+        });
 }
 
-function load_installed_packages() {
+function load_manifest() {
     $("#packages_box").innerHTML = ""
-    var xmlhttp = new XMLHttpRequest();
-    var request_url = server + "/api/manifest/" + data.image.manifest_hash;
-    xmlhttp.open("GET", request_url, true);
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            image_info_results(xmlhttp);
-        }
-    }
-    xmlhttp.send();
-
-    function image_info_results(xmlhttp) {
-        data.image.packages = JSON.parse(xmlhttp.responseText);
-        $("#packages_count").innerHTML = "(" + Object.keys(data.image.packages).length + ")"
-        var list = document.createElement('ul');
-        console.log(data.image.packages)
-        Object.keys(data.image.packages).sort().map( function(name) {
-            var item = document.createElement('li');
-            item.innerHTML = "<b>" + name + "</b> - " + data.image.packages[name] + "</br>"
-            list.appendChild(item)
-        })
-        $("#packages_box").appendChild(list);
-    }
+    fetch(server + "/api/manifest/" + data.image.manifest_hash)
+        .then(response => response.json())
+        .then(function(manifest) {
+            $("#packages_count").innerHTML = "(" + Object.keys(manifest).length + ")"
+            var list = document.createElement('ul');
+            Object.keys(manifest).sort().map( function(name) {
+                var item = document.createElement('li');
+                item.innerHTML = "<b>" + name + "</b> - " + manifest[name] + "</br>"
+                list.appendChild(item)
+            })
+            $("#packages_box").appendChild(list);
+        });
 }
 
 function translate() {
     config.language = $("#lang").value;
-    var xmlhttp = new XMLHttpRequest();
-    console.log("request lang " + config.language)
-    xmlhttp.open("GET", "i18n/" + config.language + ".json", true);
-    xmlhttp.setRequestHeader("Content-type", "application/json");
-
-    xmlhttp.onload = function() {
-        translations[config.language] = JSON.parse(xmlhttp.responseText);
-        var mapping = translations[config.language];
-        for (var id in mapping) {
-            var elements = document.getElementsByClassName(id);
-            for (var i in elements) {
-                if (elements.hasOwnProperty(i)) {
-                    elements[i].innerHTML = mapping[id];
+    fetch("i18n/" + config.language + ".json")
+        .then(response => response.json())
+        .then(function(language) {
+            translations[config.language] = language;
+            var mapping = translations[config.language];
+            for (var id in mapping) {
+                var elements = document.getElementsByClassName(id);
+                for (var i in elements) {
+                    if (elements.hasOwnProperty(i)) {
+                        elements[i].innerHTML = mapping[id];
+                    }
                 }
             }
-        }
-    }
-    xmlhttp.send(null);
-};
+        });
+}
 
 function tr(id) {
     var mapping = translations[config.language];
@@ -137,9 +116,8 @@ function search() {
         "&distro=" + $$("#distro") + "&version=" + $$("#version")
 
     fetch(request_url)
+        .then(response => response.json())
         .then(function(response) {
-            return response.json();
-        }).then(function(response) {
             data.devices = response;
             redraw_devices();
             load_default_packages();
@@ -148,7 +126,7 @@ function search() {
 };
 
 function load_banner() {
-    fetch(server + "/banner.html")
+    fetch("/banner.html")
         .then(function(response) {
             if (response.ok) {
                 return response.text();
@@ -174,14 +152,12 @@ function redraw_devices() {
             for (var i = 0; i < data.devices.length; i++) {
                 if (data.devices[i].model.startsWith("Generic")) {
                     $("#profile")[i] = new Option(
-                        data.devices[i].model + " (" + data.devices[i].target + "/" +
-                        data.devices[i].subtarget + ")")
+                        data.devices[i].model + " (" + data.devices[i].target + ")")
                 } else {
                     $("#profile")[i] = new Option(data.devices[i].model)
                 }
 
-                $("#profile")[i].value = data.devices[i].target + "/" +
-                    data.devices[i].subtarget + "/" + data.devices[i].profile
+                $("#profile")[i].value = data.devices[i].target + "/" + data.devices[i].profile
             }
             $("#profile").selectedIndex = selected_device;
         }
@@ -190,9 +166,8 @@ function redraw_devices() {
 
 function load_dists() {
     fetch(server + "/api/distributions")
+        .then(response => response.json())
         .then(function(response) {
-            return response.json();
-        }).then(function(response) {
             dists = response;
             for (dist in dists) {
                 var dists_length = $("#distro").length;
@@ -236,72 +211,54 @@ function profile_changed() {
 }
 
 function load_network_profiles() {
-    var xmlhttp = new XMLHttpRequest();
-    request_url = server + "/network-profiles/Packages";
-
-    xmlhttp.open("GET", request_url, true);
-    xmlhttp.overrideMimeType("text/plain")
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            network_profiles_results(xmlhttp);
-        }
-    }
-    xmlhttp.send(null);
-
-    function network_profiles_results(xmlhttp) {
-        var network_profiles = xmlhttp.responseText.split("\n");
-
-        for (var i = 0; i < network_profiles.length; i++) {
-            if (network_profiles[i].startsWith("Package: ")) {
-                var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
-                var network_profiles_length = $("#network_profile").length;
-                $("#network_profile")[network_profiles_length] = new Option(network_profile);
-                $("#network_profile")[network_profiles_length].value = network_profile;
+    fetch(server + "/network-profiles/Packages")
+        .then(function(response) {
+            if (response.ok) {
+                return response.text();
+            } else {
+                return "";
             }
-        }
-        $("#network_profile").value = default_profile;
-    }
-};
+        }).then(function(network_profiles) {
+            var network_profiles = network_profiles.split("\n")
+            for (var i = 0; i < network_profiles.length; i++) {
+                if (network_profiles[i].startsWith("Package: ")) {
+                    var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
+                    var network_profiles_length = $("#network_profile").length;
+                    $("#network_profile")[network_profiles_length] = new Option(network_profile);
+                    $("#network_profile")[network_profiles_length].value = network_profile;
+                }
+            }
+            $("#network_profile").value = default_profile;
+        });
+}
 
 function set_device_info() {
     profile_split = $("#profile").value.split("/");
-    target = profile_split[0]
-    subtarget = profile_split[1]
+    target = profile_split[0] + "/" + profile_split[1]
     profile = profile_split[2]
 }
 
 function load_default_packages() {
-    var xmlhttp = new XMLHttpRequest();
-    var device = $("#search_device").value;
-    var distro = $("#distro").value;
-    var version = $("#version").value;
     set_device_info()
-    if (typeof target != 'undefined' && typeof subtarget != 'undefined' && typeof profile != 'undefined') {
-
-        request_url = server + "/api/default_packages?distro=" + distro + "&version=" + version + "&target=" + target + "&subtarget=" + subtarget + "&profile=" + profile
-
-        xmlhttp.open("GET", request_url, true);
-
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                packages_image_results(xmlhttp);
-            }
-        }
-        xmlhttp.send(null);
+    var device = $$("#search_device");
+    var distro = $$("#distro");
+    var version = $$("#version");
+    var request_url = server + "/api/packages_image?distro=" + distro + "&version=" + version + "&target=" + encodeURI(target) + "&profile=" + profile
+    if (typeof target != 'undefined' && typeof profile != 'undefined') {
+        fetch(request_url)
+            .then(response => response.json())
+            .then(function(packages_image) {
+                data.packages_image = packages_image
+                edit_packages_update();
+            });
     } else {
-        packages_image = [];
-        edit_packages_update();
-    }
-
-    function packages_image_results(xmlhttp) {
-        packages_image = JSON.parse(xmlhttp.responseText).packages;
+        data.packages_image = [];
         edit_packages_update();
     }
 };
 
 function edit_packages_update() {
-    packages = packages_image.concat(packages_flavor)
+    packages = data.packages_image.concat(packages_flavor)
     if ($("#network_profile").value != "" && $("#distro").value == "lime") {
         packages[packages.length] = $("#network_profile").value
     }
@@ -353,6 +310,7 @@ function create() {
     hide("#info_box");
     hide("#error_box");
     hide("#unstable_warning");
+    hide("#custom_info");
     packages = [];
     delete hash
     location.hash = ""
@@ -367,8 +325,7 @@ function create() {
     request_dict.distro = $("#distro").value;
     request_dict.version = $("#version").value;
     profile_split = $("#profile").value.split("/");
-    request_dict.target = profile_split[0]
-    request_dict.subtarget = profile_split[1]
+    request_dict.target = profile_split[0] + "/" + profile_split[1]
     request_dict.board = profile_split[2]
     request_dict.defaults = $("#edit_defaults").value
     if (packages != "") {
@@ -401,10 +358,9 @@ function bootstrap() {
 function load_image_stats() {
     var request_url = server + "/api/v1/stats/image_stats"
     fetch(request_url)
+        .then(response => response.json())
         .then(function(response) {
-            return response.json();
-        }).then(function(response) {
-            $("#images_total").innerHTML = response.total 
+            $("#images_total").innerHTML = response.total
         });
 
 }
@@ -428,7 +384,7 @@ function error_box(error_output) {
 
 // requests to the update server
 function server_request(request_dict, path, callback) {
-    var url = server + "/" + path
+    var url = server +  path
     var xmlhttp = new XMLHttpRequest();
     if (request_dict != "") {
         method = "POST"
@@ -448,9 +404,9 @@ function server_request(request_dict, path, callback) {
 
 function image_request() {
     if (typeof hash != 'undefined') {
-        server_request("", "api/build-request/" + hash, image_request_handler)
+        server_request("", "/api/build-request/" + hash, image_request_handler)
     } else {
-        server_request(request_dict, "api/build-request", image_request_handler)
+        server_request(request_dict, "/api/build-request", image_request_handler)
     }
 }
 
@@ -460,7 +416,7 @@ function image_request_handler(response) {
     if (response.status === 400) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+            error_box_content += ' <a target="_blank" href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 404) {
@@ -479,7 +435,7 @@ function image_request_handler(response) {
     } else if (response.status === 500) {
         error_box_content = response_content.error
         if ('log' in response_content) {
-            error_box_content += ' <a href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+            error_box_content += ' <a target="_blank" href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
         }
         error_box(error_box_content)
     } else if (response.status === 503) {
@@ -516,64 +472,55 @@ function image_request_handler(response) {
 
     } else if (response.status === 200) {
         // ready to download
-        files_url = response_content.files + '/'
+        data.files = response_content.files
         load_files();
         hide("#info_box");
         show("#download_box");
 
         if ("sysupgrade" in response_content) {
-            $("#download_sysupgrade").setAttribute('href',  server + response_content.sysupgrade)
+            $("#download_sysupgrade").setAttribute('href', server + response_content.files + response_content.sysupgrade)
             show("#download_div");
         } else {
             hide("#download_div");
         }
         $("#download_build_log").setAttribute('href', server + response_content.log)
-        location.hash = response_content.image_hash
-        load_image_info()
+        location.hash = response_content.request_hash
+        data.image_hash = response_content.image_hash
+        load_image_info();
     }
 }
 
 function load_files() {
-    var xmlhttp = new XMLHttpRequest();
+    fetch(server + data.files)
+        .then(response => response.json())
+        .then(function(response_content) {
+            $("#files_count").innerHTML = " (" + response_content.length + ")"
+            var files_box = $("#files_box")
+            files_box.innerHTML = ""
+            var list = document.createElement('ul');
 
-    xmlhttp.open("GET", files_url, true);
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            versions_results(xmlhttp);
-        }
-    }
-    xmlhttp.send(null);
-
-    function versions_results(xmlhttp) {
-        var response_content = JSON.parse(xmlhttp.responseText);
-        $("#files_count").innerHTML = " (" + response_content.length + ")"
-        files_box = $("#files_box")
-        files_box.innerHTML = ""
-        var list = document.createElement('ul');
-
-        var factory_files = []
-        for (var i = 0; i < response_content.length; i++) {
-            var item = document.createElement('li');
-            var link = document.createElement('a');
-            if (response_content[i].name.includes("factory")) {
-                factory_files[factory_files.length] = response_content[i].name
+            var factory_files = []
+            for (var i = 0; i < response_content.length; i++) {
+                var item = document.createElement('li');
+                var link = document.createElement('a');
+                if (response_content[i].name.includes("factory")) {
+                    factory_files[factory_files.length] = response_content[i].name
+                }
+                link.href = server + data.files + response_content[i].name
+                link.innerHTML = response_content[i].name
+                item.appendChild(link)
+                list.appendChild(item);
             }
-            link.href = files_url + "/" + response_content[i].name
-            link.innerHTML = response_content[i].name
-            item.appendChild(link)
-            list.appendChild(item);
-        }
-        if (factory_files.length == 1) {
-            data.factory = files_url + "/" + factory_files[0]
-            $("#download_factory").setAttribute('href', server + data.factory)
-            show("#download_factory_div");
-        } else {
-            data.factory = ""
-            hide("#download_factory_div");
-        }
-        files_box.appendChild(list);
-    }
+            if (factory_files.length == 1) {
+                data.factory =  server + data.files + factory_files[0]
+                $("#download_factory").setAttribute('href', server + data.factory)
+                show("#download_factory_div");
+            } else {
+                data.factory = ""
+                hide("#download_factory_div");
+            }
+            files_box.appendChild(list);
+        });
 }
 
 translations = {};
