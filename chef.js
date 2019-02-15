@@ -126,7 +126,7 @@ function search() {
 };
 
 function load_banner() {
-    fetch(server + "/banner.html")
+    fetch("/banner.html")
         .then(function(response) {
             if (response.ok) {
                 return response.text();
@@ -213,9 +213,13 @@ function profile_changed() {
 function load_network_profiles() {
     fetch(server + "/network-profiles/Packages")
         .then(function(response) {
-            return response.text();
+            if (response.ok) {
+                return response.text();
+            } else {
+                return "";
+            }
         }).then(function(network_profiles) {
-            network_profiles = network_profiles.split("\n")
+            var network_profiles = network_profiles.split("\n")
             for (var i = 0; i < network_profiles.length; i++) {
                 if (network_profiles[i].startsWith("Package: ")) {
                     var network_profile = network_profiles[i].substring(9) // remove leading "Package: "
