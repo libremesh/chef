@@ -334,7 +334,15 @@ function create() {
     image_request()
 }
 
+function check_maintenance() {
+    if (maintenance_message != "") {
+        show("#maintenance_box")
+        $("#maintenance_message").innerHTML = maintenance_message
+    }
+}
+
 function bootstrap() {
+    check_maintenance();
     data = {}
     if (location.hash != "") {
         hash = location.hash.substring(1)

@@ -39,14 +39,18 @@
             </nav>
         </p>
         <style>input[type=text], button, textarea, select { width: 100%; }</style>
+        <div id="maintenance_box" class="alert alert-danger" style="display: none">
+            <b>Maintenance:</b>
+            <span id="maintenance_message"></span>
+        </div>
         <div class="alert alert-warning">
-            <b>💥 Warning:</b>
+            <b>Warning:</b>
             This is the development version of Chef. Please report odd
             behaviour and created images may disappear for no apparent
             reason.
         </div>
         <div class="card" id="download_box" style="display:none">
-            <h4 class="card-header">Firmware 
+            <h4 class="card-header">Firmware
                 <span id="unstable_warning" class="badge badge-danger" style="display:none">unstable</span>
                 <span id="custom_info" class="badge badge-info" style="display:none">custom UCI defaults</span>
             </h4>
