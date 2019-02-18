@@ -51,7 +51,7 @@ function load_image_info() {
                     }
                 }
             }
-            load_installed_packages();
+            load_manifest();
         });
 }
 
