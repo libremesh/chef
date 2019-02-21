@@ -512,11 +512,9 @@ function load_files() {
                 list.appendChild(item);
             }
             if (factory_files.length == 1) {
-                data.factory =  server + data.files + factory_files[0]
-                $("#download_factory").setAttribute('href', server + data.factory)
+                $("#download_factory").setAttribute('href', server + data.files + factory_files[0])
                 show("#download_factory_div");
             } else {
-                data.factory = ""
                 hide("#download_factory_div");
             }
             files_box.appendChild(list);
