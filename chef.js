@@ -521,6 +521,33 @@ function load_files() {
         });
 }
 
+function save_options() {
+    localStorage.setItem('packages', JSON.stringify($$("#edit_packages")));
+    localStorage.setItem('target', JSON.stringify($$("#profile")));
+}
+
+function load_options() {
+    let childs = $('#profile').options;
+    let len = childs.length;
+
+    for(let i = len -1; i >= 0; i--)
+    {
+        childs.remove(i);
+    }
+
+    let opt = document.createElement('option');
+    opt.value = JSON.parse(localStorage.getItem('target'));
+    opt.innerHTML = opt.value;
+
+    $('#profile').appendChild(opt);
+    $("#edit_packages").value = JSON.parse(localStorage.getItem('packages'));
+
+    $("#btn_edit_packages").disabled = false;
+    $("#btn_create").disabled = false;
+    set_device_info();
+}
+
+
 translations = {};
 config = {};
 translate();
