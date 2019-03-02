@@ -36,6 +36,21 @@ function load_image_info() {
         .then(response => response.json())
         .then(function(image_info) {
             data.image = image_info
+            load_files();
+            load_manifest();
+            if (data.image.sysupgrade) {
+                show("#download_sysupgrade_div");
+                $("#download_sysupgrade").setAttribute('href',
+                    server + "/download/" + data.image.files +
+                        "/" + data.image.sysupgrade
+                )
+            } else {
+                hide("#download_sysupgrade_div");
+            }
+            $("#download_build_log").setAttribute('href',
+                server + "/download/" + data.image.files +
+                    "/buildlog-" + data.image.image_hash + ".txt"
+            )
             if (data.image.snapshots) {
                 inline("#unstable_warning")
             }
@@ -51,7 +66,7 @@ function load_image_info() {
                     }
                 }
             }
-            load_manifest();
+            show("#download_box");
         });
 }
 
@@ -62,7 +77,7 @@ function load_manifest() {
         .then(function(manifest) {
             $("#packages_count").innerHTML = "(" + Object.keys(manifest).length + ")"
             var list = document.createElement('ul');
-            Object.keys(manifest).sort().map( function(name) {
+            Object.keys(manifest).sort().map(function(name) {
                 var item = document.createElement('li');
                 item.innerHTML = "<b>" + name + "</b> - " + manifest[name] + "</br>"
                 list.appendChild(item)
@@ -103,16 +118,15 @@ var delay_timer;
 
 function search_delayed() {
     clearTimeout(delay_timer);
-    delay_timer = setTimeout(search, 500);
+    if ($$("#search_device").length > 2) {
+        delay_timer = setTimeout(search, 1000);
+    }
 }
 
 function search() {
-    var device = $("#search_device").value;
-    if (device.length < 3) {
-        return
-    }
+    var device = $$("#search_device");
 
-    request_url = server + "/api/models?model_search=" + device + 
+    request_url = server + "/api/models?model_search=" + device +
         "&distro=" + $$("#distro") + "&version=" + $$("#version")
 
     fetch(request_url)
@@ -312,7 +326,7 @@ function create() {
     hide("#unstable_warning");
     hide("#custom_info");
     packages = [];
-    delete hash
+    data.image_hash = ""
     location.hash = ""
     edit_packages_split = $("#edit_packages").value.replace(/ /g, "\n").split("\n")
     for (var i = 0; i < edit_packages_split.length; i++) {
@@ -345,14 +359,15 @@ function bootstrap() {
     check_maintenance();
     data = {}
     if (location.hash != "") {
-        hash = location.hash.substring(1)
-        image_request()
+        data.image_hash = location.hash.substring(1)
+        load_image_info()
     }
     packages_flavor = ""
     load_dists();
     load_network_profiles();
     load_image_stats();
     load_banner();
+    search();
 }
 
 function load_image_stats() {
@@ -384,7 +399,7 @@ function error_box(error_output) {
 
 // requests to the update server
 function server_request(request_dict, path, callback) {
-    var url = server +  path
+    var url = server + path
     var xmlhttp = new XMLHttpRequest();
     if (request_dict != "") {
         method = "POST"
@@ -403,8 +418,8 @@ function server_request(request_dict, path, callback) {
 }
 
 function image_request() {
-    if (typeof hash != 'undefined') {
-        server_request("", "/api/build-request/" + hash, image_request_handler)
+    if (data.request_hash) {
+        server_request("", "/api/build-request/" + data.request_hash, image_request_handler)
     } else {
         server_request(request_dict, "/api/build-request", image_request_handler)
     }
@@ -412,7 +427,7 @@ function image_request() {
 
 function image_request_handler(response) {
     var response_content = JSON.parse(response.responseText)
-    hash = response_content.request_hash
+    data.request_hash = response_content.request_hash
     if (response.status === 400) {
         error_box_content = response_content.error
         if ('log' in response_content) {
@@ -471,27 +486,15 @@ function image_request_handler(response) {
         setTimeout(image_request, 5000);
 
     } else if (response.status === 200) {
-        // ready to download
-        data.files = response_content.files
-        load_files();
-        hide("#info_box");
-        show("#download_box");
-
-        if ("sysupgrade" in response_content) {
-            $("#download_sysupgrade").setAttribute('href', server + response_content.files + response_content.sysupgrade)
-            show("#download_div");
-        } else {
-            hide("#download_div");
-        }
-        $("#download_build_log").setAttribute('href', server + response_content.log)
-        location.hash = response_content.request_hash
+        hide("#info_box")
+        location.hash = response_content.image_hash
         data.image_hash = response_content.image_hash
         load_image_info();
     }
 }
 
 function load_files() {
-    fetch(server + data.files)
+    fetch(server + "/json/" + data.image.files)
         .then(response => response.json())
         .then(function(response_content) {
             $("#files_count").innerHTML = " (" + response_content.length + ")"
@@ -506,13 +509,13 @@ function load_files() {
                 if (response_content[i].name.includes("factory")) {
                     factory_files[factory_files.length] = response_content[i].name
                 }
-                link.href = server + data.files + response_content[i].name
+                link.href = server + data.image.files + response_content[i].name
                 link.innerHTML = response_content[i].name
                 item.appendChild(link)
                 list.appendChild(item);
             }
             if (factory_files.length == 1) {
-                $("#download_factory").setAttribute('href', server + data.files + factory_files[0])
+                $("#download_factory").setAttribute('href', server + "/download/" + data.image.files + "/" + factory_files[0])
                 show("#download_factory_div");
             } else {
                 hide("#download_factory_div");
@@ -522,31 +525,63 @@ function load_files() {
 }
 
 function save_options() {
+    localStorage.setItem('distro', JSON.stringify($$("#distro")));
+    localStorage.setItem('version', JSON.stringify($$("#version")));
     localStorage.setItem('packages', JSON.stringify($$("#edit_packages")));
-    localStorage.setItem('target', JSON.stringify($$("#profile")));
+    localStorage.setItem('target_string', JSON.stringify($$("#profile")));
+    localStorage.setItem('model', JSON.stringify(
+        $("#profile")[$("#profile").selectedIndex].innerHTML)
+    );
 }
 
 function load_options() {
-    let childs = $('#profile').options;
-    let len = childs.length;
-
-    for(let i = len -1; i >= 0; i--)
-    {
-        childs.remove(i);
-    }
-
-    let opt = document.createElement('option');
-    opt.value = JSON.parse(localStorage.getItem('target'));
-    opt.innerHTML = opt.value;
-
-    $('#profile').appendChild(opt);
+    $("#distro").value = JSON.parse(localStorage.getItem('distro'));
+    $("#version").value = JSON.parse(localStorage.getItem('version'));
+    var target_string = JSON.parse(localStorage.getItem('target_string'));
+    var model = JSON.parse(localStorage.getItem('model'));
     $("#edit_packages").value = JSON.parse(localStorage.getItem('packages'));
+    var profile_length = $("#profile").length
+    $("#profile")[profile_length] = new Option(model)
+    $("#profile")[profile_length].value = target_string
+    $("#profile").selectedIndex = $("#profile").length - 1;
 
     $("#btn_edit_packages").disabled = false;
     $("#btn_create").disabled = false;
     set_device_info();
 }
 
+function load_fails_latest() {
+    var request_url = server + "/api/v1/stats/fails_latest"
+    fetch(request_url)
+        .then(response => response.json())
+        .then(function(response) {
+            $("#content").innerHTML = json2table(response, 'table',
+                ["distro_alias", "version_alias", "target", "model", "request_status"]);
+        });
+}
+
+function load_images_latest() {
+    var request_url = server + "/api/v1/stats/images_latest"
+    fetch(request_url)
+        .then(response => response.json())
+        .then(function(response) {
+            response.map(function(row) {
+                row["image_hash"] = "<a href='#i-" + row["image_hash"] + "'>" + row["image_hash"] + "</a>";
+            });
+            $("#content").innerHTML = json2table(response, 'table',
+                ["image_id", "image_hash", "distro_alias", "version_alias", "target", "model", "build_seconds", "build_date"]);
+        });
+}
+
+function load_supported() {
+    var request_url = server + "/api/v1/supported"
+    fetch(request_url)
+        .then(response => response.json())
+        .then(function(response) {
+            $("#content").innerHTML = json2table(response, 'table',
+                ["distro_alias", "version_alias", "target"]);
+        });
+}
 
 translations = {};
 config = {};
