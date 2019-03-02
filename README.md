@@ -15,7 +15,7 @@ Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsys
 ## Running instances
 
 * [chef.libremesh.org](https://chef.libremesh.org)
-* [chef.aparcar.org](https://chef.aparcar.org)
+* [betachef.libremesh.org](https://betachef.libremesh.org)
 
 ## Installation
 
