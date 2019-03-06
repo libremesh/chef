@@ -1,4 +1,5 @@
 {
+    "tr-manifest-fail": "Incompatible package selection. See build log for details",
 	"tr-server-down": "Server down",
 	"tr-unsupported": "Unsupported device, release, target, subtarget or board.",
 	"tr-no-sysupgrade": "No sysupgrade file produced, may not supported by model.",

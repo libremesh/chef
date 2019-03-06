@@ -422,6 +422,10 @@ function image_request_handler(response) {
     } else if (response.status === 404) {
         delete hash;
         image_request();
+    } else if (response.status === 409) {
+        error_box_content = tr("tr-manifest-fail")
+        error_box_content += ' <a target="_blank" href="' + server + response_content.log + '">' + tr("tr-buildlog") + '</a>'
+        error_box(error_box_content)
     } else if (response.status === 412) {
         // this is a bit generic
         error_box(tr("tr-unsupported"))
