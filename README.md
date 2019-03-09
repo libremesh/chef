@@ -1,6 +1,6 @@
 # Chef Online Imagebuilder
 
-![screenshot chef](https://screenshotscdn.firefoxusercontent.com/images/73b438ed-3fce-4951-8589-0e7685175f77.png)
+![screenshot chef](https://user-images.githubusercontent.com/16000931/54073419-21681c00-4287-11e9-8592-3648431f1b41.png)
 
 Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsysupgrade-server) here.
 
