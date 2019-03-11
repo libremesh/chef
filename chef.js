@@ -62,7 +62,7 @@ function load_manifest() {
         .then(function(manifest) {
             $("#packages_count").innerHTML = "(" + Object.keys(manifest).length + ")"
             var list = document.createElement('ul');
-            Object.keys(manifest).sort().map( function(name) {
+            Object.keys(manifest).sort().map(function(name) {
                 var item = document.createElement('li');
                 item.innerHTML = "<b>" + name + "</b> - " + manifest[name] + "</br>"
                 list.appendChild(item)
@@ -112,7 +112,7 @@ function search() {
         return
     }
 
-    request_url = server + "/api/models?model_search=" + device + 
+    request_url = server + "/api/models?model_search=" + device +
         "&distro=" + $$("#distro") + "&version=" + $$("#version")
 
     fetch(request_url)
@@ -150,13 +150,8 @@ function redraw_devices() {
             $("#btn_create").disabled = false;
             $("#btn_edit_packages").disabled = false;
             for (var i = 0; i < data.devices.length; i++) {
-                if (data.devices[i].model.startsWith("Generic")) {
-                    $("#profile")[i] = new Option(
-                        data.devices[i].model + " (" + data.devices[i].target + ")")
-                } else {
-                    $("#profile")[i] = new Option(data.devices[i].model)
-                }
-
+                $("#profile")[i] = new Option(
+                    data.devices[i].model + " (" + data.devices[i].target + ")")
                 $("#profile")[i].value = data.devices[i].target + "/" + data.devices[i].profile
             }
             $("#profile").selectedIndex = selected_device;
@@ -384,7 +379,7 @@ function error_box(error_output) {
 
 // requests to the update server
 function server_request(request_dict, path, callback) {
-    var url = server +  path
+    var url = server + path
     var xmlhttp = new XMLHttpRequest();
     if (request_dict != "") {
         method = "POST"
@@ -523,6 +518,40 @@ function load_files() {
             }
             files_box.appendChild(list);
         });
+}
+
+function request_server_image() {
+    request_dict = {}
+    request_dict.distro = "openwrt";
+    request_dict.version = "18.06.2";
+    request_dict.target = "x86/64"
+    request_dict.board = "Generic"
+    request_dict.defaults = ""
+    request_dict.packages = ["bash", "bzip2", "coreutils", "coreutils-stat",
+        "diffutils", "file", "gawk", "gcc", "getopt", "git", "libncurses",
+        "make", "patch", "perl", "perlbase-attributes", "perlbase-findbin",
+        "perlbase-getopt", "perlbase-thread", "python-light", "tar", "unzip",
+        "wget", "xz", "xzdiff", "xzgrep", "xzless", "xz-utils", "zlib-dev",
+        "gunicorn", "python3-flask", "python3-yaml", "python3-openssl",
+        "python3-pyodbc", "python3-ctypes", "python3-distutils"
+    ]
+    image_request()
+}
+
+function request_worker_image() {
+    request_dict = {}
+    request_dict.distro = "openwrt";
+    request_dict.version = "18.06.2";
+    request_dict.target = "x86/64"
+    request_dict.board = "Generic"
+    request_dict.defaults = ""
+    request_dict.packages = ["bash", "bzip2", "coreutils", "coreutils-stat",
+        "diffutils", "file", "gawk", "gcc", "getopt", "git", "libncurses",
+        "make", "patch", "perl", "perlbase-attributes", "perlbase-findbin",
+        "perlbase-getopt", "perlbase-thread", "python-light", "tar", "unzip",
+        "wget", "xz", "xzdiff", "xzgrep", "xzless", "xz-utils", "zlib-dev"
+    ]
+    image_request()
 }
 
 translations = {};
