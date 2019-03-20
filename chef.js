@@ -322,6 +322,7 @@ function create() {
     profile_split = $("#profile").value.split("/");
     request_dict.target = profile_split[0] + "/" + profile_split[1]
     request_dict.board = profile_split[2]
+    request_dict.profile= profile_split[2]
     request_dict.defaults = $("#edit_defaults").value
     if (packages != "") {
         request_dict.packages = packages
