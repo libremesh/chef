@@ -17,6 +17,8 @@ Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsys
 * [chef.libremesh.org](https://chef.libremesh.org)
 * [betachef.libremesh.org](https://betachef.libremesh.org)
 
+* [asu.segfault.gq](https://asu.segfault.gq/) **Development OpenWrt/snapshots only**
+
 ## Installation
 
 * Clone the repository at tell your web server to load `chef.html` as index.
