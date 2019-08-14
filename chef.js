@@ -32,14 +32,16 @@ function toggle_image_packages() {
 
 function load_manifest() {
     $("#packages_box").innerHTML = ""
-    fetch(server + "/api/manifest/" + data.manifest_hash)
-        .then(response => response.json())
+    fetch(server + data.files + "/" + data.image_prefix.replace("_", "-") + ".manifest")
+        .then(response => response.text())
+        .then(response => response.split("\n"))
         .then(function(manifest) {
+            manifest.pop()
             $("#packages_count").innerHTML = "(" + Object.keys(manifest).length + ")"
             var list = document.createElement('ul');
-            Object.keys(manifest).sort().map(function(name) {
+            manifest.sort().map(function(name) {
                 var item = document.createElement('li');
-                item.innerHTML = "<b>" + name + "</b> - " + manifest[name] + "</br>"
+                item.innerHTML = name
                 list.appendChild(item)
             })
             $("#packages_box").appendChild(list);
@@ -78,17 +80,17 @@ var delay_timer;
 
 function search_delayed() {
     clearTimeout(delay_timer);
-    delay_timer = setTimeout(search, 500);
+    delay_timer = setTimeout(search, 200);
 }
 
 function search() {
     var device = $("#search_device").value;
-    if (device.length < 3) {
+    if (device.length < 1) {
         return
     }
 
     request_url = server + "/api/models?model_search=" + device +
-        "&distro=" + $$("#distro") + "&version=" + $$("#version")
+        "&distro=openwrt&version=snapshot"
 
     fetch(request_url)
         .then(response => response.json())
@@ -134,47 +136,6 @@ function redraw_devices() {
     }
 }
 
-function load_dists() {
-    fetch(server + "/api/distributions")
-        .then(response => response.json())
-        .then(function(response) {
-            dists = response;
-            for (dist in dists) {
-                var dists_length = $("#distro").length;
-                var opt = document.createElement("option");
-                opt.value = dist;
-                opt.innerHTML = dists[dist].distro_alias
-                $("#distro").appendChild(opt);
-            }
-            $("#distro").value = default_distro;
-            dist_changed();
-        });
-}
-
-function load_flavors() {
-    $("#flavor").options.length = 0;
-    if (flavors[$("#distro").value]) {
-        show("#flavor_div")
-        for (flavor in flavors[$("#distro").value]) {
-            var opt = document.createElement("option");
-            opt.value = flavor
-            opt.innerHTML = flavors[$("#distro").value][flavor][0]
-            $("#flavor").appendChild(opt);
-        }
-    } else {
-        hide("#flavor_div")
-    }
-}
-
-function set_packages_flavor() {
-    packages_flavor = flavors[$("#distro").value][$("#flavor").value][1].split(" ");
-    if (typeof packages == 'undefined') {
-        load_default_packages();
-    } else {
-        edit_packages_update();
-    }
-}
-
 function profile_changed() {
     set_device_info();
     load_default_packages();
@@ -211,8 +172,8 @@ function set_device_info() {
 function load_default_packages() {
     set_device_info()
     var device = $$("#search_device");
-    var distro = $$("#distro");
-    var version = $$("#version");
+    var distro = "openwrt"
+    var version = "snapshot";
     var request_url = server + "/api/packages_image?distro=" + distro + "&version=" + version + "&target=" + encodeURI(target) + "&profile=" + profile
     if (typeof target != 'undefined' && typeof profile != 'undefined') {
         fetch(request_url)
@@ -228,10 +189,7 @@ function load_default_packages() {
 };
 
 function edit_packages_update() {
-    packages = data.packages_image.concat(packages_flavor)
-    if ($("#network_profile").value != "" && $("#distro").value == "lime") {
-        packages[packages.length] = $("#network_profile").value
-    }
+    packages = data.packages_image
     $("#edit_packages").value = packages.join("\n");
 }
 
@@ -240,42 +198,10 @@ function packages_input() {
     show("#edit_packages_div")
 }
 
-function version_changed() {
-    $("#version_desc").innerHTML = dists[$$("#distro")]["versions"][$$("#version")].version_description || ""
-    search();
-}
-
-function dist_changed() {
-    $("#version").options.length = 0;
-
-    for (var version in dists[$$("#distro")].versions) {
-        var title = version
-        $("#version")[$("#version").length] = new Option(title)
-    }
-
-    if (dists[$$("#distro")].latest != "") {
-        $("#version").value = dists[$$("#distro")].latest
-    }
-
-    $("#distro_desc").innerHTML = dists[$$("#distro")].distro_description || ""
-
-    if ($("#distro").value === "lime") {
-        show("#lime_config");
-        $("#flavor").value = "lime_default"
-    } else {
-        hide("#lime_config");
-        $("#flavor").value = ""
-    }
-    load_flavors();
-    set_packages_flavor();
-    version_changed();
-}
-
 function create() {
     last_position = null;
     queue_counter = 0;
     data = {}
-    hide("#download_factory_div");
     hide("#download_box");
     hide("#info_box");
     hide("#error_box");
@@ -292,8 +218,8 @@ function create() {
         }
     }
     request_dict = {}
-    request_dict.distro = $("#distro").value;
-    request_dict.version = $("#version").value;
+    request_dict.distro = "openwrt";
+    request_dict.version = "snapshot";
     profile_split = $("#profile").value.split("/");
     request_dict.target = profile_split[0] + "/" + profile_split[1]
     request_dict.profile= profile_split[2]
@@ -304,23 +230,20 @@ function create() {
     image_request()
 }
 
-function check_maintenance() {
-    if (maintenance_message != "") {
-        show("#maintenance_box")
-        $("#maintenance_message").innerHTML = maintenance_message
+function check_warning() {
+    if (warning_message != "") {
+        show("#warning_box")
+        $("#warning_message").innerHTML = warning_message
     }
 }
 
 function bootstrap() {
-    check_maintenance();
+    check_warning();
     data = {}
     if (location.hash != "") {
         hash = location.hash.substring(1)
         image_request()
     }
-    packages_flavor = ""
-    load_dists();
-    //  load_network_profiles();
     load_image_stats();
     load_banner();
 }
@@ -447,22 +370,28 @@ function image_request_handler(response) {
     } else if (response.status === 200) {
         // ready to download
         data.files = response_content.image_folder
-        data.manifest_hash = response_content.manifest_hash
+        data.image_prefix = response_content.image_prefix
         //load_files();
         hide("#info_box");
-        show("#download_box");
-
-        show("#download_div");
+        $("#download_div").innerHTML = "<b>Download</b>"
+        var list = document.createElement('ul')
         for (var i = 0; i < response_content.images.length; i++) {
-            if (response_content.images[i].type == "sysupgrade") {
-                $("#download_sysupgrade").setAttribute('href', server + data.files + "/" + response_content.images[i].name)
-            }
-            show("#download_factory_div");
-            if (response_content.images[i].type == "factory") {
-                $("#download_factory").setAttribute('href', server + data.files + "/" + response_content.images[i].name)
-            }
+            var item = document.createElement('li');
+            var href = document.createElement('a');
+            href.innerHTML = response_content.images[i].type
+            href.setAttribute('href', server + data.files + "/" + response_content.images[i].name)
+            item.appendChild(href)
+            list.appendChild(item)
         }
-        $("#download_log").setAttribute('href', server + data.files + "/" + response_content.image_prefix + ".log")
+        var item = document.createElement('li');
+        var href = document.createElement('a');
+        href.innerHTML = "log"
+        href.setAttribute('href', server + data.files + "/" + response_content.image_prefix + ".log")
+        item.appendChild(href)
+        list.appendChild(item)
+        $("#download_div").appendChild(list)
+        show("#download_div");
+        show("#download_box");
         location.hash = response_content.request_hash
         data.image_hash = response_content.image_hash
         $("#image_title").innerHTML = response_content.title[0]
