@@ -51,11 +51,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        Distribution: <span id="image_distro_alias"></span></br>
-                        Version: <span id="image_version_alias"></span></br>
-                        Model: <b><span id="image_model"></span></b></br>
+                        Model: <b><span id="image_title"></span></b></br>
+                        Version: <span id="image_version"></span></br>
                         Target: <span id="image_target"></span></br>
-                        Build Date: <span id="image_build_date"></span></br>
                     </div>
                     <div class="col-md-6">
                         <div id="download_div" style="display:none">
@@ -74,11 +72,11 @@
                                 </a>
                             </div>
                             <div>
-                                <a target="_blank" href="" id="download_build_log">
+                                <a target="_blank" href="" id="download_log">
                                     <svg class="octicon octicon-file-text" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true">
                                         <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
                                     </svg>
-                                    Build Log
+                                    Log
                                 </a>
                             </div>
                         </div>
@@ -89,10 +87,6 @@
                             <span id="packages_count"></span>
                         </a></br>
                         <div id="packages_box" style="display: none"></div>
-                        <a href="javascript: toggle('#files_box');">
-                            <span id="tr-created-files">Created files</span>
-                            <span id="files_count"></span>
-                        </a>
                         <div id="files_box" style="display: none"></div>
                     </div>
                 </div>

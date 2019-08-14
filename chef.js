@@ -30,34 +30,9 @@ function toggle_image_packages() {
     toggle("#packages_box");
 }
 
-function load_image_info() {
-    data.image = {}
-    fetch(server + "/api/image/" + data.image_hash)
-        .then(response => response.json())
-        .then(function(image_info) {
-            data.image = image_info
-            if (data.image.snapshots) {
-                inline("#unstable_warning")
-            }
-            if (data.image.defaults_hash) {
-                inline("#custom_info")
-            }
-            for (var key in data.image) {
-                if ($("#image_" + key)) {
-                    if (key == 'build_date') {
-                        $("#image_build_date").innerHTML = data.image[key].substring(0, 10)
-                    } else {
-                        $("#image_" + key).innerHTML = data.image[key]
-                    }
-                }
-            }
-            load_manifest();
-        });
-}
-
 function load_manifest() {
     $("#packages_box").innerHTML = ""
-    fetch(server + "/api/manifest/" + data.image.manifest_hash)
+    fetch(server + "/api/manifest/" + data.manifest_hash)
         .then(response => response.json())
         .then(function(manifest) {
             $("#packages_count").innerHTML = "(" + Object.keys(manifest).length + ")"
@@ -321,7 +296,6 @@ function create() {
     request_dict.version = $("#version").value;
     profile_split = $("#profile").value.split("/");
     request_dict.target = profile_split[0] + "/" + profile_split[1]
-    request_dict.board = profile_split[2]
     request_dict.profile= profile_split[2]
     request_dict.defaults = $("#edit_defaults").value
     if (packages != "") {
@@ -346,7 +320,7 @@ function bootstrap() {
     }
     packages_flavor = ""
     load_dists();
-    load_network_profiles();
+    //  load_network_profiles();
     load_image_stats();
     load_banner();
 }
@@ -472,87 +446,30 @@ function image_request_handler(response) {
 
     } else if (response.status === 200) {
         // ready to download
-        data.files = response_content.files
-        load_files();
+        data.files = response_content.image_folder
+        data.manifest_hash = response_content.manifest_hash
+        //load_files();
         hide("#info_box");
         show("#download_box");
 
-        if ("sysupgrade" in response_content) {
-            $("#download_sysupgrade").setAttribute('href', server + response_content.files + response_content.sysupgrade)
-            show("#download_div");
-        } else {
-            hide("#download_div");
+        show("#download_div");
+        for (var i = 0; i < response_content.images.length; i++) {
+            if (response_content.images[i].type == "sysupgrade") {
+                $("#download_sysupgrade").setAttribute('href', server + data.files + "/" + response_content.images[i].name)
+            }
+            show("#download_factory_div");
+            if (response_content.images[i].type == "factory") {
+                $("#download_factory").setAttribute('href', server + data.files + "/" + response_content.images[i].name)
+            }
         }
-        $("#download_build_log").setAttribute('href', server + response_content.log)
+        $("#download_log").setAttribute('href', server + data.files + "/" + response_content.image_prefix + ".log")
         location.hash = response_content.request_hash
         data.image_hash = response_content.image_hash
-        load_image_info();
+        $("#image_title").innerHTML = response_content.title[0]
+        $("#image_version").innerHTML = response_content.version_number + " (" + response_content.version_commit + ")"
+        $("#image_target").innerHTML = response_content.target + "/" + response_content.subtarget
+        load_manifest();
     }
-}
-
-function load_files() {
-    fetch(server + data.files)
-        .then(response => response.json())
-        .then(function(response_content) {
-            $("#files_count").innerHTML = " (" + response_content.length + ")"
-            var files_box = $("#files_box")
-            files_box.innerHTML = ""
-            var list = document.createElement('ul');
-
-            var factory_files = []
-            for (var i = 0; i < response_content.length; i++) {
-                var item = document.createElement('li');
-                var link = document.createElement('a');
-                if (response_content[i].name.includes("factory")) {
-                    factory_files[factory_files.length] = response_content[i].name
-                }
-                link.href = server + data.files + response_content[i].name
-                link.innerHTML = response_content[i].name
-                item.appendChild(link)
-                list.appendChild(item);
-            }
-            if (factory_files.length == 1) {
-                $("#download_factory").setAttribute('href', server + data.files + factory_files[0])
-                show("#download_factory_div");
-            } else {
-                hide("#download_factory_div");
-            }
-            files_box.appendChild(list);
-        });
-}
-
-function request_server_image() {
-    request_dict = {}
-    request_dict.distro = "openwrt";
-    request_dict.version = "18.06.2";
-    request_dict.target = "x86/64"
-    request_dict.board = "Generic"
-    request_dict.defaults = ""
-    request_dict.packages = ["bash", "bzip2", "coreutils", "coreutils-stat",
-        "diffutils", "file", "gawk", "gcc", "getopt", "git", "libncurses",
-        "make", "patch", "perl", "perlbase-attributes", "perlbase-findbin",
-        "perlbase-getopt", "perlbase-thread", "python-light", "tar", "unzip",
-        "wget", "xz", "xzdiff", "xzgrep", "xzless", "xz-utils", "zlib-dev",
-        "gunicorn", "python3-flask", "python3-yaml", "python3-openssl",
-        "python3-pyodbc", "python3-ctypes", "python3-distutils"
-    ]
-    image_request()
-}
-
-function request_worker_image() {
-    request_dict = {}
-    request_dict.distro = "openwrt";
-    request_dict.version = "18.06.2";
-    request_dict.target = "x86/64"
-    request_dict.board = "Generic"
-    request_dict.defaults = ""
-    request_dict.packages = ["bash", "bzip2", "coreutils", "coreutils-stat",
-        "diffutils", "file", "gawk", "gcc", "getopt", "git", "libncurses",
-        "make", "patch", "perl", "perlbase-attributes", "perlbase-findbin",
-        "perlbase-getopt", "perlbase-thread", "python-light", "tar", "unzip",
-        "wget", "xz", "xzdiff", "xzgrep", "xzless", "xz-utils", "zlib-dev"
-    ]
-    image_request()
 }
 
 translations = {};
