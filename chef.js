@@ -32,7 +32,7 @@ function toggle_image_packages() {
 
 function load_manifest() {
     $("#packages_box").innerHTML = ""
-    fetch(server + data.files + "/" + data.image_prefix.replace("_", "-") + ".manifest")
+    fetch(server + data.files + "/" + data.image_prefix + ".manifest")
         .then(response => response.text())
         .then(response => response.split("\n"))
         .then(function(manifest) {
