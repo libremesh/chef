@@ -14,10 +14,12 @@ Chef uses the `API` of the [image server](https://github.com/aparcar/attendedsys
 
 ## Running instances
 
-* [chef.libremesh.org](https://chef.libremesh.org)
-* [betachef.libremesh.org](https://betachef.libremesh.org)
+Currently offline due to lack of JavaScript devs, please contact me for collabiration.
 
-* [asu.segfault.gq](https://asu.segfault.gq/) **Development OpenWrt/snapshots only**
+* ~~[chef.libremesh.org](https://chef.libremesh.org)~~
+* ~~[betachef.libremesh.org](https://betachef.libremesh.org)~~
+
+* ~~[asu.segfault.gq](https://asu.segfault.gq/) **Development OpenWrt/snapshots only**~~
 
 ## Installation
 
